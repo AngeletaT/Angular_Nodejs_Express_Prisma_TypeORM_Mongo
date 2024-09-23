@@ -9,7 +9,7 @@ dotenv.config();
 
 // Habilita CORS para todas las rutas
 var corsOptions = {
-   origin: "http://localhost:4200/"
+   origin: "http://localhost:4200"
 };
 
 app.use(cors(corsOptions));

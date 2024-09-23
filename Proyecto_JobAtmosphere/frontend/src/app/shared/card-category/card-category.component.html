@@ -1,0 +1,13 @@
+<div class="container mt-100">
+    <div class="aliniar">
+        <div class="col-md-4 col-sm-6 category" *ngIf="category">
+            <div class="card mb-30"><a class="card-img-tiles" data-abc="true">
+                <div class="inner">
+                    <div class="main-img"><img src="{{category.image}}" alt="Category"></div>
+                </div></a>
+            <div class="card-body text-center">
+                <h4 class="card-title">{{category.category_name}}</h4>
+                <a class="btn btn-outline-primary btn-sm" [routerLink]="['/shop/category/', category.slug]" data-abc="true">View Products</a>
+            </div>
+        </div>
+    </div>

@@ -18,30 +18,30 @@ export class ListCategoriesComponent implements OnInit {
   //INICIA 
 
   ngOnInit(): void {
-    // this.getCategories();
+    this.getCategories();
   }
 
   // TOTES LES CATEGORIES
   getCategories() {
-    // const params = this.getRequestParams(this.offset, this.limit);
+    // const params = this.getRequestParams();
     
-    // this.CategoryService.all_categories(params).subscribe(
-    //   (data: any) => {
-    //     this.categories = data.categories;
-    //     // this.limit = this.limit + 4;
-    //     console.log(this.categories);      
-    //   }
-    // );
+    this.CategoryService.all_categories().subscribe(
+      (data: any) => {
+        this.categories = data.categories;
+        // this.limit = this.limit + 4;
+        console.log(this.categories);      
+      }
+    );
   }
 
-  getRequestParams(offset: number,limit: number): any{
-    let params: any = {};
+  // getRequestParams(offset: number,limit: number): any{
+  //   let params: any = {};
 
-    params[`offset`] = offset;
-    params[`limit`] = limit;
+  //   params[`offset`] = offset;
+  //   params[`limit`] = limit;
 
-    return params;
-  }
+  //   return params;
+  // }
 
   scroll() {
     this.getCategories();

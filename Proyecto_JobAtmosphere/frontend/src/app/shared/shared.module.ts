@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 // CATEGORIES
 import { ListCategoriesComponent } from './list-categories/list-categories.component';
+import { CardCategoryComponent } from './card-category/card-category.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,12 @@ import { ListCategoriesComponent } from './list-categories/list-categories.compo
     HttpClientModule,
     RouterModule,
   ],
-  declarations: [ListCategoriesComponent],
-  exports: [FormsModule, ReactiveFormsModule, ListCategoriesComponent],
+  declarations: [ListCategoriesComponent, CardCategoryComponent],
+  exports: [
+    FormsModule,
+    ReactiveFormsModule,
+    ListCategoriesComponent,
+    CardCategoryComponent,
+  ],
 })
 export class SharedModule {}
