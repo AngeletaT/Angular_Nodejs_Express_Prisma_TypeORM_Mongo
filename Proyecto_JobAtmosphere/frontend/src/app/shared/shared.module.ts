@@ -8,6 +8,10 @@ import { RouterModule } from '@angular/router';
 import { ListCategoriesComponent } from './list-categories/list-categories.component';
 import { CardCategoryComponent } from './card-category/card-category.component';
 
+//JOBS
+import { ListJobsComponent } from '../shared/list-jobs/list-jobs.component';
+import { CardJobComponent } from '../shared/card-job/card-job.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -16,12 +20,19 @@ import { CardCategoryComponent } from './card-category/card-category.component';
     HttpClientModule,
     RouterModule,
   ],
-  declarations: [ListCategoriesComponent, CardCategoryComponent],
+  declarations: [
+    ListCategoriesComponent,
+    ListJobsComponent,
+    CardCategoryComponent,
+    CardJobComponent,
+  ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
     ListCategoriesComponent,
+    ListJobsComponent,
     CardCategoryComponent,
+    CardJobComponent,
   ],
 })
 export class SharedModule {}

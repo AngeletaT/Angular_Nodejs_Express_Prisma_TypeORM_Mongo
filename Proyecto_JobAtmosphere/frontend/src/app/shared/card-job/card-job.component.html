@@ -1,0 +1,23 @@
+<div class="container-fluid" class="job" *ngIf="job">
+    <div class="prueba2">
+        <!-- <h1 class="text-center mt-5">Jobs</h1> -->
+        <div class="col-md-3 col-10 mt-5 tarjeta">
+            <div class="card mx-auto prueba">
+                <img class="mx-auto" style="margin-top: 10px" src="{{job.img}}" width="200px" height="200px" />
+                <div class="card-body text-center mx-auto">
+                    <div class='cvp'>
+                        <h5 class="card-title font-weight-bold">{{job.name}}</h5>
+                        <p class="card-text">{{job.salary}}€</p>
+                        <a class="btn details px-auto" [routerLink]="['/details/', job.slug]">View Details</a><br />
+                        <!-- <a href="#" class="btn cart px-auto">ADD TO CART</a> -->
+                        <!-- <app-favorite-button
+                            [job]="job"
+                            (toggle)="onToggleFavorite($event)">
+                            {{ job.favorited ? 'Unfavorite' : 'Favorite' }} Article <span class="counter">({{ jobs.favoritesCount }})</span>
+                        </app-favorite-button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
