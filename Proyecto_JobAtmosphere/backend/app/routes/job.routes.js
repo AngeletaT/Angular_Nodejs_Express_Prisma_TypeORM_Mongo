@@ -19,7 +19,7 @@ module.exports = (app) => {
     app.delete('/jobs/:slug', jobs.deleteOneJob);
 
     // GET JOBS BY CATEGORY
-    app.get('/categories/:slug', jobs.GetjobsByCategory);
+    app.get('/categories/:slug/jobs', jobs.GetjobsByCategory);
     // app.get('/categories/:slug', verifyJWTOptional, jobs.GetjobsByCategory);
 
     // FAVORITE

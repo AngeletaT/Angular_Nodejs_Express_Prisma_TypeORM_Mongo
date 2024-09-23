@@ -51,7 +51,7 @@ export class JobService {
   }
 
   getJobsByCategory(slug: String): Observable<Job[]> {
-    return this.http.get<Job[]>(`${URLcat}/${slug}`);
+    return this.http.get<Job[]>(`${URLcat}/${slug}/jobs`);
   }
   
 
