@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+.header, .footer {
+  background-color: #343a40;
+  color: white;
+}
+
+.footer .col h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.footer .col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer .col ul li {
+  margin-bottom: 0.5rem;
+}
