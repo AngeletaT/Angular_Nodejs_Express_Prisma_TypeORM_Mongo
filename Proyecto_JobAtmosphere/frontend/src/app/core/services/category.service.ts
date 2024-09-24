@@ -12,8 +12,8 @@ const URL_select = 'http://127.0.0.1:3000/categories_select_filter';
 export class CategoryService {
   constructor(private http: HttpClient) {}
 
-  all_categories(): Observable<Category[]> {
-    return this.http.get<Category[]>(URL);
+  all_categories(params: any): Observable<Category[]> {
+    return this.http.get<Category[]>(URL, { params });
   }
 
   // all_categories_select(): Observable<Category[]> {

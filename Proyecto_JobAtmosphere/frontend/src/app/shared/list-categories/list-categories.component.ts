@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../core/services/category.service'
 import { Category } from 'src/app/core/models/category.model';
+import { Offset } from 'popper.js';
 
 @Component({
   selector: 'app-list-categories',
@@ -9,8 +10,8 @@ import { Category } from 'src/app/core/models/category.model';
 })
 export class ListCategoriesComponent implements OnInit {
   
-  // offset = 0;
-  // limit = 4;
+  offset = 0;
+  limit = 2;
   categories: Category[] = [];
 
   constructor(private CategoryService: CategoryService) { }
@@ -23,25 +24,26 @@ export class ListCategoriesComponent implements OnInit {
 
   // TOTES LES CATEGORIES
   getCategories() {
-    // const params = this.getRequestParams();
+    const params = this.getRequestParams(this.offset, this.limit);
+    console.log(params);
     
-    this.CategoryService.all_categories().subscribe(
+    this.CategoryService.all_categories(params).subscribe(
       (data: any) => {
         this.categories = data.categories;
-        // this.limit = this.limit + 4;
+        this.limit = this.limit + 2;
         console.log(this.categories);      
       }
     );
   }
 
-  // getRequestParams(offset: number,limit: number): any{
-  //   let params: any = {};
+  getRequestParams(offset: number,limit: number): any{
+    let params: any = {};
 
-  //   params[`offset`] = offset;
-  //   params[`limit`] = limit;
+    params[`offset`] = offset;
+    params[`limit`] = limit;
 
-  //   return params;
-  // }
+    return params;
+  }
 
   scroll() {
     this.getCategories();

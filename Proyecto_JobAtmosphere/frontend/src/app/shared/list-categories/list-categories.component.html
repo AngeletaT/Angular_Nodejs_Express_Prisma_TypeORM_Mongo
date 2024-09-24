@@ -1,3 +1,7 @@
-<div class="categorias">
+<div
+infinite-scroll
+[infiniteScrollDistance]="1"
+[infiniteScrollThrottle]="50"
+(scrolled)="scroll()" class="categorias">
     <app-card-category class="item" *ngFor="let category of categories" [category]="category"></app-card-category>
 </div>
