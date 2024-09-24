@@ -1,0 +1,19 @@
+<ngb-carousel *ngIf="page === 'categories'" class="carousel slide">
+  <ng-template ngbSlide *ngFor="let category of categories;">
+    <div class="picsum-img-wrapper contenedor">
+      <img class="img_carousel d-block w-100" src="{{category.image}}" alt="{{category.category_name}}" />
+      <div class="carousel-caption d-none d-md-block">
+        <h3>{{category.category_name}}</h3>
+        <a [routerLink]="['/shop/categories/', category.slug]" class="text-primary">Ver más</a>
+      </div>
+    </div>
+  </ng-template>
+</ngb-carousel>
+
+<ngb-carousel *ngIf="page === 'details'" class="carousel slide">
+  <ng-template ngbSlide *ngFor="let item of jobs_details;">
+    <div class="picsum-img-wrapper contenedor">
+      <img class="img_carousel d-block w-100" src="../../../{{item}}" alt="Job Detail" />
+    </div>
+  </ng-template>
+</ngb-carousel>

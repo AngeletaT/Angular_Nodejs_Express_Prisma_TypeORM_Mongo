@@ -1,0 +1,24 @@
+.carousel {
+  background-color: #1e262d;
+  min-height: 500px; /* Altura mínima para el carousel */
+}
+
+.carousel .carousel-caption {
+  background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.carousel .carousel-caption h3 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.carousel .carousel-caption .btn {
+  margin-top: 1rem;
+}
+
+.img_carousel {
+  max-height: 500px; /* Ajustar la altura máxima de la imagen */
+  object-fit: cover;
+}

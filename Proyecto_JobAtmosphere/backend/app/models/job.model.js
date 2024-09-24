@@ -36,18 +36,6 @@ const JobSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    // author: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User'
-    // },
-    // favouritesCount: {
-    //     type: Number,
-    //     default: 0
-    // },
-    // comments: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Comment'
-    // }]
 });
 
 // #region PLUGINS
@@ -70,10 +58,6 @@ JobSchema.methods.slugify = async function () {
 // #region JOB RESPONSE
 JobSchema.methods.toJobResponse = async function (user) {
 
-    // const authorObj = await User.findById(this.author).exec();
-
-    if (user !== null || user !== undefined) {
-        // return "hay usuario"
         return {
             slug: this.slug,
             name: this.name,
@@ -83,63 +67,15 @@ JobSchema.methods.toJobResponse = async function (user) {
             id_cat: this.id_cat,
             img: this.img,
             images: this.images,
-            // favorited: user.isFavorite(this._id),
-            // favoritesCount: this.favouritesCount,
-            // author: authorObj.toProfileJSON(user)
         }
-    } else {
-        // return "no hay usuario"
-        return {
-            slug: this.slug,
-            name: this.name,
-            salary: this.salary,
-            description: this.description,
-            company: this.company,
-            id_cat: this.id_cat,
-            img: this.img,
-            images: this.images,
-            // favorited: false,
-            // favoritesCount: this.favouritesCount,
-            // author: authorObj.toProfileUnloggedJSON()
-        }
-    }
 }
 
 // #region CAROUSEL RESPONSE
-// JobSchema.methods.toJobCarouselResponse = async function () {
-//     return {
-//         images: this.images
-//     }
-// }
-
-// #region ADD FAVORITE
-// JobSchema.methods.updateFavoriteCount = async function () {
-
-//     const favoriteCount = await User.count({
-//         favouriteJob: { $in: [this._id] }
-//     });
-
-//     // return favoriteCount; 
-//     this.favouritesCount = favoriteCount;
-
-//     return this.save();
-// }
-
-// #region ADD COMMENT
-// JobSchema.methods.addComment = function (commentId) {
-//     if (this.comments.indexOf(commentId) === -1) {
-//         this.comments.push(commentId);
-//     }
-//     return this.save();
-// };
-
-// #region DELETE COMMENT
-// JobSchema.methods.removeComment = function (commentId) {
-//     if (this.comments.indexOf(commentId) !== -1) {
-//         this.comments.remove(commentId);
-//     }
-//     return this.save();
-// };
+JobSchema.methods.toJobCarouselResponse = async function () {
+    return {
+        images: this.images
+    }
+}
 
 // #region EXPORTS
 module.exports = mongoose.model('Job', JobSchema);
