@@ -1,15 +1,35 @@
-<div class="details_page">
+<div class="details_page container mt-5">
     <app-carousel></app-carousel>
     <div *ngIf="!job">No job</div>
     <div class="job" *ngIf="job">
-        <div class="job-image">
-        </div>
         <div class="job-info">
-            <div class="title">
-                <h3>{{job.name}}</h3>
-                <p class="salary">{{job.salary}}€</p>
-                <p class="salary">Description: {{job.description}}€</p>
-                <p class="salary">Salary: {{job.salary}}€</p>
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td rowspan="2" class="align-middle">
+                            <img class="job-logo" src="{{job.img}}" alt="{{job.company}}">
+                        </td>
+                        <td>
+                            <h3>{{job.name}}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="company-name">{{job.company}}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="job-description">
+                <h4>Descripción del puesto</h4>
+                <p>{{job.description}}</p>
+            </div>
+            <div class="job-salary">
+                <h4>Salario</h4>
+                <p>{{job.salary}}€</p>
+            </div>
+            <div class="apply-button">
+                <button class="btn btn-primary">Aplicar</button>
             </div>
         </div>
     </div>
