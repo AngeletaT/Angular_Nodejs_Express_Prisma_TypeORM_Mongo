@@ -1,7 +1,10 @@
 <div
-infinite-scroll
-[infiniteScrollDistance]="1"
-[infiniteScrollThrottle]="1500"
-(scrolled)="scroll()" class="categorias">
-    <app-card-category class="item" *ngFor="let category of categories" [category]="category"></app-card-category>
+  infinite-scroll
+  [infiniteScrollDistance]="1"
+  [infiniteScrollThrottle]="1500"
+  (scrolled)="scroll()"
+  class="categorias row justify-content-center">
+    <div class="col-md-4 mb-4 d-flex justify-content-center" *ngFor="let category of categories">
+      <app-card-category class="item" [category]="category"></app-card-category>
+    </div>
 </div>

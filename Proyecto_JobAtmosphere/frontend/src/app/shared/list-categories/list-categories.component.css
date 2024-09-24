@@ -1,7 +1,40 @@
-.categorias{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    text-align: center;
+.categorias {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.item {
+  width: 160%; /* Asegura que las tarjetas ocupen todo el ancho de la columna */
+}
+
+.fixed-card {
+  width: 100%; /* Ajustar el ancho de la tarjeta para que ocupe todo el espacio de la columna */
+  height: 600px; /* Ajustar la altura de la tarjeta */
+}
+
+.fixed-img {
+  height: 300px; 
+  object-fit: cover; 
+}
+
+.fixed-body {
+  height: 200px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.text-primary {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.text-primary:hover {
+  text-decoration: underline;
 }
