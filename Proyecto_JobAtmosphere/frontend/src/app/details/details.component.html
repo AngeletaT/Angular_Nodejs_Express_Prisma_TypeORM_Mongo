@@ -1,0 +1,15 @@
+<div class="details_page">
+    <div *ngIf="!job">No job</div>
+    <div class="job" *ngIf="job">
+        <div class="job-image">
+        </div>
+        <div class="job-info">
+            <div class="title">
+                <h3>{{job.name}}</h3>
+                <p class="salary">{{job.salary}}€</p>
+                <p class="salary">Description: {{job.description}}€</p>
+                <p class="salary">Salary: {{job.salary}}€</p>
+            </div>
+        </div>
+    </div>
+</div>
