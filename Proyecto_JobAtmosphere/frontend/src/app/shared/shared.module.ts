@@ -17,6 +17,8 @@ import { CardJobComponent } from '../shared/card-job/card-job.component';
 import { CarouselItemsComponent } from './carousel-items/carousel-items.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CarouselComponent } from './carousel/carousel.component';
+import { SearchComponent } from './search/search.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   imports: [
@@ -25,6 +27,7 @@ import { CarouselComponent } from './carousel/carousel.component';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
+    NgbModule,
     InfiniteScrollModule,
     NgbModule,
   ],
@@ -35,6 +38,8 @@ import { CarouselComponent } from './carousel/carousel.component';
     CardJobComponent,
     CarouselItemsComponent,
     CarouselComponent,
+    SearchComponent,
+    PaginationComponent,
   ],
   exports: [
     FormsModule,
@@ -45,6 +50,8 @@ import { CarouselComponent } from './carousel/carousel.component';
     CardJobComponent,
     CarouselItemsComponent,
     CarouselComponent,
+    SearchComponent,
+    PaginationComponent,
   ],
 })
 export class SharedModule {}

@@ -12,6 +12,8 @@ import * as e from 'express';
 export class ListJobsComponent implements OnInit {
   slug_Category!: string | null;
   jobs: Job[] = [];
+  totalPages: Array<number> = [];
+  currentPage: number = 1;
 
   constructor(
     private jobService: JobService,
@@ -53,5 +55,20 @@ export class ListJobsComponent implements OnInit {
         }
       );
     }
+  }
+  setPageTo(pageNumber: number) {
+    this.currentPage = pageNumber;
+
+    if (typeof this.routeFilters === 'string') {
+      this.refreshRouteFilter();
+    }
+
+    if (this.limit) {
+      this.filters.limit = this.limit;
+      this.filters.offset = this.limit * (this.currentPage - 1);
+    }
+
+    this.Location.replaceState('/shop/' + btoa(JSON.stringify(this.filters)));
+    this.get_list_filtered(this.filters);
   }
 }

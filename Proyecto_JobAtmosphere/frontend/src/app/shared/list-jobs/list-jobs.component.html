@@ -1,3 +1,5 @@
 <div class="jobs">
     <app-card-job *ngFor="let job of jobs" [job]="job"></app-card-job>
 </div>
+<app-pagination [jobs]="jobs" [totalPages]="totalPages" [currentPage]="currentPage"
+    (pageChange)="setPageTo($event)"></app-pagination>

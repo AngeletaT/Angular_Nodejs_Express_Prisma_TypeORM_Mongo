@@ -1,0 +1,16 @@
+<div class="pagination-container">
+  <nav *ngIf="jobs.length != 0 && totalPages.length != 1">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [ngClass]="{'disabled': currentPage === 1}" (click)="prevPage()">
+        <span class="page-link">Prev</span>
+      </li>
+      <li class="page-item" [ngClass]="{'active': pageNumber === currentPage}"
+          *ngFor="let pageNumber of visiblePages" (click)="setPageTo(pageNumber)">
+        <span class="page-link">{{ pageNumber }}</span>
+      </li>
+      <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages.length}" (click)="nextPage()">
+        <span class="page-link">Next</span>
+      </li>
+    </ul>
+  </nav>
+</div>
