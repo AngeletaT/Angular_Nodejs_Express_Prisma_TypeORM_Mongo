@@ -7,7 +7,7 @@
           <div>
             <h5 class="card-title font-weight-bold">{{job.name}}</h5>
             <p class="card-text">{{job.company}}</p>
-            <p class="card-text">{{job.salary}}€</p>
+            <p class="card-text">{{ job.salary | number:'1.0-0':'en' }}€</p>
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <span class="like-placeholder">❤️</span>

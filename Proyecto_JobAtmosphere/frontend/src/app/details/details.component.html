@@ -28,7 +28,7 @@
                     </div>
                     <div class="job-salary">
                         <h4>Salario</h4>
-                        <p>{{job.salary}}€</p>
+                        <p>{{ job.salary | number:'1.0-0':'en' }}€</p>
                     </div>
                     <div class="apply-button">
                         <button class="btn btn-primary">Aplicar</button>
