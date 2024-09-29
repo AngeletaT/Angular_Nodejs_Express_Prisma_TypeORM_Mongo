@@ -1,4 +1,4 @@
-<ngb-carousel *ngIf="page === 'categories'" class="carousel slide">
+<ngb-carousel *ngIf="page === 'home'" class="carousel slide">
   <ng-template ngbSlide *ngFor="let category of categories;">
     <div class="picsum-img-wrapper contenedor">
       <img class="img_carousel d-block w-100" src="{{category.image}}" alt="{{category.category_name}}" />
