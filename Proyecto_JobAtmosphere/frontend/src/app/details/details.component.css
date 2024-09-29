@@ -1,15 +1,20 @@
 .details_page {
-  background-color: #f8f9fa; /* Fondo claro para la página de detalles */
+  background-color: #f8f9fa; 
   padding: 20px;
+  padding-right: 35px;
   border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .job-info {
-  margin-top: 20px;
+  flex: 1;
+  margin-right: 20px;
 }
 
 .job-logo {
-  width: 100px; /* Tamaño del logo de la empresa */
+  width: 100px; 
   height: 100px;
   object-fit: cover;
   border-radius: 10px;
@@ -17,11 +22,10 @@
 
 .company-name {
   font-size: 1.2rem;
-  color: #6c757d; /* Color gris para el nombre de la compañía */
+  color: #6c757d; 
 }
 
-.job-description,
-.job-salary {
+.job-description, .job-salary {
   margin-top: 20px;
 }
 
@@ -33,4 +37,12 @@
 .apply-button .btn {
   font-size: 1.2rem;
   padding: 10px 20px;
+}
+
+.carousel-container {
+  min-width: 500px; 
+  min-height: 500px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
