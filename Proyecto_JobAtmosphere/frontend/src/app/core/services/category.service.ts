@@ -16,9 +16,9 @@ export class CategoryService {
     return this.http.get<Category[]>(URL, { params });
   }
 
-  // all_categories_select(): Observable<Category[]> {
-  //   return this.http.get<Category[]>(URL_select)
-  // }
+  all_categories_select(): Observable<Category[]> {
+    return this.http.get<Category[]>(URL_select)
+  }
 
   // get_category(id: String): Observable<Category> {
   //   return this.http.get<Category>(`${URL}/${id}`);

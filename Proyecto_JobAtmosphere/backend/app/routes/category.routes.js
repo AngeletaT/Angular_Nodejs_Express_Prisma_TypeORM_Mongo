@@ -14,7 +14,7 @@ module.exports = (app) => {
         app.delete('/categories/:slug', categories.delete_category);
 
         // GET PRODUCTS BY CATEGORY
-        // app.get('/categories_select_filter', categories.findCategoriesSelect);
+        app.get('/categories_select_filter', categories.findCategoriesSelect);
 
         // UPDATE
         // app.put('/productos/:id', products.update);

@@ -17,6 +17,7 @@ import { CardJobComponent } from '../shared/card-job/card-job.component';
 import { CarouselItemsComponent } from './carousel-items/carousel-items.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CarouselComponent } from './carousel/carousel.component';
+import { FiltersComponent } from './filters/filters.component';
 import { SearchComponent } from './search/search.component';
 import { PaginationComponent } from './pagination/pagination.component';
 
@@ -29,7 +30,6 @@ import { PaginationComponent } from './pagination/pagination.component';
     RouterModule,
     NgbModule,
     InfiniteScrollModule,
-    NgbModule,
   ],
   declarations: [
     ListCategoriesComponent,
@@ -38,6 +38,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     CardJobComponent,
     CarouselItemsComponent,
     CarouselComponent,
+    FiltersComponent,
     SearchComponent,
     PaginationComponent,
   ],
@@ -50,6 +51,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     CardJobComponent,
     CarouselItemsComponent,
     CarouselComponent,
+    FiltersComponent,
     SearchComponent,
     PaginationComponent,
   ],

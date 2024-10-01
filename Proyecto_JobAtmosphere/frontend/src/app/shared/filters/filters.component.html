@@ -1,0 +1,25 @@
+<div class="container-fluid bg-white subheader">
+  <div class="row d-flex justify-content-center align-items-center" style="margin-top: 10px;">
+    <div class="col-md-2 pt-3">
+      <div class="form-group">
+        <select class="form-control" name="category" id="category" [(ngModel)]="id_cat" (change)="filter_jobs()">
+          <option disabled selected value="">Category</option>
+          <option class="catname" *ngFor="let category of listCategories" [value]="category.id_cat">{{category.category_name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-2 pt-3">
+      <div class="form-group">
+        <input type="number" class="form-control" placeholder="Salario Minimo" [(ngModel)]="salary_min" min="0" step="5" (input)="filter_jobs()">
+      </div>
+    </div>
+    <div class="col-md-2 pt-3">
+      <div class="form-group">
+        <input type="number" class="form-control" placeholder="Salario Maximo" [(ngModel)]="salary_max" min="0" step="5" (input)="filter_jobs()">
+      </div>
+    </div>
+    <div class="col-md-2 pt-3">
+      <button type="button" class="btn btn-danger btn-block" (click)="remove_filters()">Remove Filters</button>
+    </div>
+  </div>
+</div>

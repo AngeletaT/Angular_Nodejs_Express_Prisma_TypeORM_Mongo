@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JobService } from '../../core/services/job.service';
 import { Job } from '../../core/models/job.model';
-import * as e from 'express';
+import { Category } from 'src/app/core/models/category.model';
+import { CategoryService } from 'src/app/core/services/category.service';
+import { Filters } from 'src/app/core/models/filters.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-list-jobs',
@@ -12,20 +15,34 @@ import * as e from 'express';
 export class ListJobsComponent implements OnInit {
   slug_Category!: string | null;
   jobs: Job[] = [];
+  routeFilters!: string | null;
+  listCategories: Category[] = [];
+  filters = new Filters();
+  offset: number = 0;
+  limit: number = 5;
   totalPages: Array<number> = [];
   currentPage: number = 1;
 
   constructor(
     private jobService: JobService,
-    private Activatedroute: ActivatedRoute
+    private ActivatedRoute: ActivatedRoute,
+    private CategoryService: CategoryService,
+    private Location: Location
   ) {}
 
   ngOnInit(): void {
-    this.slug_Category = this.Activatedroute.snapshot.paramMap.get('slug');
-    if (this.slug_Category) {
+    this.slug_Category = this.ActivatedRoute.snapshot.paramMap.get('slug');
+    this.routeFilters = this.ActivatedRoute.snapshot.paramMap.get('filters');
+
+    this.getListForCategory();
+
+    if (this.slug_Category !== null) {
       this.get_JobBy_Category();
+    } else if (this.routeFilters !== null) {
+      this.refreshRouteFilter();
+      this.get_list_filtered(this.filters);
     } else {
-      this.get_jobs();
+      this.get_list_filtered(this.filters);
     }
   }
 
@@ -42,13 +59,11 @@ export class ListJobsComponent implements OnInit {
     if (this.slug_Category !== null) {
       this.jobService.getJobsByCategory(this.slug_Category).subscribe(
         (data: any) => {
-          console.log('API response:', data); // Verifica la respuesta completa de la API
-          if (data && data.jobs) {
-            this.jobs = data.jobs;
-            console.log('Jobs:', this.jobs); // Verifica los trabajos recibidos
-          } else {
-            console.error('No jobs found in the response');
-          }
+          this.jobs = data.jobs;
+          this.totalPages = Array.from(
+            new Array(Math.ceil(data.Job_count / this.limit)),
+            (val, index) => index + 1
+          );
         },
         (error: any) => {
           console.error('Error fetching jobs by category:', error);
@@ -56,6 +71,34 @@ export class ListJobsComponent implements OnInit {
       );
     }
   }
+
+  get_list_filtered(filters: Filters) {
+    this.filters = filters;
+    this.jobService.get_jobs_filter(filters).subscribe((data: any) => {
+      this.jobs = data.jobs;
+      this.totalPages = Array.from(
+        new Array(Math.ceil(data.Job_count / this.limit)),
+        (val, index) => index + 1
+      );
+      console.log(this.jobs);
+    });
+  }
+
+  getListForCategory() {
+    this.CategoryService.all_categories_select().subscribe((data: any) => {
+      this.listCategories = data.categories;
+    });
+  }
+
+  refreshRouteFilter() {
+    this.routeFilters = this.ActivatedRoute.snapshot.paramMap.get('filters');
+    if (typeof this.routeFilters == 'string') {
+      this.filters = JSON.parse(atob(this.routeFilters));
+    } else {
+      this.filters = new Filters();
+    }
+  }
+
   setPageTo(pageNumber: number) {
     this.currentPage = pageNumber;
 
