@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { AuthComponent } from './auth.component';
 import { NoAuthGuard } from '../core/guards/no-auth-guard.service';
 import { SharedModule } from '../shared';

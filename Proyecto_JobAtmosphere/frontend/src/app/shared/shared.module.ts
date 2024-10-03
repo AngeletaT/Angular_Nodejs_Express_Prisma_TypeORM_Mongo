@@ -13,6 +13,9 @@ import { CardCategoryComponent } from './card-category/card-category.component';
 import { ListJobsComponent } from '../shared/list-jobs/list-jobs.component';
 import { CardJobComponent } from '../shared/card-job/card-job.component';
 
+//ERRORS
+import { ListErrorsComponent } from '../shared/list-errors/list-errors.component';
+
 // SHARED
 import { CarouselItemsComponent } from './carousel-items/carousel-items.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -43,6 +46,8 @@ import { ShowAuthedDirective } from './show-authed.directive';
     SearchComponent,
     PaginationComponent,
     ShowAuthedDirective,
+    ListErrorsComponent,
+    
   ],
   exports: [
     FormsModule,
@@ -57,6 +62,7 @@ import { ShowAuthedDirective } from './show-authed.directive';
     SearchComponent,
     PaginationComponent,
     ShowAuthedDirective,
+    ListErrorsComponent,
   ],
 })
 export class SharedModule {}

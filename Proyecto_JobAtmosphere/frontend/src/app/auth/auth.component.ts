@@ -14,17 +14,15 @@ import { UserService } from '../core/services/user.service';
 export class AuthComponent {
   authType: string = '';
   title: String = '';
-  errors: Errors = {errors: {}};
+  errors: string[] = [];
   isSubmitting = false;
   authForm: FormGroup;
   user! : any ;
-  // errors: User = {errors: {}};
 
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    // private user: UserService,
     private userService: UserService,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef
@@ -38,11 +36,8 @@ export class AuthComponent {
 
   ngOnInit() {
     this.route.url.subscribe(data => {
-      // Get the last piece of the URL (it's either 'login' or 'register')
       this.authType = data[data.length - 1].path;
-      // Set a title for the page accordingly
       this.title = (this.authType === 'login') ? 'Sign in' : 'Sign up';
-      // add form control for username if this is the register page
       if (this.authType === 'register') {
         this.authForm.addControl('username', new FormControl());
       }
@@ -52,19 +47,16 @@ export class AuthComponent {
 
   submitForm() {
     this.isSubmitting = true;
-    this.errors = {errors: {}};
-    this.user = this.authForm.value ;
-    // this.user ={} ;
-    // console.log(this.user);
-    this.userService.attemptAuth(this.authType, this.user).subscribe(
-      (data: any) => {
-        this.router.navigateByUrl('/')
-    } 
-      // err => {
-      //   this.errors = err;
-      //   this.isSubmitting = false;
-      //   this.cd.markForCheck();
-      // }
-    );
+    this.errors = [];
+    this.user = this.authForm.value;
+    this.userService.attemptAuth(this.authType, this.user).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/');
+      },
+      error: (err: any) => {
+        this.errors = err.errors ? err.errors : [err.message || 'An error occurred'];        this.isSubmitting = false;
+        this.cd.detectChanges();
+      }
+    });
   }
 }
