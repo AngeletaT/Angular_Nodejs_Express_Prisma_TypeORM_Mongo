@@ -1,0 +1,49 @@
+.auth-page {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.auth-page .container.page {
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-page h1 {
+    font-size: 32px;
+    margin-bottom: 16px;
+    color: #343a40;
+}
+
+.auth-page p {
+    margin-bottom: 32px;
+    color: #6c757d;
+}
+
+.auth-page .form-control {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.auth-page .form-margin {
+    margin-bottom: 16px;
+}
+
+.auth-page .btn-primary {
+    background-color: #343a40;
+    border-color: #343a40;
+    padding: 10px;
+    font-size: 19.2px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.auth-page .btn-primary:hover {
+    background-color: #23272b;
+    border-color: #1d2124;
+}
