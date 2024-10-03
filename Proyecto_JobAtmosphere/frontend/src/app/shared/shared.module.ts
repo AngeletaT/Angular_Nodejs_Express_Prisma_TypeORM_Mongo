@@ -20,6 +20,7 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { FiltersComponent } from './filters/filters.component';
 import { SearchComponent } from './search/search.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { ShowAuthedDirective } from './show-authed.directive';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     FiltersComponent,
     SearchComponent,
     PaginationComponent,
+    ShowAuthedDirective,
   ],
   exports: [
     FormsModule,
@@ -54,6 +56,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     FiltersComponent,
     SearchComponent,
     PaginationComponent,
+    ShowAuthedDirective,
   ],
 })
 export class SharedModule {}
