@@ -1,5 +1,6 @@
-const User = require("../models/user.model");
 const asyncHandler = require("express-async-handler");
+const User = require("../models/user.model.js");
+const RefreshToken = require("../models/refreshtoken.model.js");
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const { blacklistRefreshToken } = require("../middleware/verifyJWT");
@@ -73,7 +74,8 @@ const userLogin = asyncHandler(async (req, res) => {
 
     // Generar nuevos tokens
     const accessToken = user.generateAccessToken();
-    const refreshToken = await user.generateRefreshToken();
+    const refreshTokenDoc = new RefreshToken();
+    const refreshToken = await refreshTokenDoc.generateToken(user._id);
 
     res.json({ accessToken, refreshToken });
 });
@@ -81,29 +83,24 @@ const userLogin = asyncHandler(async (req, res) => {
 const refreshToken = asyncHandler(async (req, res) => {
     const { refreshToken } = req.body;
 
-    // Verify the refresh token
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: "Forbidden" });
-        }
+    const tokenDoc = await RefreshToken.findOne({ token: refreshToken });
+    if (!tokenDoc) {
+        return res.status(403).json({ message: "Forbidden" });
+    }
 
-        // Blacklist the old refresh token
-        blacklistRefreshToken(refreshToken);
+    const user = await User.findById(tokenDoc.userId);
+    if (!user) {
+        return res.status(403).json({ message: "Forbidden" });
+    }
 
-        // Find the user in the database
-        const user = await User.findById(decoded.user.id).exec();
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
+    const newAccessToken = user.generateAccessToken();
+    const newRefreshTokenDoc = new RefreshToken();
+    const newRefreshToken = await newRefreshTokenDoc.generateToken(user._id);
 
-        // Generate new tokens
-        const newAccessToken = jwt.sign({ user: { id: user._id, email: user.email, password: user.password } }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: "15m",
-        });
-        const newRefreshToken = await user.generateRefreshToken();
+    // Blacklist the old refresh token
+    await blacklistRefreshToken(refreshToken);
 
-        res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
-    });
+    res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
 });
 
 const updateUser = asyncHandler(async (req, res) => {
