@@ -2,7 +2,6 @@ const Job = require('../models/job.model.js');
 const Category = require('../models/category.model.js');
 const mongoose = require('mongoose');
 const asyncHandler = require('express-async-handler');
-// const User = require('../models/user.model.js');
 
 // #region CREAR TRABAJO
 const createJob = asyncHandler(async (req, res) => {
@@ -119,10 +118,6 @@ const GetjobsByCategory = asyncHandler(async (req, res) => {
         Job_count: Job_count
     })
 });
-
-// #region FAVORITOS
-
-// #region DESFAVORITOS
 
 // #region ACTUALIZAR
 const updateJob = asyncHandler(async (req, res) => {

@@ -5,20 +5,20 @@
 }
 
 .pagination {
-  background-color: #f8f9fa; /* Fondo claro */
+  background-color: #f8f9fa;
   border-radius: 5px;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .page-item.active .page-link {
-  background-color: #007bff; /* Color de fondo para la página activa */
+  background-color: #007bff;
   border-color: #007bff;
   color: white;
 }
 
 .page-link {
-  color: #007bff; /* Color del texto */
+  color: #007bff;
   border: 1px solid #dee2e6;
   margin: 0 5px;
 }

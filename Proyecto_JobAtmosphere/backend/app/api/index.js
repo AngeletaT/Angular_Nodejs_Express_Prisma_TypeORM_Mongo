@@ -48,8 +48,6 @@ require('../routes/category.routes')(app);
 require('../routes/job.routes.js')(app);
 require('../routes/carousel.routes')(app);
 require('../routes/user.routes')(app);
-// require('../routes/profile.routes')(app);
-// require('../routes/comment.routes')(app);
 
 
 // Encender el servidor

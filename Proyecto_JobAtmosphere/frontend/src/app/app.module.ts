@@ -7,18 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
-import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { CarouselModule  } from 'ngx-bootstrap/carousel';
 
 import { AuthModule } from './auth/auth.module';
 import { ShowAuthedDirective } from '../app/shared/show-authed.directive';
 import { CoreModule } from './core/core.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FooterComponent,
-    HeaderComponent,
-  ],
+  declarations: [AppComponent, FooterComponent, HeaderComponent],
   imports: [
     SharedModule,
     NgbModule,
@@ -27,9 +23,9 @@ import { CoreModule } from './core/core.module';
     AppRoutingModule,
     HttpClientModule,
     AuthModule,
-    CoreModule
+    CoreModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
