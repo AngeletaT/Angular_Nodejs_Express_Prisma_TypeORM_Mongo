@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user.model.js");
-const RefreshToken = require("../models/refreshtoken.model.js");
+const RefreshToken = require("../models/refreshToken.model.js");
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const { blacklistRefreshToken } = require("../middleware/verifyJWT");
@@ -60,8 +60,14 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 const userLogin = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    // Verificar si el usuario existe
+    // Verificar que el email y la contraseña estén presentes
+    if (!email || !password) {
+        return res.status(400).json({ message: "Email y contraseña son requeridos" });
+    }
+
     const user = await User.findOne({ email }).exec();
+
+    // Verificar que el usuario exista
     if (!user) {
         return res.status(400).json({ message: "Usuario no encontrado" });
     }
@@ -77,7 +83,7 @@ const userLogin = asyncHandler(async (req, res) => {
     const refreshTokenDoc = new RefreshToken();
     const refreshToken = await refreshTokenDoc.generateToken(user._id);
 
-    res.json({ accessToken, refreshToken });
+    res.json({ user: user.toUserResponse(), accessToken, refreshToken });
 });
 
 const refreshToken = asyncHandler(async (req, res) => {
@@ -138,10 +144,20 @@ const updateUser = asyncHandler(async (req, res) => {
     });
 });
 
+const logout = asyncHandler(async (req, res) => {
+    const { refreshToken } = req.body;
+
+    // Blacklist the refresh token
+    await blacklistRefreshToken(refreshToken);
+
+    res.status(200).json({ mensaje: "Cierre de sesión exitoso" });
+});
+
 module.exports = {
     registerUser,
     getCurrentUser,
     userLogin,
     refreshToken,
     updateUser,
+    logout,
 };

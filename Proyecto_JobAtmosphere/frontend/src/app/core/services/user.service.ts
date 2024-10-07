@@ -60,15 +60,19 @@ export class UserService {
   }
 
   attemptAuth(type: string, credentials: any): Observable<User> {
-    const route = (type === 'login') ? '/login' : '';
-    return this.apiService.post(`/users${route}`, {user: credentials})
-      .pipe(map(
-      (data: any) => {
-        this.setAuth(data.user);
-        console.log(data);
-        return data;
-      }
-    ));
+    const route = (type === 'login') ? '/users/login' : '/users';
+    return this.apiService.post(route, credentials)
+      .pipe(map(data => {
+        if (data.user && data.accessToken && data.refreshToken) {
+          this.jwtService.saveToken(data.accessToken);
+          // Save refresh token if needed
+          // this.jwtService.saveRefreshToken(data.refreshToken);
+          this.setAuth(data.user);
+          return data.user;
+        } else {
+          throw new Error('Invalid response from server');
+        }
+      }));
   }
 
   getCurrentUser(): User {

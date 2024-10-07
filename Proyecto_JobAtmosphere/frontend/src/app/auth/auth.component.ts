@@ -5,20 +5,18 @@ import { Errors } from '../core/models/errors.model';
 import { User } from '../core/models/user.model';
 import { UserService } from '../core/services/user.service';
 
-
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   authType: string = '';
   title: String = '';
   errors: string[] = [];
   isSubmitting = false;
   authForm: FormGroup;
-  user! : any ;
-
+  user!: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,14 +47,19 @@ export class AuthComponent {
     this.isSubmitting = true;
     this.errors = [];
     this.user = this.authForm.value;
+
+    console.log('Submitting form with data:', this.user); // Añade un log para verificar los datos enviados
+
     this.userService.attemptAuth(this.authType, this.user).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/');
-      },
-      error: (err: any) => {
-        this.errors = err.errors ? err.errors : [err.message || 'An error occurred'];        this.isSubmitting = false;
-        this.cd.detectChanges();
-      }
+        next: () => {
+            this.router.navigateByUrl('/');
+        },
+        error: (err: any) => {
+            console.error('Error during authentication:', err); // Añade un log para verificar el error
+            this.errors = err.errors ? err.errors : [err.message || 'An error occurred'];
+            this.isSubmitting = false;
+            this.cd.detectChanges();
+        }
     });
   }
 }

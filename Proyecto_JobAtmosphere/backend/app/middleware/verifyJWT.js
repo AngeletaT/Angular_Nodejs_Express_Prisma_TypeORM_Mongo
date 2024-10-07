@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-const RefreshToken = require('../models/refreshtoken.model');
-const Blacklist = require('../models/blacklist.model');
+const RefreshToken = require("../models/refreshToken.model");
+const Blacklist = require("../models/blacklist.model");
 
 const verifyJWT = (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization;
