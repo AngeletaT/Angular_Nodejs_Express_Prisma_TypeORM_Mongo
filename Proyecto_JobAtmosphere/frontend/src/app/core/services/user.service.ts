@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable ,  BehaviorSubject ,  ReplaySubject } from 'rxjs';
+import { Observable, BehaviorSubject, ReplaySubject, throwError } from 'rxjs';
+import { catchError, map, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
 import { User } from '../models/user.model';
-import { map ,  distinctUntilChanged } from 'rxjs/operators';
-
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ export class UserService {
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
-  constructor (
+  constructor(
     private apiService: ApiService,
     private jwtService: JwtService
   ) {}
@@ -26,9 +25,25 @@ export class UserService {
   // This runs once on application startup.
   populate() {
     // If JWT detected, attempt to get & store user's info
-    const token = this.jwtService.getToken();
+    const token = this.jwtService.getAccessToken();
     if (token) {
-      this.apiService.get("/user").subscribe(
+      this.apiService.get("/user").pipe(
+        catchError((error) => {
+          if (error.status === 403) {
+            // Token might be expired, try to refresh it
+            return this.refreshToken().pipe(
+              switchMap(() => this.apiService.get("/user")),
+              catchError(err => {
+                this.purgeAuth();
+                return throwError(err);
+              })
+            );
+          } else {
+            this.purgeAuth();
+            return throwError(error);
+          }
+        })
+      ).subscribe(
         (data) => {
           return this.setAuth({ ...data.user, token });
         },
@@ -42,17 +57,17 @@ export class UserService {
 
   setAuth(user: User) {
     // Save JWT sent from server in localstorage
-    this.jwtService.saveToken(user.token);
+    this.jwtService.saveAccessToken(user.token);
     // Set current user data into observable
     this.currentUserSubject.next(user);
-    // console.log('hola');
     // Set isAuthenticated to true
     this.isAuthenticatedSubject.next(true);
   }
 
   purgeAuth() {
     // Remove JWT from localstorage
-    this.jwtService.destroyToken();
+    this.jwtService.destroyAccessToken();
+    this.jwtService.destroyRefreshToken();
     // Set current user to an empty object
     this.currentUserSubject.next({} as User);
     // Set auth status to false
@@ -64,9 +79,8 @@ export class UserService {
     return this.apiService.post(route, credentials)
       .pipe(map(data => {
         if (data.user && data.accessToken && data.refreshToken) {
-          this.jwtService.saveToken(data.accessToken);
-          // Save refresh token if needed
-          // this.jwtService.saveRefreshToken(data.refreshToken);
+          this.jwtService.saveAccessToken(data.accessToken);
+          this.jwtService.saveRefreshToken(data.refreshToken);
           this.setAuth(data.user);
           return data.user;
         } else {
@@ -81,14 +95,27 @@ export class UserService {
 
   // Update the user on the server (email, pass, etc)
   update(user: any): Observable<User> {
-    // return user;
     return this.apiService.put('/user', { user }).pipe(map(
-      (data : any) => {
-       // console.log(data.user);
-      // Update the currentUser observable
-      this.currentUserSubject.next(data.user);
-      return data.user;
-    }));
+      (data: any) => {
+        // Update the currentUser observable
+        this.currentUserSubject.next(data.user);
+        return data.user;
+      }
+    ));
   }
 
+  refreshToken(): Observable<{ accessToken: string, refreshToken: string }> {
+    const refreshToken = this.jwtService.getRefreshToken();
+    return this.apiService.post('/users/refresh-token', { refreshToken }).pipe(
+      map(data => {
+        if (data.accessToken && data.refreshToken) {
+          this.jwtService.saveAccessToken(data.accessToken);
+          this.jwtService.saveRefreshToken(data.refreshToken);
+          return { accessToken: data.accessToken, refreshToken: data.refreshToken };
+        } else {
+          throw new Error('Invalid response from server');
+        }
+      })
+    );
+  }
 }
