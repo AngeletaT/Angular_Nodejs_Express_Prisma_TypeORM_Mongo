@@ -1,53 +1,112 @@
 const jwt = require("jsonwebtoken");
-const RefreshToken = require("../models/refreshToken.model");
+const User = require("../models/user.model");
 const Blacklist = require("../models/blacklist.model");
 
-const verifyJWT = (req, res, next) => {
+// Middleware para verificar el JWT
+const verifyJWT = async (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization;
 
     if (!authHeader?.startsWith("Token ")) {
         return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const token = authHeader.split(" ")[1];
+    const accessToken = authHeader.split(" ")[1];
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: "Forbidden" });
+    try {
+        // 1. Decodificar el accessToken sin verificar la firma
+        const decodedAccessToken = jwt.decode(accessToken);
+        if (!decodedAccessToken || !decodedAccessToken.user) {
+            return res.status(403).json({ message: "Forbidden: Token inválido" });
         }
-        req.userId = decoded.user.id;
-        req.userEmail = decoded.user.email;
-        req.userHashedPwd = decoded.user.password;
-        next();
-    });
+
+        // 2. Buscar al usuario en la base de datos
+        const user = await User.findById(decodedAccessToken.user.id).exec();
+        if (!user) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        // 3. Verificar el refreshToken del usuario
+        const refreshToken = user.refresh_token;
+        if (!refreshToken) {
+            return res.status(401).json({ message: "Unauthorized: Refresh token no encontrado" });
+        }
+
+        // 4. Comprobar si el refreshToken está en la blacklist
+        const tokenExistsInBlacklist = await Blacklist.findOne({ token: refreshToken }).exec();
+        if (tokenExistsInBlacklist) {
+            return res.status(401).json({ message: "Unauthorized: Refresh token inválido" });
+        }
+
+        // 5. Verificar el refreshToken
+        try {
+            jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+        } catch (err) {
+            return res.status(401).json({ message: "Unauthorized: Refresh token expirado" });
+        }
+
+        // 6. Verificar el accessToken
+        jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
+            if (err) {
+                // Si el accessToken ha expirado, generar un nuevo accessToken usando el refreshToken
+                try {
+                    const newAccessToken = user.generateAccessToken();
+                    req.headers.authorization = `Token ${newAccessToken}`;
+                    req.userId = user._id;
+                    req.userEmail = user.email;
+                    req.user = user;
+                    next();
+                } catch (err) {
+                    return res.status(403).json({ message: "Forbidden: No se pudo generar un nuevo access token" });
+                }
+            } else {
+                // Si el accessToken es válido
+                req.userId = decoded.user.id;
+                req.userEmail = decoded.user.email;
+                req.user = user;
+                next();
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({ message: "Error interno del servidor" });
+    }
 };
 
-const verifyRefreshToken = async (req, res, next) => {
-    const { refreshToken } = req.body;
+// Middleware para el logout del usuario
+const logoutUser = async (req, res) => {
+    const authHeader = req.headers.authorization || req.headers.Authorization;
 
-    const blacklistedToken = await Blacklist.findOne({ token: refreshToken });
-    if (blacklistedToken) {
-        return res.status(403).json({ message: "Forbidden" });
+    if (!authHeader?.startsWith("Token ")) {
+        return res.status(401).json({ message: "Unauthorized" });
     }
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: "Forbidden" });
+    const accessToken = authHeader.split(" ")[1];
+
+    try {
+        // 1. Decodificar el accessToken sin verificar la firma
+        const decodedAccessToken = jwt.decode(accessToken);
+        if (!decodedAccessToken || !decodedAccessToken.user) {
+            return res.status(403).json({ message: "Forbidden: Token inválido" });
         }
 
-        const tokenDoc = await RefreshToken.findOne({ token: refreshToken });
-        if (!tokenDoc) {
-            return res.status(403).json({ message: "Forbidden" });
+        // 2. Buscar al usuario en la base de datos
+        const user = await User.findById(decodedAccessToken.user.id).exec();
+        if (!user) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
         }
 
-        req.userId = decoded.userId;
-        next();
-    });
+        // 3. Obtener el refreshToken del usuario y añadirlo a la blacklist
+        const refreshToken = user.refresh_token;
+        if (refreshToken) {
+            await Blacklist.create({ token: refreshToken, userId: user._id });
+        }
+
+        res.status(200).json({ message: "Sesión cerrada exitosamente" });
+    } catch (error) {
+        return res.status(500).json({ message: "Error interno del servidor" });
+    }
 };
 
-const blacklistRefreshToken = async (token) => {
-    const blacklistedToken = new Blacklist({ token });
-    await blacklistedToken.save();
+module.exports = {
+    verifyJWT,
+    logoutUser,
 };
-
-module.exports = { verifyJWT, verifyRefreshToken, blacklistRefreshToken };

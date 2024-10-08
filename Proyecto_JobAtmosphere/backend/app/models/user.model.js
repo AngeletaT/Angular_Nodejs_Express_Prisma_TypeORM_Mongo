@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "https://static.productionready.io/images/smiley-cyrus.jpg",
         },
+        refresh_token: {
+            type: String,
+            default: "",
+        },
     },
     {
         timestamps: true,
@@ -44,30 +48,57 @@ const userSchema = new mongoose.Schema(
 
 userSchema.plugin(uniqueValidator);
 
-// @desc generate access token for a user
-// @required valid email and password
 userSchema.methods.generateAccessToken = function () {
     const accessToken = jwt.sign(
         {
             user: {
                 id: this._id,
                 email: this.email,
-                password: this.password,
             },
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "5m" }
+        { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION || "15m" }
     );
     return accessToken;
 };
 
+userSchema.methods.generateRefreshToken = function () {
+    const refreshToken = jwt.sign(
+        {
+            user: {
+                id: this._id,
+                email: this.email,
+            },
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        { expiresIn: process.env.REFRESH_TOKEN_EXPIRATION || "1d" }
+    );
+    return refreshToken;
+};
+
 userSchema.methods.toUserResponse = function () {
+    const accessToken = this.generateAccessToken();
+    const refreshToken = this.generateRefreshToken();
+
+    this.refresh_token = refreshToken;
+    this.save();
+
     return {
         username: this.username,
         email: this.email,
         bio: this.bio,
         image: this.image,
-        token: this.generateAccessToken(),
+        access_token: accessToken,
+        refresh_token: refreshToken,
+    };
+};
+
+userSchema.methods.toUserDetails = function () {
+    return {
+        username: this.username,
+        email: this.email,
+        bio: this.bio,
+        image: this.image,
     };
 };
 
