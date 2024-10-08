@@ -1,121 +1,87 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, ReplaySubject, throwError } from 'rxjs';
-import { catchError, map, distinctUntilChanged, switchMap } from 'rxjs/operators';
-
+import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
 import { User } from '../models/user.model';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   private currentUserSubject = new BehaviorSubject<User>({} as User);
-  public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
+  public currentUser = this.currentUserSubject
+    .asObservable()
+    .pipe(distinctUntilChanged());
 
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
-  constructor(
-    private apiService: ApiService,
-    private jwtService: JwtService
-  ) {}
+  constructor(private apiService: ApiService, private jwtService: JwtService) {}
 
-  // Verify JWT in localstorage with server & load user's info.
-  // This runs once on application startup.
   populate() {
-    // If JWT detected, attempt to get & store user's info
-    const token = this.jwtService.getAccessToken();
+    const token = this.jwtService.getToken();
     if (token) {
-      this.apiService.get("/user").pipe(
-        catchError((error) => {
-          if (error.status === 403) {
-            // Token might be expired, try to refresh it
-            return this.refreshToken().pipe(
-              switchMap(() => this.apiService.get("/user")),
-              catchError(err => {
-                this.purgeAuth();
-                return throwError(err);
-              })
-            );
-          } else {
-            this.purgeAuth();
-            return throwError(error);
-          }
-        })
-      ).subscribe(
+      this.apiService.get('/user').subscribe(
         (data) => {
           return this.setAuth({ ...data.user, token });
         },
-        (err) => this.purgeAuth()
+        (err) => {
+          this.purgeAuth();
+        }
       );
     } else {
-      // Remove any potential remnants of previous auth states
       this.purgeAuth();
     }
   }
 
   setAuth(user: User) {
-    // Save JWT sent from server in localstorage
-    this.jwtService.saveAccessToken(user.token);
-    // Set current user data into observable
+    // console.log(user);
+    this.jwtService.saveToken(user.token);
     this.currentUserSubject.next(user);
-    // Set isAuthenticated to true
     this.isAuthenticatedSubject.next(true);
   }
 
   purgeAuth() {
-    // Remove JWT from localstorage
-    this.jwtService.destroyAccessToken();
-    this.jwtService.destroyRefreshToken();
-    // Set current user to an empty object
+    this.jwtService.destroyToken();
     this.currentUserSubject.next({} as User);
-    // Set auth status to false
     this.isAuthenticatedSubject.next(false);
   }
 
   attemptAuth(type: string, credentials: any): Observable<User> {
-    const route = (type === 'login') ? '/users/login' : '/users';
-    return this.apiService.post(route, credentials)
-      .pipe(map(data => {
-        if (data.user && data.accessToken && data.refreshToken) {
-          this.jwtService.saveAccessToken(data.accessToken);
-          this.jwtService.saveRefreshToken(data.refreshToken);
+    const route = type === 'login' ? '/login' : '/register';
+    return this.apiService.post(`/users${route}`, { user: credentials }).pipe(
+      map((data: any) => {
+        if (type === 'login') {
+          // console.log(data);
           this.setAuth(data.user);
-          return data.user;
-        } else {
-          throw new Error('Invalid response from server');
         }
-      }));
+        return data;
+      })
+    );
   }
 
   getCurrentUser(): User {
     return this.currentUserSubject.value;
   }
 
-  // Update the user on the server (email, pass, etc)
   update(user: any): Observable<User> {
-    return this.apiService.put('/user', { user }).pipe(map(
-      (data: any) => {
-        // Update the currentUser observable
+    return this.apiService.put('/user', { user }).pipe(
+      map((data: any) => {
         this.currentUserSubject.next(data.user);
         return data.user;
-      }
-    ));
+      })
+    );
   }
 
-  refreshToken(): Observable<{ accessToken: string, refreshToken: string }> {
-    const refreshToken = this.jwtService.getRefreshToken();
-    return this.apiService.post('/users/refresh-token', { refreshToken }).pipe(
-      map(data => {
-        if (data.accessToken && data.refreshToken) {
-          this.jwtService.saveAccessToken(data.accessToken);
-          this.jwtService.saveRefreshToken(data.refreshToken);
-          return { accessToken: data.accessToken, refreshToken: data.refreshToken };
-        } else {
-          throw new Error('Invalid response from server');
-        }
-      })
+  logout() {
+    this.apiService.post('/users/logout', {}).subscribe(
+      () => {
+        this.purgeAuth();
+      },
+      (err) => {
+        this.purgeAuth();
+      }
     );
   }
 }

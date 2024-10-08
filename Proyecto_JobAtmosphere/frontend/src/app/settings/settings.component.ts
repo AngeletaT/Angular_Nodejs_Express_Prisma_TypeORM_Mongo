@@ -44,7 +44,7 @@ constructor(
     }
 
     logout() {
-        this.userService.purgeAuth();
+        this.userService.logout();
         this.router.navigateByUrl('/');
     }
 

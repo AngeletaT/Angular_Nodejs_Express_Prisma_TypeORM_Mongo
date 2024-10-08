@@ -1,31 +1,18 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class JwtService {
-
-  getAccessToken(): string {
-    return window.localStorage['accessToken'];
+  getToken(): string | null {
+    return window.localStorage.getItem('accessToken');
   }
 
-  saveAccessToken(token: string) {
-    window.localStorage['accessToken'] = token;
+  saveToken(accessToken: string) {
+    window.localStorage.setItem('accessToken', accessToken);
   }
 
-  destroyAccessToken() {
+  destroyToken() {
     window.localStorage.removeItem('accessToken');
-  }
-
-  getRefreshToken(): string {
-    return window.localStorage['refreshToken'];
-  }
-
-  saveRefreshToken(token: string) {
-    window.localStorage['refreshToken'] = token;
-  }
-
-  destroyRefreshToken() {
-    window.localStorage.removeItem('refreshToken');
   }
 }

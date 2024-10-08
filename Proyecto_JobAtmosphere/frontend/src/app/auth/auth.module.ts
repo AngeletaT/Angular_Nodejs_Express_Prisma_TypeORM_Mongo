@@ -7,17 +7,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    AuthRoutingModule,
-    CommonModule,
-    ReactiveFormsModule,
-  ],
-  declarations: [
-    AuthComponent
-  ],
-  providers: [
-    NoAuthGuard
-  ]
+  imports: [SharedModule, AuthRoutingModule, CommonModule, ReactiveFormsModule],
+  declarations: [AuthComponent],
+  providers: [NoAuthGuard],
 })
 export class AuthModule {}
