@@ -7,7 +7,7 @@ module.exports = (app) => {
     app.post("/jobs", jobs.createJob);
 
     // GET ALL
-    app.get("/jobs", jobs.findAllJob);
+    app.get("/jobs", verifyJWTOptional, jobs.findAllJob);
 
     // GET ONE
     app.get("/jobs/:slug", verifyJWT, jobs.findOneJob);
