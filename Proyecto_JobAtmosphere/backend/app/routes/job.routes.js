@@ -24,6 +24,6 @@ module.exports = (app) => {
     //FAVORITE
     app.post("/:slug/favorite", verifyJWT, jobs.favouriteJob);
 
-    //UNFAVORITE
+    //UNFAVORITEs
     app.delete("/:slug/favorite", verifyJWT, jobs.unfavoriteJob);
 };
