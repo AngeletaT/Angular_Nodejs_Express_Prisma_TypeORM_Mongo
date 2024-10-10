@@ -6,6 +6,7 @@ import { Filters } from '../models/filters.model';
 
 const URL = 'http://localhost:3000/jobs';
 const URLcat = 'http://localhost:3000/categories';
+const URLfav = 'http://localhost:3000';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +51,7 @@ export class JobService {
     return this.http.delete<Job[]>(`${URL}`);
   }
 
+  //GET JOBS BY CATEGORY
   getJobsByCategory(slug: String): Observable<Job[]> {
     return this.http.get<Job[]>(`${URLcat}/${slug}/jobs`);
   }
@@ -61,5 +63,15 @@ export class JobService {
         return data;
       })
     );
+  }
+
+  //FAVORITE
+  favorite(id: String): Observable<any> {
+    return this.http.post(`${URLfav}/${id}/favorite`, {})
+  }
+
+  //UNFAVORITE
+  unfavorite(id: String): Observable<any> {
+    return this.http.delete(`${URLfav}/${id}/favorite`)
   }
 }

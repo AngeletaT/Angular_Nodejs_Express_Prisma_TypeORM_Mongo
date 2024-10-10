@@ -28,7 +28,7 @@ export class ListJobsComponent implements OnInit {
     private ActivatedRoute: ActivatedRoute,
     private CategoryService: CategoryService,
     private Location: Location
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.slug_Category = this.ActivatedRoute.snapshot.paramMap.get('slug');
@@ -42,7 +42,7 @@ export class ListJobsComponent implements OnInit {
       this.refreshRouteFilter();
       this.get_list_filtered(this.filters);
     } else {
-      this.get_list_filtered(this.filters);
+      this.get_jobs();
     }
   }
 
@@ -75,6 +75,7 @@ export class ListJobsComponent implements OnInit {
   get_list_filtered(filters: Filters) {
     this.filters = filters;
     this.jobService.get_jobs_filter(filters).subscribe((data: any) => {
+      console.log(data.jobs);
       this.jobs = data.jobs;
       this.totalPages = Array.from(
         new Array(Math.ceil(data.Job_count / this.limit)),

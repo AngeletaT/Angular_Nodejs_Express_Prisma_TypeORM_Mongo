@@ -21,8 +21,8 @@ export class NoAuthGuard implements CanActivate {
   ): Observable<boolean> {
     return this.userService.isAuthenticated.pipe(
       take(1),
-      map((isAuth) => {
-        if (isAuth) {
+      map((isAuthenticated) => {
+        if (isAuthenticated) {
           // Si el usuario está autenticado, redirigir al home
           this.router.navigateByUrl('/home');
           return false;

@@ -10,7 +10,10 @@
             <p class="card-text">{{ job.salary | number:'1.0-0':'en' }}€</p>
           </div>
           <div class="d-flex justify-content-between align-items-center">
-            <span class="like-placeholder">❤️</span>
+            <app-favorite-button [jobs]="job" (toggle)="onToggleFavorite($event)">
+              {{ job.favorited ? 'Unfavorite' : 'Favorite' }} <span class="counter"> ( {{
+                job.favoritesCount }} )</span>
+            </app-favorite-button>
             <a [routerLink]="['/details/', job.slug]" class="text-primary">Ver más</a>
           </div>
         </div>

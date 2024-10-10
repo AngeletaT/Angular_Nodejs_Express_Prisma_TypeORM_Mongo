@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 const verifyJWTOptional = (req, res, next) => {
-    const authHeader = req.headers.authorization || req.headers.Authorization
+    const authHeader = req.headers.authorization || req.headers.Authorization;
 
-    if (!authHeader || !authHeader?.startsWith('Token ') || !authHeader.split(' ')[1].length) {
+    if (!authHeader || !authHeader.startsWith('Token ')) {
         req.loggedin = false;
         return next();
     }
@@ -15,15 +15,18 @@ const verifyJWTOptional = (req, res, next) => {
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
             if (err) {
-                return res.status(403).json({ message: 'Forbidden' });
+                // Si el token no es válido, marcar como no autenticado y continuar
+                req.loggedin = false;
+                return next();
             }
+            // Si el token es válido, marcar como autenticado y almacenar la información del usuario
             req.loggedin = true;
             req.userId = decoded.user.id;
             req.userEmail = decoded.user.email;
             req.userHashedPwd = decoded.user.password;
             next();
         }
-    )
+    );
 };
 
 module.exports = verifyJWTOptional;

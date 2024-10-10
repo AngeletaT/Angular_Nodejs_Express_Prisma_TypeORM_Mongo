@@ -3,6 +3,7 @@ const uniqueValidator = require("mongoose-unique-validator");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 
+// #region SCHEMA
 const userSchema = new mongoose.Schema(
     {
         uuid: {
@@ -40,6 +41,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
+        favouriteJob : [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Job",
+        }],
     },
     {
         timestamps: true,
@@ -48,6 +53,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.plugin(uniqueValidator);
 
+// #region METHODS
 userSchema.methods.generateAccessToken = function () {
     const accessToken = jwt.sign(
         {
@@ -76,6 +82,7 @@ userSchema.methods.generateRefreshToken = function () {
     return refreshToken;
 };
 
+// #region TO USER RESPONSE
 userSchema.methods.toUserResponse = function () {
     const accessToken = this.generateAccessToken();
     const refreshToken = this.generateRefreshToken();
@@ -93,6 +100,7 @@ userSchema.methods.toUserResponse = function () {
     };
 };
 
+// #region TO USER DETAILS
 userSchema.methods.toUserDetails = function () {
     return {
         username: this.username,
@@ -102,6 +110,7 @@ userSchema.methods.toUserDetails = function () {
     };
 };
 
+// #region TO PROFILE JSON
 userSchema.methods.toProfileJSON = function (user) {
     return {
         username: this.username,
@@ -109,6 +118,31 @@ userSchema.methods.toProfileJSON = function (user) {
         image: this.image,
         following: user ? user.isFollowing(this._id) : false,
     };
+};
+
+// #region FAVORITE JOB
+userSchema.methods.isFavorite = function (id) {
+    const idStr = id.toString();
+    for (const article of this.favouriteJob) {
+        if (article.toString() === idStr) {
+            return true;
+        }
+    }
+    return false;
+}
+
+userSchema.methods.favorite = function (id) {
+    if(this.favouriteJob.indexOf(id) === -1){
+        this.favouriteJob.push(id);
+    }
+    return this.save();
+}
+
+userSchema.methods.unfavorite = function (id) {
+    if(this.favouriteJob.indexOf(id) !== -1){
+        this.favouriteJob.remove(id);
+    }
+    return this.save();
 };
 
 module.exports = mongoose.model("User", userSchema);

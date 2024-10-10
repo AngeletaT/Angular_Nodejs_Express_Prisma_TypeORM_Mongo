@@ -24,6 +24,7 @@ import { FiltersComponent } from './filters/filters.component';
 import { SearchComponent } from './search/search.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ShowAuthedDirective } from './show-authed.directive';
+import { FavoriteButtonComponent } from './buttons/favorite-button.component';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { ShowAuthedDirective } from './show-authed.directive';
     PaginationComponent,
     ShowAuthedDirective,
     ListErrorsComponent,
-    
+    FavoriteButtonComponent,
+
   ],
   exports: [
     FormsModule,
@@ -63,6 +65,7 @@ import { ShowAuthedDirective } from './show-authed.directive';
     PaginationComponent,
     ShowAuthedDirective,
     ListErrorsComponent,
+    FavoriteButtonComponent,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

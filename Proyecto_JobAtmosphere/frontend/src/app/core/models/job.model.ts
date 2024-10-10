@@ -8,4 +8,6 @@ export interface Job {
     images: [],
     img: string,
     id_cat: string;
+    favorited: boolean;
+    favoritesCount: number;
 }
