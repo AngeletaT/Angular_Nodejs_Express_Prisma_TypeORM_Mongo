@@ -10,7 +10,7 @@ module.exports = (app) => {
     app.get("/jobs", verifyJWTOptional, jobs.findAllJob);
 
     // GET ONE
-    app.get("/jobs/:slug", verifyJWT, jobs.findOneJob);
+    app.get("/jobs/:slug", verifyJWTOptional, jobs.findOneJob);
 
     // DELETE
     app.delete("/jobs/:slug", jobs.deleteOneJob);

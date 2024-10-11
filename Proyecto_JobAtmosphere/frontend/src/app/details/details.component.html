@@ -32,6 +32,10 @@
                     </div>
                     <div class="apply-button">
                         <button class="btn btn-primary">Aplicar</button>
+                        <app-favorite-button [jobs]="job" (toggle)="onToggleFavorite($event)">
+                            {{ job.favorited ? 'Unfavorite' : 'Favorite' }} <span class="counter"> ( {{
+                              job.favoritesCount }} )</span>
+                          </app-favorite-button>
                     </div>
                 </div>
             </div>

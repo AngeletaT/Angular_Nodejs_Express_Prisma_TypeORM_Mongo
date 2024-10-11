@@ -34,4 +34,14 @@ export class DetailsComponent implements OnInit {
       this.router.navigate(['/']);
     }
   }
+
+  onToggleFavorite(favorited: boolean) {
+    this.job.favorited = favorited;
+
+    if (favorited) {
+      this.job.favoritesCount++;
+    } else {
+      this.job.favoritesCount--;
+    }
+  }
 }

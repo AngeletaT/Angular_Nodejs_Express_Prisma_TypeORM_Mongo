@@ -79,13 +79,12 @@ export class ListJobsComponent implements OnInit {
   get_list_filtered(filters: Filters) {
     this.filters = filters;
     this.jobService.get_jobs_filter(filters).subscribe((data: any) => {
-      console.log(data.jobs);
+      // console.log(data.jobs);
       this.jobs = data.jobs;
       this.totalPages = Array.from(
         new Array(Math.ceil(data.Job_count / this.limit)),
         (val, index) => index + 1
       );
-      console.log(this.jobs);
     });
   }
 

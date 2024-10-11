@@ -98,13 +98,15 @@ const findAllJob = asyncHandler(async (req, res) => {
 const findOneJob = asyncHandler(async (req, res) => {
     const jobs = await Job.findOne(req.params);
 
+    const user = await User.findById(req.userId);
+
     if (!jobs) {
         return res.status(401).json({
             message: "Trabajo no encontrado",
         });
     }
     return res.status(200).json({
-        jobs: await jobs.toJobResponse(),
+        jobs: await jobs.toJobResponse(user),
     });
 });
 

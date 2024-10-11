@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     if (this.routeFilters !== null) {
-      console.log('dentro');
+      // console.log('dentro');
       this.filters = JSON.parse(atob(this.routeFilters));
     }
     this.search_value = this.filters.name || undefined;
