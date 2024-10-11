@@ -46,7 +46,9 @@ const findAllJob = asyncHandler(async (req, res) => {
         return varQuery != "undefined" && varQuery ? varQuery : otherResult;
     };
 
-    let limit = transUndefined(req.query.limit, 3);
+    console.log(req);
+
+    let limit = transUndefined(req.query.limit, 5);
     let offset = transUndefined(req.query.offset, 0);
     let category = transUndefined(req.query.category, "");
     let name = transUndefined(req.query.name, "");
@@ -55,7 +57,6 @@ const findAllJob = asyncHandler(async (req, res) => {
     let salary_max = transUndefined(req.query.salary_max, Number.MAX_SAFE_INTEGER);
     let nameReg = new RegExp(name);
     let favorited = transUndefined(req.query.favorited, null);
-    // let id_user =req.auth ? req.auth.id : null;
 
     query = {
         name: { $regex: nameReg },
@@ -66,24 +67,27 @@ const findAllJob = asyncHandler(async (req, res) => {
         query.id_cat = category;
     }
 
-    if (favorited) {
-        const favoriter = await User.findOne({ username: favorited });
-        query._id = { $in: favoriter.favorites };
+    // Obtener el usuario si está logueado
+    let user = null;
+    if (req.loggedin) {
+        try {
+            user = await User.findById(req.userId);
+        } catch (error) {
+            console.error("Error al obtener el usuario:", error);
+        }
     }
 
     const jobs = await Job.find(query).limit(Number(limit)).skip(Number(offset));
     const Job_count = await Job.find(query).countDocuments();
 
     if (!jobs) {
-        res.status(404).json({ msg: "Ha ocurrido un error" });
+        return res.status(404).json({ msg: "Ha ocurrido un error" });
     }
-
-    const user = await User.findById(req.userId);
 
     return res.status(200).json({
         jobs: await Promise.all(
-            jobs.map(async (Job) => {
-                return await Job.toJobResponse(user);
+            jobs.map(async (job) => {
+                return await job.toJobResponse(user);
             })
         ),
         Job_count: Job_count,
@@ -106,6 +110,8 @@ const findOneJob = asyncHandler(async (req, res) => {
 
 // #region LISTAR POR CATEGORIA
 const GetjobsByCategory = asyncHandler(async (req, res) => {
+
+    // res.json("holaaa")
     let offset = 0;
     let limit = 3;
     const slug = req.params;
@@ -118,16 +124,13 @@ const GetjobsByCategory = asyncHandler(async (req, res) => {
     }
 
     const user = await User.findById(req.userId);
-
     return await res.status(200).json({
-        jobs: await Promise.all(
-            category.jobs.map(async (JobId) => {
-                const Trabajobj = await Job.findById(JobId).skip(offset).limit(limit).exec();
-                return await Trabajobj.toJobResponse(user);
-            })
-        ),
-        Job_count: Job_count,
-    });
+        jobs: await Promise.all(category.jobs.map(async jobId => {
+            const jobObj = await Job.findById(jobId).skip(offset).limit(limit).exec();
+            return await jobObj.toJobResponse(user);
+        })),
+        Job_count: Job_count
+    })
 });
 
 // #region ACTUALIZAR
@@ -162,19 +165,15 @@ const updateJob = asyncHandler(async (req, res) => {
 
 // #region ELIMINAR
 const deleteOneJob = asyncHandler(async (req, res) => {
-    // return res.json("hola desde eliminar");
     const slug = req.params;
 
-    // res.send(slug);
     const job = await Job.findOne(slug).exec();
-    // res.send(Job);
 
     if (!job) {
         res.status(400).json({ message: "Trabajo no encontrado" });
     }
 
     const id_cat = job.id_cat;
-    // res.send(id_cat);
     const category = await Category.findOne({ id_cat }).exec();
 
     if (!category) {

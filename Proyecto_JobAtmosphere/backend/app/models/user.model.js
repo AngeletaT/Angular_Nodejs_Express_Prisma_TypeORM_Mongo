@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
-        favouriteJob : [{
+        favouriteJob: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Job",
         }],
@@ -123,23 +123,24 @@ userSchema.methods.toProfileJSON = function (user) {
 // #region FAVORITE JOB
 userSchema.methods.isFavorite = function (id) {
     const idStr = id.toString();
-    for (const article of this.favouriteJob) {
-        if (article.toString() === idStr) {
+    for (const job of this.favouriteJob) {
+        if (job.toString() === idStr) {
             return true;
         }
     }
     return false;
 }
 
+
 userSchema.methods.favorite = function (id) {
-    if(this.favouriteJob.indexOf(id) === -1){
+    if (this.favouriteJob.indexOf(id) === -1) {
         this.favouriteJob.push(id);
     }
     return this.save();
 }
 
 userSchema.methods.unfavorite = function (id) {
-    if(this.favouriteJob.indexOf(id) !== -1){
+    if (this.favouriteJob.indexOf(id) !== -1) {
         this.favouriteJob.remove(id);
     }
     return this.save();

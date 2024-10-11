@@ -65,33 +65,20 @@ JobSchema.methods.slugify = async function () {
 
 // #region JOB RESPONSE
 JobSchema.methods.toJobResponse = async function (user) {
-    if (user !== null) {
-        return {
-            slug: this.slug,
-            name: this.name,
-            salary: this.salary,
-            description: this.description,
-            company: this.company,
-            id_cat: this.id_cat,
-            img: this.img,
-            images: this.images,
-            favorited: user.isFavorite(this._id),
-            favoritesCount: this.favoritesCount || 0,
-        };
-    } else {
-        return {
-            slug: this.slug,
-            name: this.name,
-            salary: this.salary,
-            description: this.description,
-            company: this.company,
-            id_cat: this.id_cat,
-            img: this.img,
-            images: this.images,
-            favorited: false,
-            favoritesCount: this.favoritesCount,
-        };
-    }
+
+    // return user;
+    return {
+        slug: this.slug,
+        name: this.name,
+        salary: this.salary,
+        description: this.description,
+        company: this.company,
+        id_cat: this.id_cat,
+        img: this.img,
+        images: this.images,
+        favorited: user ? user.isFavorite(this._id) : false,
+        favoritesCount: this.favoritesCount || 0,
+    };
 };
 
 // #region CAROUSEL RESPONSE
