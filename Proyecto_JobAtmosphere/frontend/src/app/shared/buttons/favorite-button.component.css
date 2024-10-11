@@ -1,11 +1,11 @@
 .favorite-btn {
   padding: 10px;
   margin-top: 10px;
-  border: 1.5px solid grey;
+  border: 1.5px solid #d3d3d3; /* light grey */
   color: #000000;
   width: 100%;
   height: auto;
-  box-shadow: 0px 0px 5px #000000;
+  box-shadow: 0px 0px 5px #d3d3d3; /* light grey */
   transition: background-color 0.3s, transform 0.3s;
   transform: scale(1);
   display: flex;
@@ -18,12 +18,12 @@
 }
 
 .favorite-btn:hover {
-  background-color: #0d6efd; 
+  background-color: #adbce6;
   transform: scale(1.05);
 }
 
 .favorite-btn.favorited {
-  background-color: #fd0d0d;
+  background-color: #ff657c;
   color: #ffffff;
 }
 
