@@ -1,19 +1,10 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-} from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Errors } from '../core/models/errors.model';
 import { User } from '../core/models/user.model';
 import { UserService } from '../core/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-auth',
@@ -59,13 +50,19 @@ export class AuthComponent {
     this.user = this.authForm.value;
     this.userService.attemptAuth(this.authType, this.user).subscribe({
       next: () => {
-        if (this.authType === 'login') {
-          // Redirigir al home después de un login exitoso
-          this.router.navigateByUrl('/home');
-        } else {
-          // Redirigir al login después de un registro exitoso
-          this.router.navigateByUrl('/login');
-        }
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: this.authType === 'login' ? 'Login successful' : 'Registration successful'
+      }).then(() => {
+          if (this.authType === 'login') {
+              // Redirigir al home después de un login exitoso
+              this.router.navigateByUrl('/home');
+          } else {
+              // Redirigir al login después de un registro exitoso
+              this.router.navigateByUrl('/login');
+          }
+      });
       },
       error: (err: any) => {
         this.errors = err.errors

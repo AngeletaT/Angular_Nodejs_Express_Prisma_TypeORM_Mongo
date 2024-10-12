@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/core/models/user.model';
-import {ShowAuthedDirective } from '../../../shared/show-authed.directive';
-
-import {  UserService } from '../../../core/services/user.service';
+import { ShowAuthedDirective } from '../../../shared/show-authed.directive';
+import Swal from 'sweetalert2';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
     private userService: UserService,
     private cd: ChangeDetectorRef,
     private router: Router
-  ) {}
+  ) { }
 
   currentUser!: User;
 
@@ -36,17 +36,33 @@ export class HeaderComponent implements OnInit {
         // console.log(userData);
         this.currentUser = userData;
         // console.log(this.currentUser);
-        
+
         this.cd.markForCheck();
       }
     );
-  
-    
+
+
   }
 
   logout() {
-    this.userService.logout();
-    this.router.navigateByUrl('/');
+    this.userService.logout().subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Logged out successfully',
+          text: 'See you soon!'
+        }).then(() => {
+          this.router.navigateByUrl('/');
+        });
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Logout failed',
+          text: 'Please try again later.'
+        });
+      }
+    });
   }
 
   nav_bars() {
@@ -57,5 +73,5 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  
+
 }

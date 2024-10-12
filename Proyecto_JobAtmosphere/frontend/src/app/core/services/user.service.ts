@@ -74,14 +74,11 @@ export class UserService {
     );
   }
 
-  logout() {
-    this.apiService.post('/users/logout', {}).subscribe(
-      () => {
+  logout(): Observable<void> {
+    return this.apiService.post('/users/logout', {}).pipe(
+        map(() => {
         this.purgeAuth();
-      },
-      (err) => {
-        this.purgeAuth();
-      }
+      })
     );
   }
 }
