@@ -29,29 +29,29 @@ export class FavoriteButtonComponent implements OnInit {
   toggleFavorite() {
     this.isSubmitting = true;
     this.UserService.isAuthenticated.subscribe({
-        next: data => this.isLoged = data,
+      next: data => this.isLoged = data,
     });
 
     if (!this.isLoged) {
-        setTimeout(() => { this.Router.navigate(['/login']); }, 600);
+      setTimeout(() => { this.Router.navigate(['/login']); }, 600);
     } else {
-      
+
       if (!this.jobs.favorited) {
         this.JobService.favorite(this.jobs.slug as String).subscribe({
           next: data => {
             console.log(data);
-              this.jobs.favorited = true;
-              this.isSubmitting = false;
-              this.toggle.emit(true);
+            this.jobs.favorited = true;
+            this.isSubmitting = false;
+            this.toggle.emit(true);
           },
         });
       } else {
         this.JobService.unfavorite(this.jobs.slug as String).subscribe({
           next: data => {
             console.log(data);
-              this.jobs.favorited = false;
-              this.isSubmitting = false;
-              this.toggle.emit(false);
+            this.jobs.favorited = false;
+            this.isSubmitting = false;
+            this.toggle.emit(false);
           },
         });
       }

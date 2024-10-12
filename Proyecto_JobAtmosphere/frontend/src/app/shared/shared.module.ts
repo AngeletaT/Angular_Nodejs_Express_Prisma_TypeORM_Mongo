@@ -24,7 +24,7 @@ import { FiltersComponent } from './filters/filters.component';
 import { SearchComponent } from './search/search.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ShowAuthedDirective } from './show-authed.directive';
-import { FavoriteButtonComponent } from './buttons/favorite-button.component';
+import { FavoriteButtonComponent } from './favotite-button/favorite-button.component';
 
 @NgModule({
   imports: [
