@@ -22,7 +22,7 @@ module.exports = (app) => {
     app.put("/jobs/:slug", jobs.updateJob);
 
     //FAVORITE
-    app.post("/:slug/favorite", verifyJWT, jobs.favouriteJob);
+    app.post("/:slug/favorite", verifyJWT, jobs.favoriteJob);
 
     //UNFAVORITE
     app.delete("/:slug/favorite", verifyJWT, jobs.unfavoriteJob);

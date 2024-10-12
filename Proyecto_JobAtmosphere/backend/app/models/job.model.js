@@ -91,7 +91,7 @@ JobSchema.methods.toJobCarouselResponse = async function () {
 // #region FAVORITES
 JobSchema.methods.updateFavoriteCount = async function () {
     const job = this;
-    const count = await User.countDocuments({ favouriteJob: job._id }).exec();
+    const count = await User.countDocuments({ favoriteJob: job._id }).exec();
     job.favoritesCount = count;
     return job.save();
 };
