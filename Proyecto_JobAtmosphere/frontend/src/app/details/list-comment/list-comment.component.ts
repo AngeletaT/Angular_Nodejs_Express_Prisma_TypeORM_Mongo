@@ -66,16 +66,7 @@ export class ListCommentComponent implements OnInit, OnDestroy {
         this.editComment.emit(comment);
     }
 
-    hasWrittenComment(): boolean {
-        return this.comments.some(comment => this.canModify(comment));
-    }
-
-    showCommentForm() {
-        this.isAddingComment = true;
-    }
-
     onCommentSubmitted() {
-        this.isAddingComment = false;
         this.loadComments();
     }
 }

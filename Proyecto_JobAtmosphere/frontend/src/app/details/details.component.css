@@ -1,5 +1,5 @@
 .details_page {
-  background-color: #f8f9fa; 
+  background-color: #f8f9fa;
   padding: 20px;
   padding-right: 35px;
   border-radius: 10px;
@@ -14,7 +14,7 @@
 }
 
 .job-logo {
-  width: 100px; 
+  width: 100px;
   height: 100px;
   object-fit: cover;
   border-radius: 10px;
@@ -22,10 +22,11 @@
 
 .company-name {
   font-size: 1.2rem;
-  color: #6c757d; 
+  color: #6c757d;
 }
 
-.job-description, .job-salary {
+.job-description,
+.job-salary {
   margin-top: 20px;
 }
 
@@ -48,8 +49,8 @@
 }
 
 .carousel-container {
-  min-width: 500px; 
-  min-height: 500px; 
+  min-width: 500px;
+  min-height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;

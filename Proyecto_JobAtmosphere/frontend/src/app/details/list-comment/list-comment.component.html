@@ -1,24 +1,16 @@
-<div *ngFor="let comment of comments">
-    <br><br>
+<div *ngFor="let comment of comments" class="comment-container">
     <div class="comment-header">
-        <img src="{{ comment.author.image }}" class="rounded-circle" width="50" height="50"
-            alt="{{ comment.author.username }}">
-        <h3>{{ comment.author.username }}:</h3>
+        <img src="{{ comment.author.image }}" class="rounded-circle" width="50" height="50" alt="{{ comment.author.username }}">
+        <div class="comment-details">
+            <h3>{{ comment.author.username }}</h3>
+            <hr>
+            <p>{{ comment.body }}</p>
+            <p class="comment-date">{{ comment.createdAt | date: 'mediumDate' }}</p>
+        </div>
+        <button class="btn btn-danger delete-button" *ngIf="canModify(comment)" (click)="deleteClicked(comment)">
+            <i class="fas fa-trash-alt"></i>
+        </button>
     </div>
-    <hr>
-    <p>
-        <strong>{{ comment.body }}</strong>
-    </p>
-    <p>Fecha: {{ comment.createdAt | date: 'medium' }}</p>
-    <div class="delete-button-container">
-        <button class="btn btn-danger mt-3" *ngIf="canModify(comment)" (click)="deleteClicked(comment)">Delete your
-            comment</button>
-    </div>
-</div>
-<div *ngIf="isAddingComment">
-    <app-form-comment [slug]="slug" (submitComment)="onCommentSubmitted()"></app-form-comment>
 </div>
 
-<div *ngIf="!hasWrittenComment()" class="add-comment-container">
-    <button class="btn btn-info mt-3" (click)="showCommentForm()">Post your comment</button>
-</div>
+<app-form-comment [slug]="slug" (submitComment)="onCommentSubmitted()"></app-form-comment>

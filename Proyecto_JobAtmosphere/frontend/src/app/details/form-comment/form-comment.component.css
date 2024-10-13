@@ -1,21 +1,23 @@
-form {
+.comment-form {
     display: flex;
-    flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 5px;
+    margin-bottom: 20px;
 }
 
-textarea {
-    width: 100%;
-    height: 100px;
+.comment-form img {
+    margin-right: 10px;
+}
+
+.comment-form textarea {
+    flex: 1;
+    height: 50px;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-right: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     resize: vertical;
@@ -23,21 +25,10 @@ textarea {
     font-family: Arial, sans-serif;
 }
 
-.button-container {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-}
-
-button {
+.comment-form .submit-button {
     padding: 10px 20px;
     font-size: 1em;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
 }

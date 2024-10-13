@@ -1,4 +1,6 @@
-<form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="comment-form">
     <textarea formControlName="body" placeholder="Write a comment..."></textarea>
-    <button class="btn btn-primary mt-3" type="submit" [disabled]="commentForm.invalid">Submit</button>
+    <button class="btn btn-primary submit-button" type="submit" [disabled]="commentForm.invalid">
+        <i class="fas fa-arrow-right"></i>
+    </button>
 </form>
