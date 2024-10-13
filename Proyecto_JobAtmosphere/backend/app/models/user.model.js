@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
         },
         image: {
             type: String,
-            default: "https://picsum.photos/200?random=1",
+            default: "",
         },
         refresh_token: {
             type: String,
@@ -50,6 +50,13 @@ const userSchema = new mongoose.Schema(
         timestamps: true,
     }
 );
+
+userSchema.pre('save', function (next) {
+    if (!this.image) {
+        this.image = `https://i.pravatar.cc/150?u=${this.username}`;
+    }
+    next();
+});
 
 userSchema.plugin(uniqueValidator);
 
