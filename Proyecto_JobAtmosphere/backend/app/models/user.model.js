@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
         },
         image: {
             type: String,
-            default: "https://static.productionready.io/images/smiley-cyrus.jpg",
+            default: "https://picsum.photos/200?random=1",
         },
         refresh_token: {
             type: String,
