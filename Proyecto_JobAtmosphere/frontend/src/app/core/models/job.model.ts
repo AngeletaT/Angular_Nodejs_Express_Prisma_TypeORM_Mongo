@@ -1,4 +1,3 @@
-
 export interface Job {
     slug: string;
     name: string;
@@ -10,4 +9,5 @@ export interface Job {
     id_cat: string;
     favorited: boolean;
     favoritesCount: number;
+    comments: [],
 }

@@ -2,8 +2,8 @@ import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Job } from '../core/models/job.model';
 import { JobService } from '../core/services/job.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgControlStatusGroup } from '@angular/forms';
-import { FormControl } from '@angular/forms';
+import { Comment } from '../core/models/comment.model';
+
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -12,17 +12,20 @@ import { FormControl } from '@angular/forms';
 export class DetailsComponent implements OnInit {
   job!: Job;
   slug!: string | null;
+  selectedComment: Comment | null = null;
+
   constructor(
     private JobService: JobService,
     private ActivatedRoute: ActivatedRoute,
     private router: Router
-  ) // private ToastrService: ToastrService,
-  {}
+  ) { }
+
   ngOnInit(): void {
     this.slug = this.ActivatedRoute.snapshot.paramMap.get('slug');
     console.log(this.slug);
     this.get_job();
   }
+
   get_job() {
     if (typeof this.slug === 'string') {
       this.JobService.get_job(this.slug).subscribe((data: any) => {
@@ -43,5 +46,13 @@ export class DetailsComponent implements OnInit {
     } else {
       this.job.favoritesCount--;
     }
+  }
+
+  onEditComment(comment: Comment) {
+    this.selectedComment = comment;
+  }
+
+  onSubmitComment() {
+    this.selectedComment = null;
   }
 }

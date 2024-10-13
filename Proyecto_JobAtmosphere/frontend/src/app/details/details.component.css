@@ -54,3 +54,41 @@
   justify-content: center;
   align-items: center;
 }
+
+#comments_list {
+  width: 100%;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+#comments_list h3 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+#comments_list .comment {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+#comments_list .comment strong {
+  color: #007bff;
+}
+
+#comments_list .comment p {
+  margin: 0;
+  color: #555;
+}
+
+#comments_list .comment button {
+  margin-top: 10px;
+}
+
+#comments_list .comment button:hover {
+  background-color: #c82333;
+}
