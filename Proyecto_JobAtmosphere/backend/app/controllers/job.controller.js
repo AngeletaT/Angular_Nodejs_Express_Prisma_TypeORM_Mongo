@@ -14,7 +14,6 @@ const createJob = asyncHandler(async (req, res) => {
         images: req.body.images,
         img: req.body.img || null,
         id_cat: req.body.id_cat || null,
-        author: req.author || null,
     };
 
     const id_cat = req.body.id_cat;

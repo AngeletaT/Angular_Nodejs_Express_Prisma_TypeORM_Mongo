@@ -40,10 +40,10 @@ const JobSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
-    author: {
+    comments: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-    },
+        ref: "Comment",
+    }],
 });
 
 // #region PLUGINS
@@ -78,6 +78,7 @@ JobSchema.methods.toJobResponse = async function (user) {
         images: this.images,
         favorited: user ? user.isFavorite(this._id) : false,
         favoritesCount: this.favoritesCount || 0,
+        comments: this.comments
     };
 };
 
@@ -94,6 +95,17 @@ JobSchema.methods.updateFavoriteCount = async function () {
     const count = await User.countDocuments({ favoriteJob: job._id }).exec();
     job.favoritesCount = count;
     return job.save();
+};
+
+// #region COMMENTS
+JobSchema.methods.addComment = function (commentId) {
+    this.comments.unshift(commentId);
+    return this.save();
+};
+
+JobSchema.methods.removeComment = function (commentId) {
+    this.comments.pull(commentId);
+    return this.save();
 };
 
 // #region EXPORTS
