@@ -117,15 +117,6 @@ userSchema.methods.toUserDetails = function () {
     };
 };
 
-// #region TO PROFILE JSON
-userSchema.methods.toProfileJSON = function (user) {
-    return {
-        username: this.username,
-        bio: this.bio,
-        image: this.image,
-    };
-};
-
 // #region FAVORITE JOB
 userSchema.methods.isFavorite = function (id) {
     const idStr = id.toString();
@@ -150,6 +141,20 @@ userSchema.methods.unfavorite = function (id) {
         this.favoriteJob.remove(id);
     }
     return this.save();
+};
+
+// #region PROFILE
+userSchema.methods.toProfileUser = async function () {
+    const Job = require("./job.model");
+    const favoriteJobs = await Job.find({ _id: { $in: this.favoriteJob } }).exec();
+
+    return {
+        username: this.username,
+        email: this.email,
+        bio: this.bio,
+        image: this.image,
+        favoriteJobs: await Promise.all(favoriteJobs.map(async job => await job.toJobProfile(this))),
+    };
 };
 
 module.exports = mongoose.model("User", userSchema);

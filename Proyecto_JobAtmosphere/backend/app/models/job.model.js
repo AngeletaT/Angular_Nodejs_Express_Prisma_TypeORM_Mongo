@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const slugify = require("slugify");
 const uniqueValidator = require("mongoose-unique-validator");
 const User = require("../models/user.model.js");
-const { log } = require("console");
 
 // #region SCHEMA
 const JobSchema = mongoose.Schema({
@@ -51,10 +50,8 @@ JobSchema.plugin(uniqueValidator, { msg: "already taken" });
 
 JobSchema.pre("validate", async function (next) {
     if (!this.slug) {
-        // console.log('dentro del if');
         await this.slugify();
     }
-    // console.log(this.slug);
     next();
 });
 
@@ -65,8 +62,6 @@ JobSchema.methods.slugify = async function () {
 
 // #region JOB RESPONSE
 JobSchema.methods.toJobResponse = async function (user) {
-
-    // return user;
     return {
         slug: this.slug,
         name: this.name,
@@ -79,6 +74,18 @@ JobSchema.methods.toJobResponse = async function (user) {
         favorited: user ? user.isFavorite(this._id) : false,
         favoritesCount: this.favoritesCount || 0,
         comments: this.comments
+    };
+};
+
+JobSchema.methods.toJobProfile = async function () {
+    return {
+        slug: this.slug,
+        name: this.name,
+        salary: this.salary,
+        description: this.description,
+        company: this.company,
+        id_cat: this.id_cat,
+        img: this.img,
     };
 };
 

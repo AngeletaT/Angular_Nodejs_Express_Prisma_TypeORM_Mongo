@@ -29,7 +29,7 @@ commentSchema.methods.toCommentResponse = async function (user) {
         body: this.body,
         createdAt: this.createdAt,
         updatedAt: this.updatedAt,
-        author: authorObj.toProfileJSON(user)
+        author: authorObj.toProfileUser(user)
     }
 
 }

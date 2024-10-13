@@ -122,9 +122,26 @@ const updateUser = asyncHandler(async (req, res) => {
     });
 });
 
+const getUserProfile = asyncHandler(async (req, res) => {
+    const email = req.userEmail;
+
+    const user = await User.findOne({ email }).exec();
+
+    if (!user) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    const profileUser = await user.toProfileUser();
+
+    res.status(200).json({
+        user: profileUser,
+    });
+});
+
 module.exports = {
     registerUser,
     getCurrentUser,
     userLogin,
     updateUser,
+    getUserProfile,
 };

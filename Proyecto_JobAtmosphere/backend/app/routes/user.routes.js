@@ -16,4 +16,7 @@ module.exports = (app) => {
 
     // Update User
     app.put("/user", verifyJWT, userController.updateUser);
+
+    // Profile User
+    app.get("/user/profile", verifyJWT, userController.getUserProfile);
 };
