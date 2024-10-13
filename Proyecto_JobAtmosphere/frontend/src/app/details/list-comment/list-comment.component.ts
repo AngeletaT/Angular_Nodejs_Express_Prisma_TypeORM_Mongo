@@ -18,7 +18,7 @@ export class ListCommentComponent implements OnInit, OnDestroy {
     @Output() createCommentEvent = new EventEmitter<void>();
 
     subscription!: Subscription;
-    currentUser!: User;
+    currentUser!: User | null;
     isAddingComment: boolean = false;
 
     constructor(
@@ -31,8 +31,13 @@ export class ListCommentComponent implements OnInit, OnDestroy {
         this.loadComments();
         this.subscription = this.userService.currentUser.subscribe(
             (userData: User) => {
-                this.currentUser = userData;
-                this.cd.markForCheck();
+                if (userData && Object.keys(userData).length > 0) {
+                    this.currentUser = userData;
+                    console.log(this.currentUser);
+                    this.cd.markForCheck();
+                } else {
+                    this.currentUser = null;
+                }
             }
         );
     }
@@ -49,7 +54,7 @@ export class ListCommentComponent implements OnInit, OnDestroy {
     }
 
     canModify(comment: Comment): boolean {
-        return this.currentUser.username === comment.author.username;
+        return this.currentUser?.username === comment.author.username;
     }
 
     createComment() {

@@ -14,7 +14,8 @@ export class FormCommentComponent implements OnInit {
   commentForm: FormGroup;
   constructor(private fb: FormBuilder, private commentService: CommentService) {
     this.commentForm = this.fb.group({
-      body: ['', Validators.required]
+      body: ['', Validators.required, Validators.maxLength(140)]
+      
     });
   }
 

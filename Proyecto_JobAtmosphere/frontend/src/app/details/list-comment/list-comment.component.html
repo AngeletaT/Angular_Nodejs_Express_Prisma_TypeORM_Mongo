@@ -1,6 +1,7 @@
 <div *ngFor="let comment of comments" class="comment-container">
     <div class="comment-header">
-        <img src="{{ comment.author.image }}" class="rounded-circle" width="50" height="50" alt="{{ comment.author.username }}">
+        <img src="{{ comment.author.image }}" class="rounded-circle" width="50" height="50"
+            alt="{{ comment.author.username }}">
         <div class="comment-details">
             <h3>{{ comment.author.username }}</h3>
             <hr>
@@ -13,4 +14,9 @@
     </div>
 </div>
 
-<app-form-comment [slug]="slug" (submitComment)="onCommentSubmitted()"></app-form-comment>
+<div *ngIf="!currentUser" class="no-comments">
+    <p>Sign in to post comments.</p>
+</div>
+<div *ngIf="currentUser" class="comment-form">
+    <app-form-comment [slug]="slug" (submitComment)="onCommentSubmitted()"></app-form-comment>
+</div>
