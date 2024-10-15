@@ -17,7 +17,7 @@ export class UserService {
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private apiService: ApiService, private jwtService: JwtService) {}
+  constructor(private apiService: ApiService, private jwtService: JwtService) { }
 
   populate() {
     const token = this.jwtService.getToken();
@@ -65,6 +65,15 @@ export class UserService {
     return this.currentUserSubject.value;
   }
 
+  getUserProfile(): Observable<User> {
+    return this.apiService.get('/user/profile').pipe(
+      map((data: any) => {
+        this.currentUserSubject.next(data.user);
+        return data.user;
+      })
+    );
+  }
+
   update(user: any): Observable<User> {
     return this.apiService.put('/user', { user }).pipe(
       map((data: any) => {
@@ -76,7 +85,7 @@ export class UserService {
 
   logout(): Observable<void> {
     return this.apiService.post('/users/logout', {}).pipe(
-        map(() => {
+      map(() => {
         this.purgeAuth();
       })
     );

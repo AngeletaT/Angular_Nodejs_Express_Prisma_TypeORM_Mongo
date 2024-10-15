@@ -1,14 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-
 import { UserService } from '../core/services/user.service';
 import { User } from '../core/models/user.model';
 import Swal from 'sweetalert2';
 
 
 @Component({
-    selector: 'app-settings-page',
+    selector: 'app-settings-user',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -25,7 +24,6 @@ export class SettingsComponent implements OnInit {
         private fb: FormBuilder,
         private cd: ChangeDetectorRef
     ) {
-        // create form group using the form builder
         this.settingsForm = this.fb.group({
             image: '',
             username: '',
@@ -33,14 +31,10 @@ export class SettingsComponent implements OnInit {
             email: '',
             password: ''
         });
-        // Optional: subscribe to changes on the form
-        // this.settingsForm.valueChanges.subscribe(values => this.updateUser(values));
     }
 
     ngOnInit() {
-        // Make a fresh copy of the current user's object to place in editable form fields
         Object.assign(this.user, this.userService.getCurrentUser());
-        // Fill the form
         this.settingsForm.patchValue(this.user);
     }
 
@@ -81,11 +75,6 @@ export class SettingsComponent implements OnInit {
                 });
             }
 
-            // err => {
-            //  this.errors = err;
-            //  this.isSubmitting = false;
-            //  this.cd.markForCheck();
-            // }
         );
     }
 

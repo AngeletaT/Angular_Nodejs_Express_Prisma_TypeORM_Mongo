@@ -77,7 +77,7 @@ JobSchema.methods.toJobResponse = async function (user) {
     };
 };
 
-JobSchema.methods.toJobProfile = async function () {
+JobSchema.methods.toJobProfile = async function (user) {
     return {
         slug: this.slug,
         name: this.name,
@@ -86,6 +86,8 @@ JobSchema.methods.toJobProfile = async function () {
         company: this.company,
         id_cat: this.id_cat,
         img: this.img,
+        favorited: user ? user.isFavorite(this._id) : false,
+        favoritesCount: this.favoritesCount || 0,
     };
 };
 

@@ -2,49 +2,28 @@
   <div class="container page">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <h1 class="text-center">Ajustes de mi cuenta</h1>
         <form [formGroup]="settingsForm" (ngSubmit)="submitForm()">
           <fieldset [disabled]="isSubmitting">
             <fieldset class="form-group">
-              <input
-                class="form-control form-margin"
-                type="text"
-                placeholder="URL de la imagen de perfil"
-                formControlName="image"
-              />
+              <input class="form-control form-margin" type="text" placeholder="URL de la imagen de perfil"
+                formControlName="image" />
             </fieldset>
             <fieldset class="form-group">
-              <input
-                class="form-control form-control-lg form-margin"
-                type="text"
-                placeholder="Nombre de usuario"
-                formControlName="username"
-              />
+              <input class="form-control form-control-lg form-margin" type="text" placeholder="Nombre de usuario"
+                formControlName="username" />
             </fieldset>
             <fieldset class="form-group">
-              <textarea
-                class="form-control form-control-lg form-margin"
-                rows="8"
-                placeholder="Breve biografía sobre ti"
-                formControlName="bio"
-              >
+              <textarea class="form-control form-control-lg form-margin" rows="8" placeholder="Breve biografía sobre ti"
+                formControlName="bio">
               </textarea>
             </fieldset>
             <fieldset class="form-group">
-              <input
-                class="form-control form-control-lg form-margin"
-                type="email"
-                placeholder="Correo electrónico"
-                formControlName="email"
-              />
+              <input class="form-control form-control-lg form-margin" type="email" placeholder="Correo electrónico"
+                formControlName="email" />
             </fieldset>
             <fieldset class="form-group">
-              <input
-                class="form-control form-control-lg form-margin"
-                type="password"
-                placeholder="Nueva contraseña"
-                formControlName="password"
-              />
+              <input class="form-control form-control-lg form-margin" type="password" placeholder="Nueva contraseña"
+                formControlName="password" />
             </fieldset>
             <button class="btn btn-lg btn-primary btn-block" type="submit">
               Actualizar ajustes
@@ -53,7 +32,7 @@
         </form>
         <hr />
         <button class="btn btn-outline-danger btn-block" (click)="logout()">
-          O haz clic aquí para cerrar sesión.
+          Cerrar Sesión
         </button>
       </div>
     </div>

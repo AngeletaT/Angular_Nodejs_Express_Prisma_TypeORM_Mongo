@@ -20,9 +20,9 @@ const routes: Routes = [
       import('./details/details.module').then((m) => m.DetailsModule),
   },
   {
-    path: 'settings',
+    path: 'profile',
     loadChildren: () =>
-      import('./settings/settings.module').then((m) => m.SettingsModule),
+      import('./profile/profile.module').then((m) => m.ProfileModule),
   },
 ];
 
@@ -30,4 +30,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

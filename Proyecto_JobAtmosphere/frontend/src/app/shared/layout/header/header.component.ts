@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
 
   bars: Boolean = false;
   logged!: Boolean;
+  profile: string = '/profile';
 
   constructor(
     private userService: UserService,
@@ -40,8 +41,6 @@ export class HeaderComponent implements OnInit {
         this.cd.markForCheck();
       }
     );
-
-
   }
 
   logout() {
@@ -72,6 +71,4 @@ export class HeaderComponent implements OnInit {
       this.bars = false;
     }
   }
-
-
 }

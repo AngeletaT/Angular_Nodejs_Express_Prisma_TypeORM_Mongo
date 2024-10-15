@@ -6,3 +6,7 @@
 .nav-link {
   font-size: 1.1rem;
 }
+
+img {
+  border-radius: 50%;
+}

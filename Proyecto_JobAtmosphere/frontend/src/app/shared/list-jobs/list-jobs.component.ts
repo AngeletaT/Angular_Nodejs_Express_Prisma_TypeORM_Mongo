@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JobService } from '../../core/services/job.service';
 import { Job } from '../../core/models/job.model';
@@ -14,7 +14,7 @@ import { Location } from '@angular/common';
 })
 export class ListJobsComponent implements OnInit {
   slug_Category!: string | null;
-  jobs: Job[] = [];
+  @Input() jobs: Job[] = [];
   routeFilters!: string | null;
   listCategories: Category[] = [];
   filters = new Filters();
@@ -31,18 +31,20 @@ export class ListJobsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.slug_Category = this.ActivatedRoute.snapshot.paramMap.get('slug');
-    this.routeFilters = this.ActivatedRoute.snapshot.paramMap.get('filters');
+    if (!this.jobs.length) {
+      this.slug_Category = this.ActivatedRoute.snapshot.paramMap.get('slug');
+      this.routeFilters = this.ActivatedRoute.snapshot.paramMap.get('filters');
 
-    this.getListForCategory();
+      this.getListForCategory();
 
-    if (this.slug_Category !== null) {
-      this.get_JobBy_Category();
-    } else if (this.routeFilters !== null) {
-      this.refreshRouteFilter();
-      this.get_list_filtered(this.filters);
-    } else {
-      this.get_jobs();
+      if (this.slug_Category !== null) {
+        this.get_JobBy_Category();
+      } else if (this.routeFilters !== null) {
+        this.refreshRouteFilter();
+        this.get_list_filtered(this.filters);
+      } else {
+        this.get_jobs();
+      }
     }
   }
 
