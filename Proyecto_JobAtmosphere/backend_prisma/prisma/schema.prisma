@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Blacklist {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  v      Int    @map("__v")
+  token  String @unique(map: "token_1")
+  userId String @db.ObjectId
+}
+
+model Categories {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  v             Int      @map("__v")
+  category_name String
+  id_cat        String
+  image         String
+  jobs          String[]
+  slug          String   @unique(map: "slug_1")
+}
+
+model Comments {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  v      Int    @map("__v")
+  author String @db.ObjectId
+  body   String
+  job    String @db.ObjectId
+}
+
+model Jobs {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  v              Int      @map("__v")
+  comments       String[]
+  company        String
+  description    String
+  favoritesCount Int
+  isActive       Boolean
+  id_cat         String
+  images         String[]
+  img            String
+  name           String
+  salary         Int
+  slug           String   @unique(map: "slug_1")
+  applications   Json?
+}
+
+model Users {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  v             Int      @map("__v")
+  bio           String
+  email         String   @unique(map: "email_1")
+  favoriteJob   String[]
+  following     Json?
+  image         String
+  password      String
+  refresh_token String
+  username      String   @unique(map: "username_1")
+  uuid          String   @unique(map: "uuid_1")
+  inscriptions  Json?  
+}
+
+model Companies {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  username        String   @unique
+  company_name    String   @unique
+  password        String
+  email           String   @unique
+  location        String?
+  n_employee      Int
+  description     String?
+  createdAt       DateTime @default(now()) @db.Date
+  updatedAt       DateTime @updatedAt @db.Date
+  v               Int?     @map("__v")
+  followers       String[] @db.ObjectId
+  jobs            String[] @db.ObjectId
+  roles           String[] @default(["company"]) // Se añade un campo de roles
+}
