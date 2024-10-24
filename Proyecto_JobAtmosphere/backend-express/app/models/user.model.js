@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
             required: true,
             lowercase: true,
             unique: true,
-            match: [/\S+@\S+\.\S+/, "is invalid"],
+            match: [/\S+@\S+.\S+/, "is invalid"],
             index: true,
         },
         bio: {
@@ -43,8 +43,26 @@ const userSchema = new mongoose.Schema(
         },
         favoriteJob: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Job",
+            ref: "Job"
         }],
+        following: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }],
+        inscriptions: [{
+            jobId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Job'
+            },
+            status: {
+                type: String,
+                enum: ['Pending', 'Accepted', 'Rejected'],
+                default: 'Pending'
+            }
+        }],
+    },
+    {
+        collection: 'Users'
     },
     {
         timestamps: true,

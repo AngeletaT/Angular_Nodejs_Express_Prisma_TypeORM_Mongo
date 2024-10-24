@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const slug = require('slugify');
 const uniqueValidator = require('mongoose-unique-validator');
+const { collection } = require('./blacklist.model');
 
 // #region SCHEMA
 const category_schema = mongoose.Schema({
@@ -22,7 +23,10 @@ const category_schema = mongoose.Schema({
         required: true
     },
     jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "job" }], //clave ajena a job (_id)
-});
+},
+    {
+        collection: "Categories"
+    });
 
 // #region PLUGINS
 category_schema.plugin(uniqueValidator, { msg: "already taken" });

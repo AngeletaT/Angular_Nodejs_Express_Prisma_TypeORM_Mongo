@@ -8,41 +8,62 @@ const JobSchema = mongoose.Schema({
     slug: {
         type: String,
         lowercase: true,
-        unique: true,
+        unique: true
     },
     name: {
         type: String,
-        required: true,
+        required: true
     },
     salary: {
         type: Number,
-        required: true,
+        required: true
     },
     description: {
         type: String,
-        required: true,
+        required: true
     },
     company: {
         type: String,
-        required: true,
+        required: true
     },
     images: [],
     img: {
         type: String,
-        required: true,
+        required: true
     },
     id_cat: {
         type: String,
-        required: true,
+        required: true
     },
     favoritesCount: {
         type: Number,
-        default: 0,
+        default: 0
+    },
+    recruiter: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Recruiter"
     },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
+        ref: 'Comment'
     }],
+    applications: [{
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        status: {
+            type: String,
+            enum: ['Pending', 'Accepted', 'Rejected'],
+            default: 'Pending'
+        }
+    }],
+    isActive: {
+        type: Boolean,
+        default: false
+    }
+},{
+    collection: 'Jobs'
 });
 
 // #region PLUGINS
