@@ -1,5 +1,5 @@
 module.exports = (app) => {
-        const categories = require('../controllers/category.controller.js');
+        const categories = require('../controllers/category.controller');
 
         // CREATE CATEGORY
         app.post('/categories', categories.create);
@@ -15,10 +15,4 @@ module.exports = (app) => {
 
         // GET PRODUCTS BY CATEGORY
         app.get('/categories_select_filter', categories.findCategoriesSelect);
-
-        // UPDATE
-        // app.put('/productos/:id', products.update);
-
-        // DELETE ALL
-        // app.delete('/productos_all', products.deleteAll);
 }

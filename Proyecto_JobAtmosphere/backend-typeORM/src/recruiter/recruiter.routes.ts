@@ -1,7 +1,8 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { UserController } from './user.controller';
+import { UserController } from './recruiter.controller';
 import { roleMiddleware } from '../middleware/roleMiddleware';
 import { RecruiterAssignController } from './recruiterAssign.controller';
+import { updateApplicationStatus } from './recruiterApplication.controller';
 
 const router = Router();
 const userController = new UserController();
@@ -23,8 +24,12 @@ router.get('/test', roleMiddleware('recruiter'), (req, res) => {
 });
 
 // Ruta para asignar un recruiter a un job
-router.post('/assign', async (req: Request, res: Response, next: NextFunction) => {
-    recruiterAssignController.assignRecruiter(req, res, next)
+router.post('/assign', async (req: Request, res: Response) => {
+    recruiterAssignController.assignRecruiter(req, res)
+});
+
+router.post('/application/status', async (req: Request, res: Response, next: NextFunction ) => {
+    updateApplicationStatus(req, res, next)
 });
 
 export default router;

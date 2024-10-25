@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
-const slugify = require("slugify");
-const uniqueValidator = require("mongoose-unique-validator");
-const User = require("../models/user.model.js");
+const mongoose = require('mongoose');
+const slugify = require('slugify');
+const uniqueValidator = require('mongoose-unique-validator');
+const User = require('../models/user.model.js');
+const { log } = require('console');
 
-// #region SCHEMA
 const JobSchema = mongoose.Schema({
     slug: {
         type: String,
@@ -47,15 +47,15 @@ const JobSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
     }],
-    applications: [{
+    application: [{
         userId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: "User"
         },
         status: {
             type: String,
-            enum: ['Pending', 'Accepted', 'Rejected'],
-            default: 'Pending'
+            enum: ["pending", "accepted", "rejected"], 
+            default: "pending"
         }
     }],
     isActive: {
@@ -69,7 +69,7 @@ const JobSchema = mongoose.Schema({
 // #region PLUGINS
 JobSchema.plugin(uniqueValidator, { msg: "already taken" });
 
-JobSchema.pre("validate", async function (next) {
+JobSchema.pre('validate', async function (next) {
     if (!this.slug) {
         await this.slugify();
     }
@@ -78,11 +78,13 @@ JobSchema.pre("validate", async function (next) {
 
 // #region SLUGIFY
 JobSchema.methods.slugify = async function () {
-    this.slug = slugify(this.name) + "-" + ((Math.random() * Math.pow(36, 10)) | 0).toString(36);
+    this.slug = slugify(this.name) + '-' + (Math.random() * Math.pow(36, 10) | 0).toString(36);
 };
 
 // #region JOB RESPONSE
 JobSchema.methods.toJobResponse = async function (user) {
+
+    // return user;
     return {
         slug: this.slug,
         name: this.name,

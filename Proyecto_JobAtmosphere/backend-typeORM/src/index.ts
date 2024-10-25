@@ -1,11 +1,12 @@
 import "reflect-metadata";
 import express from 'express';
 import { createConnection } from 'typeorm';
-import { User } from './user/user.entity';  // Asegúrate de que este modelo esté bien definido
-import userRoutes from './user/user.routes';  // Importa las rutas de usuario
+import { User } from './recruiter/recruiter.entity';  // Asegúrate de que este modelo esté bien definido
+import userRoutes from './recruiter/recruiter.routes';  // Importa las rutas de usuario
 
 const app = express();
 const PORT = process.env.PORT || 3002;
+const url_mongo = process.env.MONGODB_URL || 'mongodb://localhost:27017/info-jobs';
 
 // Middleware para el parsing de JSON
 app.use(express.json());
@@ -13,7 +14,7 @@ app.use(express.json());
 // Conexión a la base de datos con TypeORM
 createConnection({
     type: "mongodb",
-    url: "mongodb://localhost:27017/InfoJobs",
+    url: url_mongo,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     entities: [User],  // Aquí cargamos nuestras entidades de TypeORM

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { User } from './user.entity';
+import { User } from './recruiter.entity';
 
 export class RecruiterAssignController {
     // Asignar un job a un recruiter disponible (busy: false)

@@ -16,12 +16,12 @@ const commentSchema = new mongoose.Schema({
         ref: 'Job'
     }
 },
-    {
-        collection: 'Comments'
-    },
-    {
-        timestamps: true
-    });
+{
+    collection: 'Comments'
+},
+{
+    timestamps: true
+});
 
 // #region TO COMMENT RESPONSE
 commentSchema.methods.toCommentResponse = async function (user) {
@@ -33,7 +33,7 @@ commentSchema.methods.toCommentResponse = async function (user) {
         createdAt: this.createdAt,
         updatedAt: this.updatedAt,
         author: authorObj.toProfileUser(user)
-    }
+        }
 
 }
 

@@ -62,7 +62,7 @@ const getCommentsFromJob = asyncHandler(async (req, res) => {
         return await res.status(200).json({
             comments: await Promise.all(job.comments.map(async commentId => {
                 const commentObj = await Comment.findById(commentId).exec();
-                return await commentObj.toCommentResponse(loginUser);
+                    return await commentObj.toCommentResponse(loginUser);
             }))
         })
     } else {

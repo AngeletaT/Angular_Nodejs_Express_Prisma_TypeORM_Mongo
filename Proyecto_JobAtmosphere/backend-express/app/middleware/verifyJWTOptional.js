@@ -1,12 +1,15 @@
 const jwt = require('jsonwebtoken');
+
 const verifyJWTOptional = (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization
-    // return res.json(authHeader);
+
     if (!authHeader || !authHeader?.startsWith('Token ') || !authHeader.split(' ')[1].length) {
         req.loggedin = false;
         return next();
     }
+
     const token = authHeader.split(' ')[1];
+
     jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,
@@ -22,4 +25,5 @@ const verifyJWTOptional = (req, res, next) => {
         }
     )
 };
+
 module.exports = verifyJWTOptional;

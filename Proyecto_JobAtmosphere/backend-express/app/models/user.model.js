@@ -49,15 +49,15 @@ const userSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }],
-        inscriptions: [{
+        inscription: [{
             jobId: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Job'
+                ref: "Job"
             },
             status: {
                 type: String,
-                enum: ['Pending', 'Accepted', 'Rejected'],
-                default: 'Pending'
+                enum: ["pending", "accepted", "rejected"], 
+                default: "pending"
             }
         }],
     },
@@ -102,7 +102,7 @@ userSchema.methods.generateRefreshToken = function () {
             },
         },
         process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: process.env.REFRESH_TOKEN_EXPIRATION || "1d" }
+        { expiresIn: process.env.REFRESH_TOKEN_EXPIRATION || "7d" }
     );
     return refreshToken;
 };
@@ -132,10 +132,37 @@ userSchema.methods.toUserDetails = function () {
         email: this.email,
         bio: this.bio,
         image: this.image,
+        favoriteJob: this.favoriteJob,
+        following: this.following,
     };
 };
 
-// #region FAVORITE JOB
+// #region PROFILE
+userSchema.methods.toProfileUser = async function () {
+    const Job = require("./job.model"); // Lazy load del modelo Job
+    const favoriteJobs = await Job.find({ _id: { $in: this.favoriteJob } }).exec();
+
+    return {
+        username: this.username,
+        email: this.email,
+        bio: this.bio,
+        image: this.image,
+        favoriteJobs: await Promise.all(favoriteJobs.map(async job => await job.toJobProfileResponse(this))),
+    };
+};
+
+
+userSchema.methods.isFollowing = function (id) {
+    const idStr = id.toString();
+    for (const followingUser of this.followingUsers) {
+        if (followingUser.toString() === idStr) {
+            return true;
+        }
+    }
+    return false;
+};
+
+// #region FOLLOW
 userSchema.methods.isFavorite = function (id) {
     const idStr = id.toString();
     for (const job of this.favoriteJob) {
@@ -145,7 +172,6 @@ userSchema.methods.isFavorite = function (id) {
     }
     return false;
 }
-
 
 userSchema.methods.favorite = function (id) {
     if (this.favoriteJob.indexOf(id) === -1) {
@@ -161,18 +187,4 @@ userSchema.methods.unfavorite = function (id) {
     return this.save();
 };
 
-// #region PROFILE
-userSchema.methods.toProfileUser = async function () {
-    const Job = require("./job.model");
-    const favoriteJobs = await Job.find({ _id: { $in: this.favoriteJob } }).exec();
-
-    return {
-        username: this.username,
-        email: this.email,
-        bio: this.bio,
-        image: this.image,
-        favoriteJobs: await Promise.all(favoriteJobs.map(async job => await job.toJobProfile(this))),
-    };
-};
-
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

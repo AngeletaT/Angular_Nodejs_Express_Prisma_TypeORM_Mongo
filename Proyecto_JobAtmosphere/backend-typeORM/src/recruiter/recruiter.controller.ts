@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { validate } from 'class-validator';
-import { UserService } from './user.service';
-import { AuthService } from '../auth/auth.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { LoginUserDto } from './dto/login-user.dto';
+import { UserService } from './recruiter.service';
+import { AuthService } from '../utils/auth.service';
+import { CreateUserDto } from './dto/create-recruiter.dto';
+import { LoginUserDto } from './dto/login-recruiter.dto';
 
 export class UserController {
     private userService: UserService;

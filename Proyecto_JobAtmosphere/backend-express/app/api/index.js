@@ -14,7 +14,6 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-
 // Parse peticiones de tipo application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -44,11 +43,11 @@ app.get('/', (req, res) => {
 });
 
 // Importar rutas
-require('../routes/category.routes')(app);
+require('../routes/category.routes.js')(app);
 require('../routes/job.routes.js')(app);
-require('../routes/carousel.routes')(app);
-require('../routes/user.routes')(app);
-require('../routes/comment.routes')(app);
+require('../routes/carousel.routes.js')(app);
+require('../routes/user.routes.js')(app);
+require('../routes/comment.routes.js')(app);
 
 // Encender el servidor
 app.listen(process.env.PORT, () => {

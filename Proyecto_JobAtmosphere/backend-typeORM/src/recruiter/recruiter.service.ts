@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
-import { User } from './user.entity';
-import { IUser } from './user.interface';
+import { User } from './recruiter.entity';
+import { IUser } from './recruiter.interface';
 import * as argon2 from 'argon2';
 
 export class UserService {
