@@ -17,6 +17,7 @@ export default async function jobCreate(
     const { name, salary, description, company, images, img, id_cat } = req.body;
 
     try {
+        // Llamamos a jobCreatePrisma sin el campo recruiter ya que se asigna luego
         const newJob = await jobCreatePrisma({
             name,
             salary,
@@ -24,7 +25,8 @@ export default async function jobCreate(
             company,
             images,
             img,
-            id_cat
+            id_cat,
+            recruiter: ""  // Inicializamos recruiter como string vacío
         });
 
         const jobView = jobViewer(newJob);

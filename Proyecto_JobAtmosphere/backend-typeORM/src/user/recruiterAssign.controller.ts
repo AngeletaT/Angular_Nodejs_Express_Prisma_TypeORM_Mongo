@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express';  // Agregamos NextFunction
+import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { User } from './user.entity';
 
 export class RecruiterAssignController {
     // Asignar un job a un recruiter disponible (busy: false)
-    async assignRecruiter(req: Request, res: Response, next: NextFunction): Promise<Response | void> {  
+    async assignRecruiter(req: Request, res: Response): Promise<Response | void> {  // Cambiamos el tipo de retorno
         const { jobId } = req.body;
 
         try {
@@ -14,23 +14,19 @@ export class RecruiterAssignController {
             const recruiter = await userRepository.findOne({ where: { busy: false, roles: 'recruiter' } });
 
             if (!recruiter) {
-                // Si no hay recruiters disponibles, devolver inmediatamente
+                // Si no hay recruiters disponibles
                 return res.status(200).json({ recruiterAssigned: false });
             }
 
             // Marcar el recruiter como ocupado y asignarle el job
             recruiter.busy = true;
-
-            // Verificamos si 'jobs' existe, si no, inicializamos el array
-            recruiter.jobs = recruiter.jobs ? [...recruiter.jobs, jobId] : [jobId];  
-
-            // Guardar el recruiter actualizado
+            recruiter.jobs = recruiter.jobs ? [...recruiter.jobs, jobId] : [jobId];
             await userRepository.save(recruiter);
 
-            return res.status(200).json({ recruiterAssigned: true });
-
+            // Devolver el recruiterId en la respuesta
+            return res.status(200).json({ recruiterAssigned: true, recruiterId: recruiter.id });
         } catch (error) {
-            next(error);  // Pasamos el error a Express para su manejo
+            return res.status(500).json({ message: 'Error assigning recruiter', error: (error as Error).message });
         }
     }
 }

@@ -10,6 +10,7 @@ interface JobData {
     img: string;
     id_cat: string;
     isActive?: boolean;
+    recruiter: string;
 }
 
 export default async function jobCreatePrisma(data: JobData) {
@@ -22,7 +23,8 @@ export default async function jobCreatePrisma(data: JobData) {
             images: data.images,
             img: data.img,
             id_cat: data.id_cat,
-            isActive: false,  // Comienza como inactivo
+            isActive: false,
+            recruiter: '',  // Inicialmente vacío, hasta que se asigne un recruiter
             slug: `${data.name.toLowerCase().replace(/ /g, '-')}-${Math.random().toString(36).substr(2, 9)}`,
             favoritesCount: 0,
             comments: [],
@@ -36,13 +38,16 @@ export default async function jobCreatePrisma(data: JobData) {
             jobId: newJob.id
         });
 
-        const { recruiterAssigned } = recruiterResponse.data;
+        const { recruiterAssigned, recruiterId } = recruiterResponse.data;
 
-        if (recruiterAssigned) {
-            // Si se asigna un recruiter, activar el job
+        if (recruiterAssigned && recruiterId) {
+            // Si se asigna un recruiter, activar el job y actualizar el campo recruiter
             await prisma.jobs.update({
                 where: { id: newJob.id },
-                data: { isActive: true }
+                data: { 
+                    isActive: true,
+                    recruiter: recruiterId  // Añadir el ID del recruiter asignado
+                }
             });
         }
 
