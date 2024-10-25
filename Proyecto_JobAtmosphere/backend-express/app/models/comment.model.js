@@ -16,25 +16,38 @@ const commentSchema = new mongoose.Schema({
         ref: 'Job'
     }
 },
-{
-    collection: 'Comments'
-},
-{
-    timestamps: true
-});
+    {
+        collection: 'Comments'
+    },
+    {
+        timestamps: true
+    });
 
 // #region TO COMMENT RESPONSE
 commentSchema.methods.toCommentResponse = async function (user) {
+    // console.log("Fetching author for comment:", this._id);
     const authorObj = await User.findById(this.author).exec();
+
+    if (!authorObj) {
+        // console.log("Author not found for comment:", this._id);
+        return {
+            id: this._id,
+            body: this.body,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+            author: null
+        };
+    }
+
+    // console.log("Author found:", authorObj.username);
 
     return {
         id: this._id,
         body: this.body,
         createdAt: this.createdAt,
         updatedAt: this.updatedAt,
-        author: authorObj.toProfileUser(user)
-        }
-
+        author: await authorObj.toProfileUser(user)
+    };
 }
 
 module.exports = mongoose.model('Comment', commentSchema);

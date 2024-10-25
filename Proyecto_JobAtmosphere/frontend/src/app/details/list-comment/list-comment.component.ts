@@ -49,6 +49,7 @@ export class ListCommentComponent implements OnInit, OnDestroy {
     loadComments() {
         this.commentService.getAll(this.slug).subscribe((comments: Comment[]) => {
             this.comments = comments;
+            console.log(this.comments);
             this.cd.markForCheck();
         });
     }

@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema(
             },
             status: {
                 type: String,
-                enum: ["pending", "accepted", "rejected"], 
+                enum: ["pending", "accepted", "rejected"],
                 default: "pending"
             }
         }],
@@ -139,7 +139,7 @@ userSchema.methods.toUserDetails = function () {
 
 // #region PROFILE
 userSchema.methods.toProfileUser = async function () {
-    const Job = require("./job.model"); // Lazy load del modelo Job
+    const Job = require("./job.model");
     const favoriteJobs = await Job.find({ _id: { $in: this.favoriteJob } }).exec();
 
     return {
@@ -147,7 +147,7 @@ userSchema.methods.toProfileUser = async function () {
         email: this.email,
         bio: this.bio,
         image: this.image,
-        favoriteJobs: await Promise.all(favoriteJobs.map(async job => await job.toJobProfileResponse(this))),
+        favoriteJobs: await Promise.all(favoriteJobs.map(async job => await job.toJobProfile(this))),
     };
 };
 

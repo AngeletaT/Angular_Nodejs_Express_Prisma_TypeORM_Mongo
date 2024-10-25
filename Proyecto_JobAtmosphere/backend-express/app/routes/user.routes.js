@@ -19,11 +19,11 @@ module.exports = (app) => {
     app.put("/user", verifyJWT, userController.updateUser);
 
     // Profile User
-    app.get("/user/profile", verifyJWT, userController.getProfileUser);
+    app.get("/user/profile", verifyJWT, userController.getUserProfile);
 
     // Apply to Job
-    app.post("/user/apply", verifyJWT, applyToJob);  // Nueva ruta para aplicar a un job
+    app.post("/user/apply", verifyJWT, applyToJob);  
 
     // Update Application Status
-    app.put("/user/application/status", verifyJWT, updateApplicationStatus);  // Nueva ruta para que el recruiter actualice el estado
+    app.put("/user/application/status", verifyJWT, updateApplicationStatus);
 };
