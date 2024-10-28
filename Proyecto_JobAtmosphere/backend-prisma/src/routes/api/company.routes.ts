@@ -8,6 +8,7 @@ import companyLogin from "../../controllers/companyController/companyLogin.contr
 import validatorLogin from "../../middleware/companyValidators/companyLoginValidator";
 import authMiddleware from "../../middleware/authMiddleware";
 import { updateFollowers } from "../../controllers/companyController/companyFollowers.controller";
+import updateCompany from "../../controllers/companyController/companyUpdate.controller";
 
 const router = Router();
 
@@ -39,12 +40,12 @@ router.put('/follow/:companyId', (req: Request, res: Response) => {
 // Update
 router.put(
     "/company",
-    authMiddleware,  // Middleware de autenticación
+    authMiddleware,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             await updateCompany(req, res, next);
         } catch (error) {
-            next(error);  // Manejo de errores
+            next(error);
         }
     }
 );
@@ -52,12 +53,12 @@ router.put(
 // Get company
 router.get(
     "/company",
-    authMiddleware,  // Middleware de autenticación
+    authMiddleware,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             await companyGetById(req, res, next);
         } catch (error) {
-            next(error);  // Manejo de errores
+            next(error);
         }
     }
 );

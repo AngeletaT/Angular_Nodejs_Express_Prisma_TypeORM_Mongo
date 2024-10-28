@@ -9,6 +9,7 @@ export default function companyViewer(company: Companies) {
         location: company.location,
         n_employee: company.n_employee,
         description: company.description,
+        followers: company.followers,
         createdAt: company.createdAt,
         updatedAt: company.updatedAt,
     };
