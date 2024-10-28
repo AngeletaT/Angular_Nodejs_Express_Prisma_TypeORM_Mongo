@@ -46,8 +46,8 @@ const userSchema = new mongoose.Schema(
             ref: "Job"
         }],
         following: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            type: String,
+            default: "",
         }],
         inscription: [{
             jobId: {

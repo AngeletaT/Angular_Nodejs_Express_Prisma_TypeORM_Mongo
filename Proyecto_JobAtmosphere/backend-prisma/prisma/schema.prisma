@@ -77,7 +77,7 @@ model Companies {
   createdAt       DateTime @default(now()) @db.Date
   updatedAt       DateTime @updatedAt @db.Date
   v               Int?     @map("__v")
-  followers       String[] @db.ObjectId
+  followers       Int?
   jobs            String[] @db.ObjectId
   roles           String[] @default(["company"]) // Se añade un campo de roles
 }
