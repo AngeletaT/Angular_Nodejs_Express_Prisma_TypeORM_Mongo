@@ -31,4 +31,4 @@ createConnection({
 // Agregar las rutas de usuario
 app.use('/users', userRoutes);  // Aquí asignamos las rutas
 
-app.use('/recruiter', userRoutes);
+app.use('/', userRoutes);

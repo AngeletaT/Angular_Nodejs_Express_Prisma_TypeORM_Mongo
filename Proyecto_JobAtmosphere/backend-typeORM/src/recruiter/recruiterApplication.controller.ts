@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { Request, Response, NextFunction } from 'express';
+import { getRepository } from 'typeorm';
+import { User } from '../recruiter/recruiter.entity';
 
 // Controlador para actualizar el estado de una aplicación
 export const updateApplicationStatus = async (req: Request, res: Response, next: NextFunction) => {
@@ -13,15 +15,22 @@ export const updateApplicationStatus = async (req: Request, res: Response, next:
             return res.status(401).json({ message: "Access token is missing or invalid" });
         }
 
+        const recruiterRepository = getRepository(User);
+        const recruiter = await recruiterRepository.findOne({
+            where: {
+                jobs: jobId
+            }
+        });
+
+        if (!recruiter) {
+            return res.status(403).json({ message: "Recruiter is not authorized for this job" });
+        }
+
         // Orquestación con Axios - Notificar al servidor de Mongoose
         const response = await axios.put('http://localhost:3000/user/application/status', {
             jobId,
             userId,
             newStatus
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`  // Añadir el token en el encabezado de la solicitud a Mongoose
-            }
         });
 
         return res.status(200).json({
