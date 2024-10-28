@@ -2,20 +2,21 @@ import { Router, Request, Response, NextFunction } from "express";
 import jobCreate from "../../controllers/jobController/jobCreate.controller";
 import assignRecruiter from "../../controllers/jobController/assignRecruiter.controller";
 import validatorCreate from "../../middleware/jobValidators/jobCreateValidator";
-import authMiddleware from "../../middleware/authMiddleware";  // Importar el middleware de autenticación
+import authMiddleware from "../../middleware/authMiddleware"
+import updateJob from "../../controllers/jobController/jobUpdate.controller";
 
 const router = Router();
 
 // Ruta para crear un job
 router.post(
     "/jobs", 
-    authMiddleware,  // Añadir el middleware de autenticación
+    authMiddleware,  
     validatorCreate, 
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            await jobCreate(req, res, next);  // Asegurarnos de que el controlador sea asíncrono y manejado correctamente
+            await jobCreate(req, res, next);  
         } catch (error) {
-            next(error);  // Pasar el error al middleware de manejo de errores
+            next(error);  
         }
     }
 );
@@ -23,12 +24,25 @@ router.post(
 // Nueva ruta para intentar asignar un recruiter usando el slug
 router.post(
     "/job/:slug/assign", 
-    authMiddleware,  // Middleware de autenticación
+    authMiddleware,  
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            await assignRecruiter(req, res, next);  // Llamamos al nuevo controlador
+            await assignRecruiter(req, res, next);  
         } catch (error) {
-            next(error);  // Manejo de errores
+            next(error);  
+        }
+    }
+);
+
+// Nueva ruta para actualizar un job
+router.put(
+    "/job/:slug", 
+    authMiddleware,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            await updateJob(req, res, next);
+        } catch (error) {
+            next(error);
         }
     }
 );

@@ -44,7 +44,7 @@ model Jobs {
   images         String[]
   img            String
   name           String
-  recruiter      String
+  recruiter      String?
   salary         Int
   slug           String   @unique(map: "slug_1")
   applications   Json?
