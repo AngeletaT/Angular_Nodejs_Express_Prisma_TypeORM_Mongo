@@ -22,7 +22,7 @@ export class UserService {
   populate() {
     const token = this.jwtService.getToken();
     if (token) {
-      this.apiService.get('/user').subscribe(
+      this.apiService.get('/user', undefined, 3000).subscribe(
         (data) => {
           return this.setAuth({ ...data.user, token });
         },
@@ -50,7 +50,7 @@ export class UserService {
 
   attemptAuth(type: string, credentials: any): Observable<User> {
     const route = type === 'login' ? '/login' : '/register';
-    return this.apiService.post(`/users${route}`, { user: credentials }).pipe(
+    return this.apiService.post(`/users${route}`, { user: credentials }, 3000).pipe(
       map((data: any) => {
         if (type === 'login') {
           // console.log(data);
@@ -66,7 +66,7 @@ export class UserService {
   }
 
   getUserProfile(): Observable<User> {
-    return this.apiService.get('/user/profile').pipe(
+    return this.apiService.get('/user/profile', undefined, 3000).pipe(
       map((data: any) => {
         this.currentUserSubject.next(data.user);
         return data.user;
@@ -75,7 +75,7 @@ export class UserService {
   }
 
   update(user: any): Observable<User> {
-    return this.apiService.put('/user', { user }).pipe(
+    return this.apiService.put('/user', { user }, 3000).pipe(
       map((data: any) => {
         this.currentUserSubject.next(data.user);
         return data.user;
@@ -84,7 +84,7 @@ export class UserService {
   }
 
   logout(): Observable<void> {
-    return this.apiService.post('/users/logout', {}).pipe(
+    return this.apiService.post('/users/logout', {}, 3000).pipe(
       map(() => {
         this.purgeAuth();
       })
