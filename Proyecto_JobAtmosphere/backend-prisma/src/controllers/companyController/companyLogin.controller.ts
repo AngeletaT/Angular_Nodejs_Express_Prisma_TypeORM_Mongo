@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import prisma from '../../utils/db/prisma';  // Asegúrate de que el path a Prisma sea correcto
+import prisma from '../../utils/db/prisma';
 import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
 
@@ -31,8 +31,8 @@ export default async function companyLogin(
 
         // Generar el token JWT
         const token = jwt.sign(
-            { id: company.id, roles: company.roles },
-            process.env.JWT_SECRET as string,  // Usa tu clave secreta para firmar el JWT
+            { id: company.id, email: company.email }, 
+            process.env.JWT_SECRET as string,  
             { expiresIn: '1h' }
         );
 

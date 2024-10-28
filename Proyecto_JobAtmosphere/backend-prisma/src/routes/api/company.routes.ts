@@ -13,12 +13,12 @@ import updateCompany from "../../controllers/companyController/companyUpdate.con
 const router = Router();
 
 // Authentification
-router.post('company/login', validatorLogin, (req: Request, res: Response, next: NextFunction) => {
+router.post('/company/login', validatorLogin, (req: Request, res: Response, next: NextFunction) => {
     companyLogin(req, res, next);
 });
 
 // Register
-router.post("company/register", validatorCreate, (req: Request, res: Response, next: NextFunction) => {
+router.post("/company/register", validatorCreate, (req: Request, res: Response, next: NextFunction) => {
     companyCreate(req, res, next);
 });
 
@@ -28,7 +28,7 @@ router.get("/company/:id", validatorListOne, (req: Request, res: Response, next:
 });
 
 // Dashboard
-router.get('company/dashboard', roleMiddleware('company'), (req, res) => {
+router.get('/company/dashboard', roleMiddleware('company'), (req, res) => {
     res.json({ message: 'Welcome to the company dashboard' });
 });
 
