@@ -7,16 +7,18 @@
           <a [routerLink]="['/login']" *ngIf="authType === 'register'">¿Ya tienes una cuenta?</a>
           <a [routerLink]="['/register']" *ngIf="authType === 'login'">¿Necesitas una cuenta?</a>
         </p>
-        <fieldset class="form-group">
-          <div>
-            <input type="radio" id="cliente" name="userType" value="cliente" [(ngModel)]="selectedUserType" required />
-            <label for="cliente">Cliente</label>
-            <input type="radio" id="company" name="userType" value="company" [(ngModel)]="selectedUserType" required />
-            <label for="company">Empresa</label>
-            <input type="radio" id="recruiter" name="userType" value="recruiter" [(ngModel)]="selectedUserType"
-              required />
-            <label for="recruiter">Reclutador</label>
-          </div>
+        <fieldset class="form-group hidden-toggles">
+            <input type="radio" id="cliente" name="userType" value="cliente" class="hidden-toggles__input"
+              [(ngModel)]="selectedUserType" required />
+            <label for="cliente" class="hidden-toggles__label">Cliente</label>
+
+            <input type="radio" id="company" name="userType" value="company" class="hidden-toggles__input"
+              [(ngModel)]="selectedUserType" required />
+            <label for="company" class="hidden-toggles__label">Empresa</label>
+
+            <input type="radio" id="recruiter" name="userType" value="recruiter" class="hidden-toggles__input"
+              [(ngModel)]="selectedUserType" required />
+            <label for="recruiter" class="hidden-toggles__label">Reclutador</label>
         </fieldset>
         <br />
         <app-list-errors [errors]="errors"></app-list-errors>
