@@ -1,18 +1,63 @@
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
-import { UserService } from './core/services/user.service';
+import { Component, OnInit } from '@angular/core';
+import { JwtService } from '../app/core/services/jwt.service';
+import { UserService } from '../app/core/services/user.service';
+import { CompanyService } from '../app/core/services/company.service';
+import { RecruiterService } from '../app/core/services/recruiter.service';
+import { UserTypeService } from '../app/core/services/user-type.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.css']
 })
-
 export class AppComponent implements OnInit {
-  title = 'JobAtmosphere';
-  constructor(private userService: UserService) { }
+
+  constructor(
+    private jwtService: JwtService,
+    private userService: UserService,
+    private companyService: CompanyService,
+    private recruiterService: RecruiterService,
+    private userTypeService: UserTypeService
+  ) { }
 
   ngOnInit() {
-    this.userService.populate();
+    try {
+      // Obtener el token del localStorage
+      const token = this.jwtService.getToken();
+      console.log('Token:', token);
+
+      if (token) {
+        try {
+          // Decodificar el token
+          const decodedToken: any = jwtDecode(token);
+          const userRole = decodedToken?.user?.role || decodedToken?.role;
+          console.log('Decoded Token:', decodedToken);
+          console.log('User Role:', userRole);
+
+          // Establecer el tipo de usuario en el UserTypeService
+          this.userTypeService.setUserType(userRole);
+
+          // Llamar al populate correspondiente según el rol del usuario
+          if (userRole === 'client') {
+            console.log('Llamando a UserService.populate()');
+            this.userService.populate();
+          } else if (userRole === 'company') {
+            console.log('Llamando a CompanyService.populate()');
+            this.companyService.populate();
+          } else if (userRole === 'recruiter') {
+            console.log('Llamando a RecruiterService.populate()');
+            this.recruiterService.populate();
+          }
+        } catch (error) {
+          console.error('Error decodificando el token:', error);
+        }
+      } else {
+        console.log('No hay token');
+        this.userService.purgeAuth();
+      }
+    } catch (error) {
+      console.error('Error en ngOnInit:', error);
+    }
   }
 }

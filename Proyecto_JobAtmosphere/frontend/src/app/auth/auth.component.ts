@@ -1,20 +1,23 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../core/services/user.service';
 import { CompanyService } from '../core/services/company.service';
 import { RecruiterService } from '../core/services/recruiter.service';
-import Swal from 'sweetalert2';
+import { UserTypeService } from '../core/services/user-type.service';
 import { Observable } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
 })
-export class AuthComponent {
+
+export class AuthComponent implements OnInit {
   authType: string = '';
-  title: String = '';
+  title: string = '';
   errors: string[] = [];
   isSubmitting = false;
   authForm: FormGroup;
@@ -26,6 +29,7 @@ export class AuthComponent {
     private userService: UserService,
     private companyService: CompanyService,
     private recruiterService: RecruiterService,
+    private userTypeService: UserTypeService,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef
   ) {
@@ -71,13 +75,20 @@ export class AuthComponent {
     }
 
     authObservable.subscribe({
-      next: () => {
+      next: (response) => {
+        console.log(response);
+        const token = response?.user?.token || response?.token;
+        const decodedToken: any = jwtDecode(token);
+
+        if (decodedToken && decodedToken.role) {
+          this.userTypeService.setUserType(decodedToken.role);
+        }
+
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
           text: this.authType === 'login' ? 'Inicio de sesión exitoso' : 'Registro exitoso'
         }).then(() => {
-          console.log("datos de usuario loggeado", this.companyService.getCurrentCompany());
           if (this.authType === 'login') {
             this.router.navigateByUrl('/home');
           } else {
@@ -86,7 +97,7 @@ export class AuthComponent {
         });
       },
       error: (err: any) => {
-        this.errors = err.errors ? err.errors : [err.message || 'An error occurred'];
+        this.errors = err.errors ? Object.values(err.errors) : [err.message || 'An error occurred'];
         this.isSubmitting = false;
         this.cd.detectChanges();
       },
