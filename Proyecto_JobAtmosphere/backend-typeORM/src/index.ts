@@ -1,12 +1,21 @@
+import { createConnection } from 'typeorm';
+import { User } from './recruiter/recruiter.entity';
+import userRoutes from './recruiter/recruiter.routes';
 import "reflect-metadata";
 import express from 'express';
-import { createConnection } from 'typeorm';
-import { User } from './recruiter/recruiter.entity';  // Asegúrate de que este modelo esté bien definido
-import userRoutes from './recruiter/recruiter.routes';  // Importa las rutas de usuario
+import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 3002;
-const url_mongo = process.env.MONGODB_URL || 'mongodb://localhost:27017/info-jobs';
+const url_mongo = process.env.MONGODB_URL || 'mongodb://localhost:27017/InfoJobs';
+const allowedOrigins = ['http://localhost:4200'];
+
+const options: cors.CorsOptions = {
+    origin: allowedOrigins
+};
+
+// Configurar CORS
+app.use(cors(options));
 
 // Middleware para el parsing de JSON
 app.use(express.json());
@@ -17,8 +26,8 @@ createConnection({
     url: url_mongo,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    entities: [User],  // Aquí cargamos nuestras entidades de TypeORM
-    synchronize: true,  // Solo en desarrollo, sincroniza automáticamente los cambios de las entidades en la base de datos
+    entities: [User],
+    synchronize: true,
 }).then(() => {
     console.log("Connected to MongoDB with TypeORM");
 
@@ -29,6 +38,6 @@ createConnection({
 }).catch(error => console.log(error));
 
 // Agregar las rutas de usuario
-app.use('/users', userRoutes);  // Aquí asignamos las rutas
+app.use('/users', userRoutes);
 
 app.use('/', userRoutes);
