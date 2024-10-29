@@ -4,45 +4,37 @@
       <div class="col-md-6">
         <h1 class="text-center">{{ title }}</h1>
         <p class="text-center">
-          <a [routerLink]="['/login']" *ngIf="authType === 'register'"
-            >¿Ya tienes una cuenta?</a
-          >
-          <a [routerLink]="['/register']" *ngIf="authType === 'login'"
-            >¿Necesitas una cuenta?</a
-          >
+          <a [routerLink]="['/login']" *ngIf="authType === 'register'">¿Ya tienes una cuenta?</a>
+          <a [routerLink]="['/register']" *ngIf="authType === 'login'">¿Necesitas una cuenta?</a>
         </p>
+        <fieldset class="form-group">
+          <div>
+            <input type="radio" id="cliente" name="userType" value="cliente" [(ngModel)]="selectedUserType" required />
+            <label for="cliente">Cliente</label>
+            <input type="radio" id="company" name="userType" value="company" [(ngModel)]="selectedUserType" required />
+            <label for="company">Empresa</label>
+            <input type="radio" id="recruiter" name="userType" value="recruiter" [(ngModel)]="selectedUserType"
+              required />
+            <label for="recruiter">Reclutador</label>
+          </div>
+        </fieldset>
+        <br />
         <app-list-errors [errors]="errors"></app-list-errors>
         <form [formGroup]="authForm" (ngSubmit)="submitForm()">
           <fieldset [disabled]="isSubmitting">
             <fieldset class="form-group" *ngIf="authType === 'register'">
-              <input
-                formControlName="username"
-                placeholder="Nombre de usuario"
-                class="form-control form-control-lg form-margin"
-                type="text"
-              />
+              <input formControlName="username" placeholder="Nombre de usuario"
+                class="form-control form-control-lg form-margin" type="text" />
             </fieldset>
             <fieldset class="form-group">
-              <input
-                formControlName="email"
-                placeholder="Correo electrónico"
-                class="form-control form-control-lg form-margin"
-                type="email"
-              />
+              <input formControlName="email" placeholder="Correo electrónico"
+                class="form-control form-control-lg form-margin" type="email" />
             </fieldset>
             <fieldset class="form-group">
-              <input
-                formControlName="password"
-                placeholder="Contraseña"
-                class="form-control form-control-lg form-margin"
-                type="password"
-              />
+              <input formControlName="password" placeholder="Contraseña"
+                class="form-control form-control-lg form-margin" type="password" />
             </fieldset>
-            <button
-              class="btn btn-lg btn-primary btn-block"
-              [disabled]="isSubmitting"
-              type="submit"
-            >
+            <button class="btn btn-lg btn-primary btn-block" [disabled]="isSubmitting" type="submit">
               Enviar
             </button>
           </fieldset>

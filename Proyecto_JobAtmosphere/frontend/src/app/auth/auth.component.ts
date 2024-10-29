@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Errors } from '../core/models/errors.model';
-import { User } from '../core/models/user.model';
 import { UserService } from '../core/services/user.service';
+import { CompanyService } from '../core/services/company.service';
+import { RecruiterService } from '../core/services/recruiter.service';
 import Swal from 'sweetalert2';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -17,12 +18,14 @@ export class AuthComponent {
   errors: string[] = [];
   isSubmitting = false;
   authForm: FormGroup;
-  user!: any;
+  selectedUserType: string = 'cliente';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
+    private companyService: CompanyService,
+    private recruiterService: RecruiterService,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef
   ) {
@@ -36,7 +39,7 @@ export class AuthComponent {
   ngOnInit() {
     this.route.url.subscribe((data) => {
       this.authType = data[data.length - 1].path;
-      this.title = this.authType === 'login' ? 'Sign in' : 'Sign up';
+      this.title = this.authType === 'login' ? 'Iniciar sesión' : 'Registrarse';
       if (this.authType === 'register') {
         this.authForm.addControl('username', new FormControl());
       }
@@ -47,27 +50,43 @@ export class AuthComponent {
   submitForm() {
     this.isSubmitting = true;
     this.errors = [];
-    this.user = this.authForm.value;
-    this.userService.attemptAuth(this.authType, this.user).subscribe({
+    const credentials = this.authForm.value;
+
+    let authObservable: Observable<any>;
+
+    switch (this.selectedUserType) {
+      case 'cliente':
+        authObservable = this.userService.attemptAuth(this.authType, credentials);
+        break;
+      case 'company':
+        authObservable = this.companyService.attemptAuth(this.authType, credentials);
+        break;
+      case 'recruiter':
+        authObservable = this.recruiterService.attemptAuth(this.authType, credentials);
+        break;
+      default:
+        this.errors.push('Debe seleccionar un tipo de usuario.');
+        this.isSubmitting = false;
+        return;
+    }
+
+    authObservable.subscribe({
       next: () => {
         Swal.fire({
           icon: 'success',
-          title: 'Success',
-          text: this.authType === 'login' ? 'Login successful' : 'Registration successful'
-      }).then(() => {
+          title: 'Éxito',
+          text: this.authType === 'login' ? 'Inicio de sesión exitoso' : 'Registro exitoso'
+        }).then(() => {
+          console.log("datos de usuario loggeado", this.companyService.getCurrentCompany());
           if (this.authType === 'login') {
-              // Redirigir al home después de un login exitoso
-              this.router.navigateByUrl('/home');
+            this.router.navigateByUrl('/home');
           } else {
-              // Redirigir al login después de un registro exitoso
-              this.router.navigateByUrl('/login');
+            this.router.navigateByUrl('/login');
           }
-      });
+        });
       },
       error: (err: any) => {
-        this.errors = err.errors
-          ? err.errors
-          : [err.message || 'An error occurred'];
+        this.errors = err.errors ? err.errors : [err.message || 'An error occurred'];
         this.isSubmitting = false;
         this.cd.detectChanges();
       },
