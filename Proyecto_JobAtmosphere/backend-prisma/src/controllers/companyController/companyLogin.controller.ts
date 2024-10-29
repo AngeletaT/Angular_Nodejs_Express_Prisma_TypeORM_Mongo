@@ -31,7 +31,7 @@ export default async function companyLogin(
 
         // Generar el token JWT
         const token = jwt.sign(
-            { id: company.id, email: company.email, role: 'company' },
+            { id: company.id, email: company.email, typeuser: 'company' },
             process.env.JWT_SECRET as string,
             { expiresIn: '1h' }
         );

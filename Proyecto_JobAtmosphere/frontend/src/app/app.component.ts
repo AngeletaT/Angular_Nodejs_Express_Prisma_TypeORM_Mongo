@@ -31,21 +31,21 @@ export class AppComponent implements OnInit {
         try {
           // Decodificar el token
           const decodedToken: any = jwtDecode(token);
-          const userRole = decodedToken?.user?.role || decodedToken?.role;
+          const userType = decodedToken?.user?.typeuser || decodedToken?.typeuser;
           console.log('Decoded Token:', decodedToken);
-          console.log('User Role:', userRole);
+          console.log('User Type:', userType);
 
           // Establecer el tipo de usuario en el UserTypeService
-          this.userTypeService.setUserType(userRole);
+          this.userTypeService.setUserType(userType);
 
           // Llamar al populate correspondiente según el rol del usuario
-          if (userRole === 'client') {
+          if (userType === 'client') {
             console.log('Llamando a UserService.populate()');
             this.userService.populate();
-          } else if (userRole === 'company') {
+          } else if (userType === 'company') {
             console.log('Llamando a CompanyService.populate()');
             this.companyService.populate();
-          } else if (userRole === 'recruiter') {
+          } else if (userType === 'recruiter') {
             console.log('Llamando a RecruiterService.populate()');
             this.recruiterService.populate();
           }

@@ -80,8 +80,8 @@ export class AuthComponent implements OnInit {
         const token = response?.user?.token || response?.token;
         const decodedToken: any = jwtDecode(token);
 
-        if (decodedToken && decodedToken.role) {
-          this.userTypeService.setUserType(decodedToken.role);
+        if (decodedToken && decodedToken.typeuser) {
+          this.userTypeService.setUserType(decodedToken.typeuser);
         }
 
         Swal.fire({
