@@ -1,23 +1,25 @@
-import { Request, Response, NextFunction } from 'express';
-import * as jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
+const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+    const token = req.headers.authorization?.split(" ")[1];
 
-    if (!authHeader) {
-        return res.status(401).json({ message: 'Authorization header missing' });
-    }
-
-    const token = authHeader.split(' ')[1];
     if (!token) {
-        return res.status(401).json({ message: 'Token missing' });
+        res.status(401).json({ message: "Access token is missing or invalid" });
+        return;
     }
 
     try {
-        const decoded = jwt.verify(token, 'SECRET_KEY');
-        (req as any).user = decoded;
+        const secretKey = process.env.JWT_SECRET as string;
+        const decoded = jwt.verify(token, secretKey) as { email: string };
+
+        // Usamos type assertion para asignar `email` a `req` temporalmente
+        (req as Request & { email: string }).email = decoded.email;
+
         next();
     } catch (error) {
-        return res.status(401).json({ message: 'Invalid token' });
+        res.status(401).json({ message: "Invalid token" });
     }
 };
+
+export default authMiddleware;
