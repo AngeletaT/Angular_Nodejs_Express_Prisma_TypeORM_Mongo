@@ -10,7 +10,7 @@ const validatorLogin = [
         .custom(async (email) => {
             const company = await prisma.companies.findUnique({ where: { email } });
             if (!company) {
-                throw new Error('Email does not exist');
+                throw new Error('Empresa no encontrada');
             }
             return true;
         }),
@@ -32,7 +32,8 @@ const validatorLogin = [
     (req: Request, res: Response, next: NextFunction): void => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            res.status(400).json({ errors: errors.array() });
+            const errorMsg = errors.array().map(err => err.msg).join(', ');
+            res.status(400).json({ message: errorMsg });
         } else {
             next();
         }

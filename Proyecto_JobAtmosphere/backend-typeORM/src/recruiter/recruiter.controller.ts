@@ -31,7 +31,7 @@ export class UserController {
                 password: createUserDto.password,
                 roles: ['recruiter']
             });
-            return res.status(201).json({ 
+            return res.status(201).json({
                 message: 'User registered successfully'
             });
 
@@ -53,7 +53,7 @@ export class UserController {
         try {
             const user = await this.userService.findUserByEmail(loginUserDto.email);
             if (!user) {
-                return res.status(400).json({ message: 'Invalid email or password' });
+                return res.status(400).json({ message: 'Reclutador no encontrado' });
             }
 
             const isValidPassword = await this.userService.validatePassword(user, loginUserDto.password);
