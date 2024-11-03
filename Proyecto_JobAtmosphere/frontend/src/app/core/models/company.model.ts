@@ -5,6 +5,7 @@ export interface Company {
   password: string;
   email: string;
   location?: string;
+  image?: string;
   n_employee: number;
   description?: string;
   createdAt: Date;

@@ -63,8 +63,8 @@ export class CompanyService {
         return this.currentCompanySubject.value;
     }
 
-    getCompanyProfile(companyId: string): Observable<Company> {
-        return this.apiService.get(`/company/${companyId}`, undefined, 3001).pipe(
+    getCompanyProfile(): Observable<Company> {
+        return this.apiService.get(`/company/dashboard`, undefined, 3001).pipe(
             map((data: any) => {
                 this.currentCompanySubject.next(data.company);
                 return data.company;
@@ -88,4 +88,13 @@ export class CompanyService {
             })
         );
     }
+
+    getCompanyJobs(): Observable<any[]> {
+        return this.apiService.get('/company/jobs', undefined, 3001);
+    }
+
+    requestRecruiter(jobSlug: string): Observable<void> {
+        return this.apiService.post(`/job/${jobSlug}/assign`, {}, 3001);
+    }
+
 }
