@@ -7,6 +7,7 @@ export default function companyViewer(company: Companies) {
         company_name: company.company_name,
         email: company.email,
         location: company.location,
+        image: company.image,
         n_employee: company.n_employee,
         description: company.description,
         followers: company.followers,

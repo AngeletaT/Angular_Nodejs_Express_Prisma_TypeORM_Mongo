@@ -3,7 +3,7 @@ import { Companies } from "@prisma/client";
 
 export default async function updateCompany(
     id: string,
-    data: { location?: string; n_employee?: number; description?: string }
+    data: { location?: string; image?: string; n_employee?: number; description?: string }
 
 ): Promise<Companies | null> {
     try {
@@ -11,6 +11,7 @@ export default async function updateCompany(
             where: { id },
             data: {
                 location: data.location,
+                image: data.image,
                 n_employee: data.n_employee,
                 description: data.description,
                 updatedAt: new Date()

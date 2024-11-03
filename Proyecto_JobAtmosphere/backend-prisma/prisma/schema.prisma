@@ -72,6 +72,7 @@ model Companies {
   password        String
   email           String   @unique
   location        String?
+  image           String
   n_employee      Int
   description     String?
   createdAt       DateTime @default(now()) @db.Date
