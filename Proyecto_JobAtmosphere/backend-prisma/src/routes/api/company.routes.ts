@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction, RequestHandler } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import companyGetById from '../../controllers/companyController/companyGetById.controller';
 import companyCreate from '../../controllers/companyController/companyCreate.controller';
 import validatorListOne from '../../middleware/companyValidators/companyListOneValidator';
@@ -9,6 +9,7 @@ import validatorLogin from "../../middleware/companyValidators/companyLoginValid
 import authMiddleware from "../../middleware/authMiddleware";
 import { updateFollowers } from "../../controllers/companyController/companyFollowers.controller";
 import updateCompany from "../../controllers/companyController/companyUpdate.controller";
+import { companyDashboard } from "../../controllers/companyController/companyDashboard.controller";
 
 const router = Router();
 
@@ -23,13 +24,13 @@ router.post("/company/register", validatorCreate, (req: Request, res: Response, 
 });
 
 // Profile
-router.get("/company/:id", validatorListOne, (req: Request, res: Response, next: NextFunction) => {
+router.get("/company/:id", authMiddleware, (req: Request, res: Response, next: NextFunction) => {
     companyGetById(req, res, next);
 });
 
 // Dashboard
-router.get('/company/dashboard', roleMiddleware('company'), (req, res) => {
-    res.json({ message: 'Welcome to the company dashboard' });
+router.get('/company/dashboard', roleMiddleware('company'), (req: Request, res: Response) => {
+    companyDashboard(req, res);
 });
 
 // Follow
@@ -56,7 +57,7 @@ router.get(
     authMiddleware,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            await companyGetById(req, res, next);
+            await companyDashboard(req, res);
         } catch (error) {
             next(error);
         }
