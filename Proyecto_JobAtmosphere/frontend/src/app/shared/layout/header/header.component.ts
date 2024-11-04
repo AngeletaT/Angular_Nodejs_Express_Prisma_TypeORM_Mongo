@@ -100,4 +100,8 @@ export class HeaderComponent implements OnInit {
       });
     }
   }
+
+  isClient(): boolean {
+    return this.userType === 'client';
+  }
 }

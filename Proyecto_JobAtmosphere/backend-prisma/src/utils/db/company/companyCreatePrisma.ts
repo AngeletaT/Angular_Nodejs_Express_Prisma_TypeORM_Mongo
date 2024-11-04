@@ -28,7 +28,8 @@ export default async function companyCreatePrisma(data: CompanyData) {
             description: data.description ?? '',  // Proveer un valor por defecto
             createdAt: new Date(),
             updatedAt: new Date(),
-            roles: ["company"]  // Asignar el rol de 'company' al crear la empresa
+            roles: ["company"],  // Asignar el rol de 'company' al crear la empresa
+            followers: 0  // Inicializar followers como 0
         }
     });
 

@@ -14,7 +14,7 @@ export default async function companyCreate(
     res: Response,
     next: NextFunction
 ) {
-    const { username, company_name, password, email, location, n_employee, description } = req.body;
+    const { username, company_name, password, email, location, image, n_employee, description } = req.body;
 
     try {
         const newCompany = await companyCreatePrisma({
@@ -23,6 +23,7 @@ export default async function companyCreate(
             password,
             email,
             location,
+            image,
             n_employee,
             description
         });
