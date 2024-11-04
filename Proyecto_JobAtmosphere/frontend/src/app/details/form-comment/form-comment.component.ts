@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentService } from '../../core/services/comment.service';
 import { Comment } from '../../core/models/comment.model';
+
 @Component({
   selector: 'app-form-comment',
   templateUrl: './form-comment.component.html',
@@ -12,10 +13,10 @@ export class FormCommentComponent implements OnInit {
   @Input() comment!: Comment | null;
   @Output() submitComment = new EventEmitter<void>();
   commentForm: FormGroup;
+
   constructor(private fb: FormBuilder, private commentService: CommentService) {
     this.commentForm = this.fb.group({
-      body: ['', Validators.required, Validators.maxLength(140)]
-      
+      body: ['', [Validators.required, Validators.maxLength(140)]]
     });
   }
 
@@ -26,9 +27,7 @@ export class FormCommentComponent implements OnInit {
   }
 
   onSubmit() {
-
     if (this.commentForm.valid) {
-
       const commentBody = this.commentForm.value.body;
 
       if (this.comment) {
