@@ -29,6 +29,7 @@ export class UserController {
                 email: createUserDto.email,
                 username: createUserDto.username,
                 password: createUserDto.password,
+                image: createUserDto.image ? [createUserDto.image] : undefined,
                 roles: ['recruiter']
             });
             return res.status(201).json({

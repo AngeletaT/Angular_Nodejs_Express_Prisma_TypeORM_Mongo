@@ -1,6 +1,6 @@
 {
     "type": "mongodb",
-    "url": "mongodb://localhost:27017/info-jobs",
+    "url": "mongodb://localhost:27017/InfoJobs",
     "useNewUrlParser": true,
     "useUnifiedTopology": true,
     "entities": [

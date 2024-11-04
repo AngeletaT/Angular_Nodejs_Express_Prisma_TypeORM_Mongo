@@ -13,6 +13,7 @@ export default function companyViewer(company: Companies) {
         followers: company.followers,
         createdAt: company.createdAt,
         updatedAt: company.updatedAt,
+        jobs: company.jobs,
     };
     return companyView;
 }

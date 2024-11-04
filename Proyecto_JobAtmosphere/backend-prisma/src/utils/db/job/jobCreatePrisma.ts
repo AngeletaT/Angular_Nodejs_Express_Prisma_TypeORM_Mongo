@@ -14,6 +14,9 @@ interface JobData {
 }
 
 export default async function jobCreatePrisma(data: JobData) {
+
+    const slug = `${data.name.toLowerCase().replace(/ /g, '-')}-${Math.random().toString(36).substr(2, 9)}`;
+
     const newJob = await prisma.jobs.create({
         data: {
             name: data.name,
@@ -24,8 +27,8 @@ export default async function jobCreatePrisma(data: JobData) {
             img: data.img,
             id_cat: data.id_cat,
             isActive: false,
-            recruiter: '',  // Inicialmente vacío, hasta que se asigne un recruiter
-            slug: `${data.name.toLowerCase().replace(/ /g, '-')}-${Math.random().toString(36).substr(2, 9)}`,
+            recruiter: '',
+            slug,
             favoritesCount: 0,
             comments: [],
             v: 0
@@ -51,7 +54,7 @@ export default async function jobCreatePrisma(data: JobData) {
             });
         }
 
-        // Buscar la categoría con id_cat antes de actualizar
+        // Actualizar la categoría añadiendo el id del nuevo job
         const category = await prisma.categories.findFirst({
             where: { id_cat: data.id_cat }
         });
@@ -60,12 +63,20 @@ export default async function jobCreatePrisma(data: JobData) {
             throw new Error(`Category with id_cat ${data.id_cat} not found`);
         }
 
-        // Actualizar la categoría añadiendo el id del nuevo job
         await prisma.categories.update({
-            where: { id: category.id },  // Usamos el id único de la categoría
+            where: { id: category.id },
             data: {
                 jobs: {
-                    push: newJob.id // Agregar el id del nuevo job al array de jobs
+                    push: newJob.id
+                }
+            }
+        });
+        // Actualizar el array de jobs en la compañía
+        await prisma.companies.update({
+            where: { company_name: data.company },
+            data: {
+                jobs: {
+                    push: newJob.id
                 }
             }
         });
