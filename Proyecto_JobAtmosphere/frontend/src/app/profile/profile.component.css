@@ -1,4 +1,4 @@
-.profile-page {
+.profile-page, .company-dashboard-page {
     background-color: #f8f9fa;
     padding: 20px;
     border-radius: 10px;
@@ -28,6 +28,11 @@
     font-weight: bold;
 }
 
+.user-following, .user-followers {
+    font-size: 1rem;
+    color: #666;
+}
+
 .profile-nav .nav-link {
     font-size: 1.2rem;
     color: #007bff;
@@ -51,7 +56,6 @@
     margin-bottom: 20px;
     text-align: center;
 }
-
 
 .profile-details-item {
     font-size: 1.2rem;

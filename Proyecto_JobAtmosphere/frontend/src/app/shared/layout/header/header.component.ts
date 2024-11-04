@@ -64,12 +64,14 @@ export class HeaderComponent implements OnInit {
       this.recruiterService.logout();
     }
     this.router.navigate(['/login']);
+    window.location.reload();
   }
 
   loadUserData(): void {
     if (this.userType === 'client') {
       this.userService.getUserProfile().subscribe({
         next: (user) => {
+          console.log('Datos del cliente:', user);
           this.userImage = user.image;
         },
         error: (err) => {
