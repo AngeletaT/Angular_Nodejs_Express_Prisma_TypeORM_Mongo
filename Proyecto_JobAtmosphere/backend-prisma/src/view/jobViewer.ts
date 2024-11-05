@@ -12,6 +12,7 @@ export default function jobViewer(job: Jobs) {
         id_cat: job.id_cat,
         slug: job.slug,
         favoritesCount: job.favoritesCount,
-        comments: job.comments
+        comments: job.comments,
+        isActive: job.isActive
     };
 }

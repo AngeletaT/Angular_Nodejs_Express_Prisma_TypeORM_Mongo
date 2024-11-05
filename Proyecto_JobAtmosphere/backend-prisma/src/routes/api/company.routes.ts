@@ -10,6 +10,7 @@ import authMiddleware from "../../middleware/authMiddleware";
 import { updateFollowers } from "../../controllers/companyController/companyFollowers.controller";
 import updateCompany from "../../controllers/companyController/companyUpdate.controller";
 import { companyDashboard } from "../../controllers/companyController/companyDashboard.controller";
+import getCompanyJobs from "../../controllers/jobController/companyJobs.controller";
 
 const router = Router();
 
@@ -58,6 +59,19 @@ router.get(
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             await companyGetById(req, res, next);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+// Get company jobs
+router.get(
+    "/job",
+    authMiddleware,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            await getCompanyJobs(req, res, next);
         } catch (error) {
             next(error);
         }
