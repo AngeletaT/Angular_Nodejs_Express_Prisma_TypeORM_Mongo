@@ -1,0 +1,73 @@
+.company-dashboard-page, .profile-page {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-sidebar {
+    background-color: #ffffff;
+    padding: 20px;
+    /* border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.user-info {
+    margin-bottom: 20px;
+}
+
+.user-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.user-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.user-followers, .user-following {
+    font-size: 1rem;
+    color: #666;
+}
+
+.dashboard-nav .nav-link {
+    font-size: 1.2rem;
+    color: #007bff;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dashboard-nav .nav-link:hover {
+    text-decoration: underline;
+}
+
+.dashboard-content {
+    background-color: #ffffff;
+    padding: 20px;
+    /* border-radius: 10px; */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.dashboard-content h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.dashboard-details-item {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.dashboard-details-item strong {
+    font-weight: bold;
+}
+
+.active {
+    background-color: #b1b1b13d;
+    color: #ffffff;
+}

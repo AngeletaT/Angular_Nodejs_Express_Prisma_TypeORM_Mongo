@@ -11,6 +11,7 @@ import { ShowAuthedDirective } from '../app/shared/show-authed.directive';
 import { CoreModule } from './core/core.module';
 import { ProfileModule } from './profile/profile.module';
 import { CommonModule } from '@angular/common';
+import { CompanyDashboardModule } from './company-dashboard/company-dashboard.module';
 
 @NgModule({
   declarations: [AppComponent, FooterComponent, HeaderComponent],
@@ -25,6 +26,7 @@ import { CommonModule } from '@angular/common';
     CoreModule,
     ProfileModule,
     CommonModule,
+    CompanyDashboardModule
   ],
   providers: [],
   bootstrap: [AppComponent],

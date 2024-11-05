@@ -95,6 +95,7 @@ export class AuthComponent implements OnInit {
         }).then(() => {
           if (this.authType === 'login') {
             this.router.navigateByUrl('/home');
+            window.location.reload();
           } else {
             this.router.navigateByUrl('/login');
           }

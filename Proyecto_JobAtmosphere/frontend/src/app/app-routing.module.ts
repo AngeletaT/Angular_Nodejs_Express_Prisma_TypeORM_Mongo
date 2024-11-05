@@ -24,6 +24,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./profile/profile.module').then((m) => m.ProfileModule),
   },
+  {
+    path: 'company-dashboard',
+    loadChildren: () =>
+      import('./company-dashboard/company-dashboard.module').then(
+        (m) => m.CompanyDashboardModule
+      ),
+  },
 ];
 
 @NgModule({
