@@ -2,19 +2,27 @@ import { Request, Response, NextFunction } from "express";
 import updateCompanyPrisma from "../../utils/db/company/companyUpdatePrisma";
 import companyViewer from "../../view/companyViewer";
 
+// Extiende Request para incluir user en el tipo
+interface AuthenticatedRequest extends Request {
+    user?: {
+        email: string;
+    };
+}
+
 export default async function updateCompany(
-    req: Request,
+    req: AuthenticatedRequest,
     res: Response,
     next: NextFunction
 ) {
     try {
-        const companyId = (req as any).user?.id;
-        if (!companyId) {
-            return res.status(400).json({ error: "User ID is missing" });
+        const companyEmail = req.user?.email;
+        const { location, n_employee, image, description } = req.body;
+
+        if (!companyEmail) {
+            return res.status(401).json({ message: "Unauthorized: Email missing" });
         }
 
-        const { location, n_employee, description } = req.body;
-        const updatedCompany = await updateCompanyPrisma(companyId, { location, n_employee, description });
+        const updatedCompany = await updateCompanyPrisma(companyEmail, { location, n_employee, image, description });
 
         if (!updatedCompany) {
             return res.status(404).json({ error: "Company not found" });

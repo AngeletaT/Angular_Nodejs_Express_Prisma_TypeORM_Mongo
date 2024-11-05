@@ -1,0 +1,57 @@
+.settings-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.settings-page .container.page {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.settings-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #343a40;
+}
+
+.settings-page .form-control {
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.settings-page .form-margin {
+  margin-bottom: 1rem;
+}
+
+.settings-page .btn-primary {
+  background-color: #343a40;
+  border-color: #343a40;
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.settings-page .btn-primary:hover {
+  background-color: #23272b;
+  border-color: #1d2124;
+}
+
+.settings-page .btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.settings-page .btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #ffffff;
+}

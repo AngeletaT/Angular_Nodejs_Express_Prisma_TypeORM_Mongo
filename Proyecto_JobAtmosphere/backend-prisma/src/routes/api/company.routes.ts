@@ -57,7 +57,7 @@ router.get(
     authMiddleware,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            await companyDashboard(req, res);
+            await companyGetById(req, res, next);
         } catch (error) {
             next(error);
         }

@@ -1,0 +1,36 @@
+<div class="settings-page">
+  <div class="container page">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form [formGroup]="settingsForm" (ngSubmit)="submitForm()">
+          <fieldset [disabled]="isSubmitting">
+            <fieldset class="form-group">
+              <input class="form-control form-margin" type="text" placeholder="URL de la imagen de perfil"
+                formControlName="image" />
+            </fieldset>
+            <fieldset class="form-group">
+              <textarea class="form-control form-control-lg form-margin" rows="8" placeholder="Breve descripcion sobre la empresa"
+                formControlName="description">
+              </textarea>
+            </fieldset>
+            <fieldset class="form-group">
+              <input class="form-control form-control-lg form-margin" type="text" placeholder="Ubicación"
+                formControlName="location" />
+            </fieldset>
+            <fieldset class="form-group">
+            <input class="form-control form-control-lg form-margin" type="text" placeholder="Número de empleados"
+              formControlName="n_employee" />
+            </fieldset>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+              Actualizar ajustes
+            </button>
+          </fieldset>
+        </form>
+        <hr />
+        <button class="btn btn-outline-danger btn-block" (click)="logout()">
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -72,9 +72,11 @@ export class CompanyService {
         );
     }
 
-    update(company: any): Observable<Company> {
-        return this.apiService.put('/company', { company }, 3001).pipe(
+    update(updatedData: any): Observable<Company> {
+        console.log("Update Data: 3", updatedData);
+        return this.apiService.put('/company', updatedData, 3001).pipe(
             map((data: any) => {
+                console.log("Service Update: 4", data.company);
                 this.currentCompanySubject.next(data.company);
                 return data.company;
             })
@@ -90,7 +92,7 @@ export class CompanyService {
     }
 
     getCompanyJobs(): Observable<any[]> {
-        return this.apiService.get('/company/jobs', undefined, 3001);
+        return this.apiService.get('/job', undefined, 3001);
     }
 
     requestRecruiter(jobSlug: string): Observable<void> {
