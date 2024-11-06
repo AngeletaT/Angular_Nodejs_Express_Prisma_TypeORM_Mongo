@@ -11,6 +11,7 @@ export interface Company {
   createdAt: Date;
   updatedAt: Date;
   v?: number;
+  followed: boolean;
   followers: number;
   jobs: string[];
   roles: string[];

@@ -1,5 +1,5 @@
 <div class="container mt-5" *ngIf="job">
-  <div class="row justify-content-center mb-4">
+  <div class="row justify-content-center mb-4" *ngIf="job.isActive">
     <div class="col-md-10">
       <div class="card flex-row align-items-center p-3 shadow-sm bg-light">
         <img class="img-fluid job-img" src="{{job.img}}" alt="{{job.name}}">

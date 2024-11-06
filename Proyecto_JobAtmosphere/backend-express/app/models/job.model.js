@@ -96,7 +96,10 @@ JobSchema.methods.toJobResponse = async function (user) {
         images: this.images,
         favorited: user ? user.isFavorite(this._id) : false,
         favoritesCount: this.favoritesCount || 0,
-        comments: this.comments
+        followed: user ? user.isFollowed(this._id) : false,
+        comments: this.comments,
+        isActive: this.isActive,
+        application: this.application
     };
 };
 
@@ -111,6 +114,7 @@ JobSchema.methods.toJobProfile = async function (user) {
         img: this.img,
         favorited: user ? user.isFavorite(this._id) : false,
         favoritesCount: this.favoritesCount || 0,
+        isActive: this.isActive,
     };
 };
 

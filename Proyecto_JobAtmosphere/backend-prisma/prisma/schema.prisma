@@ -41,7 +41,7 @@ model Jobs {
   favoritesCount Int
   isActive       Boolean
   id_cat         String
-  images         String[]
+  images         String[]?
   img            String
   name           String
   recruiter      String?

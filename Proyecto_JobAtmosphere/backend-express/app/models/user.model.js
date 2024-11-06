@@ -152,18 +152,7 @@ userSchema.methods.toProfileUser = async function () {
     };
 };
 
-
-userSchema.methods.isFollowing = function (id) {
-    const idStr = id.toString();
-    for (const followingUser of this.followingUsers) {
-        if (followingUser.toString() === idStr) {
-            return true;
-        }
-    }
-    return false;
-};
-
-// #region FOLLOW
+// #region FAVORITE
 userSchema.methods.isFavorite = function (id) {
     const idStr = id.toString();
     for (const job of this.favoriteJob) {
@@ -184,6 +173,31 @@ userSchema.methods.favorite = function (id) {
 userSchema.methods.unfavorite = function (id) {
     if (this.favoriteJob.indexOf(id) !== -1) {
         this.favoriteJob.remove(id);
+    }
+    return this.save();
+};
+
+// #region FOLLOW
+userSchema.methods.isFollowing = function (id) {
+    const idStr = id.toString();
+    for (const followingUser of this.following) {
+        if (followingUser.toString() === idStr) {
+            return true;
+        }
+    }
+    return false;
+};
+
+userSchema.methods.follow = function (id) {
+    if (this.following.indexOf(id) === -1) {
+        this.following.push(id);
+    }
+    return this.save();
+}
+
+userSchema.methods.unfollow = function (id) {
+    if (this.following.indexOf(id) !== -1) {
+        this.following.remove(id);
     }
     return this.save();
 };
