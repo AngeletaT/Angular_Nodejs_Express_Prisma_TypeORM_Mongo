@@ -1,0 +1,45 @@
+<div class="details_page container mt-5">
+    <div class="row">
+        <!-- Información de la compañía -->
+        <div class="col-md-8 company-info">
+            <div *ngIf="!company">No company</div>
+            <div class="company" *ngIf="company">
+                <div class="company-info">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h3>{{company.company_name}}</h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p class="location-name">{{company.location}}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="company-description">
+                        <h4>Descripción de la compañía</h4>
+                        <p>{{company.description}}</p>
+                    </div>
+                    <hr>
+                    <div class="company-email">
+                        <h5>Contacta con nosotros</h5>
+                        <p>{{ company.email }}</p>
+                    </div>
+                    <div class="follow-button">
+                        <button class="btn btn-primary" (click)="onToggleFollow()">
+                            <p><!-- {{ company.followed ? 'Unfollow' : 'Follow' }}  -->
+                            ({{ company.followers | number:'1.0-0':'en' }})</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel -->
+        <div class="col-md-4 carousel-container">
+            <img class="carousel-image" src="{{company.image}}" alt="{{company.company_name}}">
+        </div>
+    </div>
+</div>

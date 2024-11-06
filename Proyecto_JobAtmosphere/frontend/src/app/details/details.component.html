@@ -17,7 +17,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p class="company-name">{{job.company}}</p>
+                                    <p class="company-name">
+                                        <a [routerLink]="['/details-company', convertCompanyNameToUrl(job.company)]">{{job.company}}</a>
+                                    </p>
                                 </td>
                             </tr>
                         </tbody>

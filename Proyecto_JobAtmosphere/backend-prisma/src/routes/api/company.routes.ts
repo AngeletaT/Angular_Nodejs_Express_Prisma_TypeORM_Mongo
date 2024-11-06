@@ -11,6 +11,7 @@ import { updateFollowers } from "../../controllers/companyController/companyFoll
 import updateCompany from "../../controllers/companyController/companyUpdate.controller";
 import { companyDashboard } from "../../controllers/companyController/companyDashboard.controller";
 import getCompanyJobs from "../../controllers/jobController/companyJobs.controller";
+import companyGetByName from "../../controllers/companyController/companyGetByName.controller";
 
 const router = Router();
 
@@ -77,5 +78,10 @@ router.get(
         }
     }
 );
+
+// Get company by name
+router.get("/details/:name", (req: Request, res: Response, next: NextFunction) => {
+    companyGetByName(req, res, next);
+});
 
 export default router;

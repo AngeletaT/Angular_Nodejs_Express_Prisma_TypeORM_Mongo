@@ -31,6 +31,14 @@ const routes: Routes = [
         (m) => m.CompanyDashboardModule
       ),
   },
+  {
+    path: 'details-company/:name',
+    loadChildren: () =>
+      import('./details-company/details-company.module').then(
+        (m) => m.DetailsCompanyModule
+      ),
+  }
+
 ];
 
 @NgModule({

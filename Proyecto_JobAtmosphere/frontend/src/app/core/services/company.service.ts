@@ -3,6 +3,7 @@ import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
 import { Company } from '../models/company.model';
+import { Job } from '../models/job.model';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable({
@@ -91,8 +92,23 @@ export class CompanyService {
         );
     }
 
-    getCompanyJobs(): Observable<any[]> {
-        return this.apiService.get('/job', undefined, 3001);
+    getCompanyJobs(): Observable<Job[]> {
+        return this.apiService.get('/job', undefined, 3001).pipe(
+            map((response: any) => {
+                console.log('Trabajos de la empresa:', response.jobs);
+                return response.jobs;
+            })
+        );
+    }
+
+    getCompanyByName(companyName: string): Observable<Company> {
+        console.log("Company Name", companyName);
+        return this.apiService.get(`/details/${companyName}`, undefined, 3001).pipe(
+            map((response: any) => {
+                console.log('Company:', response.company);
+                return response.company;
+            })
+        );
     }
 
     requestRecruiter(jobSlug: string): Observable<void> {

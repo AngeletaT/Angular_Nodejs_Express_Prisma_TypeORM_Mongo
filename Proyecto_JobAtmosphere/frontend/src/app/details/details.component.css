@@ -23,6 +23,7 @@
 .company-name {
   font-size: 1.2rem;
   color: #6c757d;
+  text-decoration: underline;
 }
 
 .job-description,

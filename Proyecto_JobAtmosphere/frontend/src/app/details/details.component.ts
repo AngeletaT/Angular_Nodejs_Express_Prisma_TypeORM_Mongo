@@ -55,4 +55,8 @@ export class DetailsComponent implements OnInit {
   onSubmitComment() {
     this.selectedComment = null;
   }
+
+  convertCompanyNameToUrl(companyName: string): string {
+    return companyName.replace(/\s+/g, '-');
+  }
 }
