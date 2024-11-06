@@ -1,4 +1,5 @@
 import { Jobs } from "@prisma/client";
+import app from "../app";
 
 export default function jobViewer(job: Jobs) {
     return {
@@ -13,6 +14,7 @@ export default function jobViewer(job: Jobs) {
         slug: job.slug,
         favoritesCount: job.favoritesCount,
         comments: job.comments,
-        isActive: job.isActive
+        isActive: job.isActive,
+        application: job.application
     };
 }

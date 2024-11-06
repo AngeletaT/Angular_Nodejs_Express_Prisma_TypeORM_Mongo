@@ -12,6 +12,7 @@ import { CardCategoryComponent } from './card-category/card-category.component';
 // JOBS
 import { ListJobsComponent } from '../shared/list-jobs/list-jobs.component';
 import { CardJobComponent } from '../shared/card-job/card-job.component';
+import { CardJobCompanyComponent } from '../shared/card-job-company/card-job-company.component';
 
 //ERRORS
 import { ListErrorsComponent } from '../shared/list-errors/list-errors.component';
@@ -41,6 +42,7 @@ import { FavoriteButtonComponent } from './favorite-button/favorite-button.compo
     ListJobsComponent,
     CardCategoryComponent,
     CardJobComponent,
+    CardJobCompanyComponent,
     CarouselItemsComponent,
     CarouselComponent,
     FiltersComponent,
@@ -58,6 +60,7 @@ import { FavoriteButtonComponent } from './favorite-button/favorite-button.compo
     ListJobsComponent,
     CardCategoryComponent,
     CardJobComponent,
+    CardJobCompanyComponent,
     CarouselItemsComponent,
     CarouselComponent,
     FiltersComponent,

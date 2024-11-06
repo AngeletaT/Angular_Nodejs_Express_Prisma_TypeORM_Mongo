@@ -2,43 +2,154 @@
     <div class="row">
         <!-- Sidebar -->
         <aside class="col-md-3 dashboard-sidebar">
-            <div class="user-info text-center">
-                <img class="user-photo" [src]="company.image" alt="Company Photo">
+            <div class="user-info text-center mb-4">
+                <img class="user-photo mb-2" [src]="company.image" alt="Company Photo">
                 <h3 class="user-name">{{ company.username }}</h3>
-                <!-- <p class="user-followers">Seguidores: {{ company.followers || 0 }}</p> -->
             </div>
             <nav class="dashboard-nav">
                 <ul class="nav flex-column">
                     <li class="nav-item" [class.active]="isActive('dashboard')">
-                        <a class="nav-link dashboard" (click)="showDashboard()">Dashboard</a>
+                        <a class="nav-link dashboard" (click)="showDashboard()">
+                            <i class="fas fa-chart-line"></i>&nbsp;&nbsp; Dashboard
+                        </a>
                     </li>
                     <li class="nav-item" [class.active]="isActive('jobs')">
-                        <a class="nav-link jobs" (click)="showJobs()">Jobs</a>
+                        <a class="nav-link jobs" (click)="showJobs()">
+                            <i class="fas fa-briefcase"></i>&nbsp;&nbsp; Jobs
+                        </a>
                     </li>
                     <li class="nav-item settings" [class.active]="isActive('settings')">
-                        <a class="nav-link" (click)="showSettings()">Settings</a>
+                        <a class="nav-link" (click)="showSettings()">
+                            <i class="fas fa-cog"></i>&nbsp;&nbsp; Settings
+                        </a>
                     </li>
                 </ul>
             </nav>
         </aside>
+
         <!-- Main Content -->
         <main class="col-md-9 dashboard-content">
-            <div *ngIf="currentView === 'dashboard'" class="dashboard-details">
-                <h2>Dashboard</h2>
-                <hr>
-                <p class="dashboard-details-item"><strong>Nombre de la empresa:</strong> {{ company.company_name }}</p>
-                <p class="dashboard-details-item"><strong>Email:</strong> {{ company.email }}</p>
-                <p class="dashboard-details-item"><strong>Descripción:</strong> {{ company.description }}</p>
-                <p class="dashboard-details-item"><strong>Ubicación:</strong> {{ company.location }}</p>
-                <p class="dashboard-details-item"><strong>Número de empleados:</strong> {{ company.n_employee }}</p>
+            <!-- Dashboard Overview -->
+            <div *ngIf="currentView === 'dashboard'" class="dashboard-overview">
+                <!-- Cards with statistics -->
+                <div class="row mb-4">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="card-stadistic">
+                            <div class="card-body">
+                                <h5 class="card-title">Trabajos Creados</h5>
+                                <p class="card-text">{{ myJobs.length }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="card-stadistic">
+                            <div class="card-body">
+                                <h5 class="card-title">Seguidores</h5>
+                                <p class="card-text">{{ company.followers || 0 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="card-stadistic">
+                            <div class="card-body">
+                                <h5 class="card-title">Candidatos Totales</h5>
+                                <p class="card-text">{{ totalCandidates }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="card-stadistic">
+                            <div class="card-body">
+                                <h5 class="card-title">Nº de Empleados</h5>
+                                <p class="card-text">{{ company.n_employee || 0 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Section -->
+                <div class="data-section">
+                    <h2>Datos de la Empresa</h2>
+                    <hr>
+                    <p><strong>Nombre de la empresa:</strong> {{ company.username }}</p>
+                    <p><strong>Email:</strong> {{ company.email }}</p>
+                    <p><strong>Descripción:</strong> {{ company.description }}</p>
+                    <p><strong>Ubicación:</strong> {{ company.location }}</p>
+                </div>
             </div>
-            <div *ngIf="currentView === 'jobs'">
-                <h2>Mis trabajos</h2>
-                <hr>
-                <!-- <div *ngFor="let job of jobs">
-                    <app-card-job [job]="job"></app-card-job>
-                </div> -->
+
+            <!-- Jobs Section -->
+            <div *ngIf="currentView === 'jobs'" class="jobs-section">
+                <div class="d-flex justify-content-between align-items-center mb-4 title">
+                    <h2>Mis Trabajos</h2>
+                    <button class="btn btn-primary create" (click)="addNewJob()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="job-list">
+                    <div *ngFor="let job of myJobs">
+                        <app-card-job-company [job]="job" (editJob)="editJob($event)"
+                            (deactivateJob)="deactivateJob($event)" (activateJob)="activateJob($event)"
+                            (deleteJob)="deleteJob($event)"></app-card-job-company>
+                    </div>
+                </div>
             </div>
+
+            <!-- Add Job Section -->
+            <div *ngIf="currentView === 'create-job'">
+                <h2>Añadir Nuevo Trabajo</h2>
+                <form (ngSubmit)="submitNewJob()">
+                    <div class="form-group">
+                        <label for="jobName">Título del Trabajo</label>
+                        <input type="text" id="jobName" class="form-control" [(ngModel)]="newJob.name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobDescription">Descripción</label>
+                        <textarea id="jobDescription" class="form-control" [(ngModel)]="newJob.description" name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobImages">Imágenes</label>
+                        <input type="text" id="jobImages" class="form-control" [(ngModel)]="newJob.images" name="images" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobSalary">Salario</label>
+                        <input type="number" id="jobSalary" class="form-control" [(ngModel)]="newJob.salary" name="salary" required>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">Añadir Trabajo</button>
+                        <button type="button" class="btn btn-danger" (click)="cancelJob()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Edit Job Section -->
+            <div *ngIf="currentView === 'edit-job'">
+                <h2>Editar Trabajo</h2>
+                <form (ngSubmit)="submitEditJob()">
+                    <div class="form-group">
+                        <label for="editJobName">Título del Trabajo</label>
+                        <input type="text" id="editJobName" class="form-control" [(ngModel)]="selectedJob.name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editJobDescription">Descripción</label>
+                        <textarea id="editJobDescription" class="form-control" [(ngModel)]="selectedJob.description" name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editJobSalary">Salario</label>
+                        <input type="number" id="editJobSalary" class="form-control" [(ngModel)]="selectedJob.salary" name="salary" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editJobImages">Imagenes</label>
+                        <input type="text" id="editJobImages" class="form-control" [(ngModel)]="selectedJob.images" name="images" required>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">Añadir Trabajo</button>
+                        <button type="button" class="btn btn-danger" (click)="cancelJob()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Settings Section -->
             <div *ngIf="currentView === 'settings'">
                 <h2>Ajustes de la empresa</h2>
                 <hr>

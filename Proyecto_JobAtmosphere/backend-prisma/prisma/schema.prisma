@@ -47,7 +47,7 @@ model Jobs {
   recruiter      String?
   salary         Int
   slug           String   @unique(map: "slug_1")
-  applications   Json?
+  application   Json?
 }
 
 model Users {

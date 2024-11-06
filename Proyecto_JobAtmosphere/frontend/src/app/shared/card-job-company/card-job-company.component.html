@@ -1,0 +1,25 @@
+<div class="container mt-3" *ngIf="job">
+  <div class="card flex-row align-items-center p-3 shadow-sm">
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title font-weight-bold">{{job.name}}</h5>
+        <p class="card-text"><strong>Empresa:</strong> {{ job.company }}</p>
+        <p class="card-text"><strong>Descripción:</strong> {{ job.description }}</p>
+        <p class="card-text"><strong>Salario:</strong> {{ job.salary | number:'1.0-0':'en' }} €</p>
+      </div>
+      <div class="d-flex mt-3 justify-content-between align-items-center">
+        <span [ngClass]="{'text-success': job.isActive, 'text-danger': !job.isActive}">
+          {{ job.isActive ? 'Activado' : 'Desactivado' }}
+        </span>
+        <div>
+          <button class="btn btn-warning btn-sm mr-2" (click)="onEditJob(job)" id="{{job.id}}">Editar</button>
+          <button *ngIf="job.isActive" class="btn btn-secondary btn-sm mr-2" (click)="onDeactivateJob(job)"
+            id="{{job.id}}">Desactivar</button>
+          <button *ngIf="!job.isActive" class="btn btn-success btn-sm mr-2" (click)="onActivateJob(job)"
+            id="{{job.id}}">Activar</button>
+          <button class="btn btn-danger btn-sm" (click)="onDeleteJob(job)" id="{{job.id}}">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
