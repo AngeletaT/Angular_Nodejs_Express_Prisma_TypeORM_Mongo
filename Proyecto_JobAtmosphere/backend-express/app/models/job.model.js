@@ -40,8 +40,8 @@ const JobSchema = mongoose.Schema({
         default: 0
     },
     recruiter: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Recruiter"
+        type: String,
+        default: ""
     },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -54,7 +54,7 @@ const JobSchema = mongoose.Schema({
         },
         status: {
             type: String,
-            enum: ["pending", "accepted", "rejected"], 
+            enum: ["pending", "accepted", "rejected"],
             default: "pending"
         }
     }],
@@ -62,7 +62,7 @@ const JobSchema = mongoose.Schema({
         type: Boolean,
         default: false
     }
-},{
+}, {
     collection: 'Jobs'
 });
 
@@ -96,7 +96,6 @@ JobSchema.methods.toJobResponse = async function (user) {
         images: this.images,
         favorited: user ? user.isFavorite(this._id) : false,
         favoritesCount: this.favoritesCount || 0,
-        followed: user ? user.isFollowed(this._id) : false,
         comments: this.comments,
         isActive: this.isActive,
         application: this.application
