@@ -79,13 +79,16 @@ export class AuthComponent implements OnInit {
     authObservable.subscribe({
       next: (response) => {
         console.log('Auth response:', response);
-        const token = response?.user?.token || response?.token;
-        const decodedToken: any = jwtDecode(token);
 
-        console.log('Decoded token:', decodedToken);
+        if (this.authType === 'login') {
+          const token = response?.user?.token || response?.token;
+          const decodedToken: any = jwtDecode(token);
 
-        if (decodedToken && decodedToken.typeuser) {
-          this.userTypeService.setUserType(decodedToken.typeuser);
+          console.log('Decoded token:', decodedToken);
+
+          if (decodedToken && decodedToken.typeuser) {
+            this.userTypeService.setUserType(decodedToken.typeuser);
+          }
         }
 
         Swal.fire({
