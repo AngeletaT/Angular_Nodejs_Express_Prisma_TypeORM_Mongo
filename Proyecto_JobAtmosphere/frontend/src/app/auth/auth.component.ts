@@ -35,8 +35,8 @@ export class AuthComponent implements OnInit {
   ) {
     // use FormBuilder to create a form group
     this.authForm = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
     });
   }
 
@@ -45,7 +45,7 @@ export class AuthComponent implements OnInit {
       this.authType = data[data.length - 1].path;
       this.title = this.authType === 'login' ? 'Iniciar sesión' : 'Registrarse';
       if (this.authType === 'register') {
-        this.authForm.addControl('username', new FormControl());
+        this.authForm.addControl('username', new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]));
       }
       this.cd.markForCheck();
     });
