@@ -102,7 +102,6 @@ export class CompanyService {
     }
 
     getCompanyByName(companyName: string): Observable<Company> {
-        console.log("Company Name", companyName);
         return this.apiService.get(`/details/${companyName}`, undefined, 3001).pipe(
             map((response: any) => {
                 console.log('Company:', response.company);
@@ -111,8 +110,14 @@ export class CompanyService {
         );
     }
 
-    requestRecruiter(jobSlug: string): Observable<void> {
-        return this.apiService.post(`/job/${jobSlug}/assign`, {}, 3001);
+    follow(companyId: string): Observable<any> {
+        const body = { companyId };
+        console.log('Follow company:', body);
+        return this.apiService.post(`/user/follow`, body, 3000).pipe(
+            map((response: any) => {
+                console.log('Followed company:', response);
+                return response;
+            })
+        );
     }
-
 }

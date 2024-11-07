@@ -29,17 +29,16 @@
                         <p>{{ company.email }}</p>
                     </div>
                     <div class="follow-button">
-                        <button class="btn btn-primary" (click)="onToggleFollow()">
-                            <p><!-- {{ company.followed ? 'Unfollow' : 'Follow' }}  -->
-                            ({{ company.followers | number:'1.0-0':'en' }})</p>
+                        <button class="btn btn-primary" (click)="onClickFollow()">
+                            <p>Follow ({{ company.followers | number:'1.0-0':'en' }})</p>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Carousel -->
-        <div class="col-md-4 carousel-container">
-            <img class="carousel-image" src="{{company.image}}" alt="{{company.company_name}}">
+        <!-- Image -->
+        <div class="col-md-4 carousel-container" *ngIf="company">
+            <img class="carousel-image" [src]="company.image" alt="{{company.company_name}}">
         </div>
     </div>
 </div>

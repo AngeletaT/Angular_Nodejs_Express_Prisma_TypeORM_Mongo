@@ -5,6 +5,7 @@ import { Company } from '../core/models/company.model';
 import { CompanyService } from '../core/services/company.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Comment } from '../core/models/comment.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-details-company',
@@ -51,7 +52,24 @@ export class DetailsCompanyComponent implements OnInit {
     return url.replace(/-/g, ' ');
   }
 
-  onToggleFollow() {
-  
+  onClickFollow() {
+    const companyId = this.company.id;
+    this.CompanyService.follow(companyId).subscribe(
+      (data: any) => {
+        Swal.fire({
+          icon: 'success',
+          title: '¡Empresa seguida!',
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          window.location.reload();
+        });
+
+      },
+      (error: any) => {
+        console.error('Error following company', error);
+      }
+    );
   }
+
 }
