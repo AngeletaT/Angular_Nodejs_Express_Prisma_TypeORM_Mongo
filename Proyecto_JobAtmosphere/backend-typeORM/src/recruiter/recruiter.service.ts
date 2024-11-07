@@ -17,6 +17,7 @@ export class UserService {
         user.email = userData.email;
         user.username = userData.username;
         user.password = userData.password;
+        user.image = userData.image;
         user.roles = userData.roles || ['recruiter'];
         user.busy = false;
 

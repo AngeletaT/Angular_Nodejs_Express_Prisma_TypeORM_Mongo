@@ -11,7 +11,7 @@ export class User {
     email!: string;
 
     @Column()
-    image?: string[];
+    image?: string;
 
     @Column()
     username!: string;

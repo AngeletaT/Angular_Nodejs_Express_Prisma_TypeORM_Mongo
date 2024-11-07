@@ -19,6 +19,9 @@ export class UserController {
         const createUserDto = new CreateUserDto();
         Object.assign(createUserDto, req.body);
 
+        // Asignar la URL de la imagen antes de la validación
+        createUserDto.image = `https://i.pravatar.cc/150?u=${createUserDto.username}`;
+
         const errors = await validate(createUserDto);
         if (errors.length > 0) {
             return res.status(400).json({ errors });
@@ -29,7 +32,7 @@ export class UserController {
                 email: createUserDto.email,
                 username: createUserDto.username,
                 password: createUserDto.password,
-                image: createUserDto.image ? [createUserDto.image] : undefined,
+                image: createUserDto.image,
                 roles: ['recruiter']
             });
             return res.status(201).json({
