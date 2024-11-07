@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Job } from '../core/models/job.model';
 import { JobService } from '../core/services/job.service';
+import { UserService } from '../core/services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Comment } from '../core/models/comment.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-details',
@@ -16,6 +18,7 @@ export class DetailsComponent implements OnInit {
 
   constructor(
     private JobService: JobService,
+    private UserService: UserService,
     private ActivatedRoute: ActivatedRoute,
     private router: Router
   ) { }
@@ -35,6 +38,30 @@ export class DetailsComponent implements OnInit {
     } else {
       console.log('fallo al encontrar el job');
       this.router.navigate(['/']);
+    }
+  }
+
+  applyForJob() {
+    console.log('Applying for job', this.job.id);
+    if (this.job && this.job.id) {
+      this.UserService.applyForJob(this.job.id).subscribe(
+        (response) => {
+          console.log('Application successful', response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'You have successfully applied for the job.',
+          });
+        },
+        (error) => {
+          console.error('Application failed', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message || 'An error occurred while applying for the job.',
+          });
+        }
+      );
     }
   }
 

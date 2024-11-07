@@ -86,6 +86,7 @@ JobSchema.methods.toJobResponse = async function (user) {
 
     // return user;
     return {
+        id: this._id,
         slug: this.slug,
         name: this.name,
         salary: this.salary,

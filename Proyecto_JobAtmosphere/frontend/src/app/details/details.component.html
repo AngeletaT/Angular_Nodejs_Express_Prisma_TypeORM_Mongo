@@ -18,7 +18,8 @@
                             <tr>
                                 <td>
                                     <p class="company-name">
-                                        <a [routerLink]="['/details-company', convertCompanyNameToUrl(job.company)]">{{job.company}}</a>
+                                        <a
+                                            [routerLink]="['/details-company', convertCompanyNameToUrl(job.company)]">{{job.company}}</a>
                                     </p>
                                 </td>
                             </tr>
@@ -33,7 +34,7 @@
                         <p>{{ job.salary | number:'1.0-0':'en' }}€</p>
                     </div>
                     <div class="apply-button">
-                        <button class="btn btn-primary">Aplicar</button>
+                        <button class="btn btn-primary" (click)="applyForJob()">Aplicar</button>
                         <app-favorite-button [jobs]="job" (toggle)="onToggleFavorite($event)">
                             {{ job.favorited ? 'Unfavorite' : 'Favorite' }} <span class="counter"> ( {{
                                 job.favoritesCount }} )</span>
@@ -42,7 +43,8 @@
                 </div>
             </div>
         </div>
-        <!-- Carousel -->
+        
+        <!-- Imagen -->
         <div class="col-md-4 carousel-container">
             <app-carousel page="details"></app-carousel>
         </div>

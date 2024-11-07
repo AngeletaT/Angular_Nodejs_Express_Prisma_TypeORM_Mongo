@@ -20,7 +20,7 @@ const applyToJob = asyncHandler(async (req, res) => {
     }
 
     // Añadir la aplicación al trabajo
-    job.aplication.push({ userId, status: "pending" });
+    job.application.push({ userId, status: "pending" });
     await job.save();
 
     // Actualizar las inscripciones del usuario
