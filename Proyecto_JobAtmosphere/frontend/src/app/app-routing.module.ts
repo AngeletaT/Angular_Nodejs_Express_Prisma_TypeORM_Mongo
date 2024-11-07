@@ -37,6 +37,13 @@ const routes: Routes = [
       import('./details-company/details-company.module').then(
         (m) => m.DetailsCompanyModule
       ),
+  },
+  {
+    path: 'recruiter-dashboard',
+    loadChildren: () =>
+      import('./recruiter-dashboard/recruiter-dashboard.module').then(
+        (m) => m.RecruiterDashboardModule
+      ),
   }
 
 ];

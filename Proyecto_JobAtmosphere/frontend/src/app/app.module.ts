@@ -12,6 +12,7 @@ import { CoreModule } from './core/core.module';
 import { ProfileModule } from './profile/profile.module';
 import { CommonModule } from '@angular/common';
 import { CompanyDashboardModule } from './company-dashboard/company-dashboard.module';
+import { RecruiterDashboardModule } from './recruiter-dashboard/recruiter-dashboard.module';
 
 @NgModule({
   declarations: [AppComponent, FooterComponent, HeaderComponent],
@@ -26,7 +27,8 @@ import { CompanyDashboardModule } from './company-dashboard/company-dashboard.mo
     CoreModule,
     ProfileModule,
     CommonModule,
-    CompanyDashboardModule
+    CompanyDashboardModule,
+    RecruiterDashboardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

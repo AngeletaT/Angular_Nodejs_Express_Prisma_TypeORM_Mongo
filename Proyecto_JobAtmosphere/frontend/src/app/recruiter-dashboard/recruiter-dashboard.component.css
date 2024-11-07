@@ -1,0 +1,165 @@
+.recruiter-dashboard-page,
+.profile-page {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5em;
+}
+
+.dashboard-sidebar {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.user-info {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.user-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+.user-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.user-followers,
+.user-following {
+    font-size: 1rem;
+    color: #666;
+}
+
+.dashboard-nav .nav-link {
+    font-size: 1.2rem;
+    color: #333;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dashboard-nav .nav-link:hover {
+    background-color: #007bff51;
+    color: #333;
+    text-decoration: none;
+}
+
+.dashboard-nav .nav-item.active .nav-link {
+    background-color: #007bff51;
+    color: #333;
+}
+
+.dashboard-content {
+    background-color: #ffffff;
+    padding: 20px;
+    /* border-radius: 10px; */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.dashboard-content h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.dashboard-details-item {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.dashboard-details-item strong {
+    font-weight: bold;
+}
+
+.active {
+    background-color: #b1b1b13d;
+    color: #f8f9fa;
+}
+
+.card-stadistic {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.card-stadistic:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.job-list {
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-primary.create {
+    font-size: 20px;
+    font-weight: bold;
+    width: 10%;
+}
+
+.btn-primary {
+    background-color: #343a40;
+    border-color: #343a40;
+    padding: 10px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    width: 50%;
+    margin-right: 20px;
+}
+
+.btn-primary:hover {
+    background-color: #23272b;
+    border-color: #1d2124;
+}
+
+.btn-danger {
+    border-color: #dc3545;
+    color: #ffffff;
+    padding: 10px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    width: 50%;
+}
+
+.btn-danger:hover {
+    background-color: #bb2433;
+    color: #ffffff;
+}

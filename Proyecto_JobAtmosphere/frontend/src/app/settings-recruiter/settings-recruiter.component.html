@@ -1,0 +1,43 @@
+<div class="settings-page">
+    <div class="container page">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form [formGroup]="settingsForm" (ngSubmit)="submitForm()">
+                    <fieldset [disabled]="isSubmitting">
+                        <fieldset class="form-group">
+                            <input class="form-control form-margin" type="text" placeholder="Email"
+                                formControlName="email" />
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-margin" type="text" placeholder="Nombre de usuario"
+                                formControlName="username" />
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-margin" type="password" placeholder="Contraseña"
+                                formControlName="password" />
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-margin" type="text" placeholder="Roles"
+                                formControlName="roles" />
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-margin" type="text" placeholder="Ocupado"
+                                formControlName="busy" />
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-margin" type="text" placeholder="Trabajos"
+                                formControlName="jobs" />
+                        </fieldset>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">
+                            Actualizar ajustes
+                        </button>
+                    </fieldset>
+                </form>
+                <hr />
+                <button class="btn btn-outline-danger btn-block" (click)="logout()">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
