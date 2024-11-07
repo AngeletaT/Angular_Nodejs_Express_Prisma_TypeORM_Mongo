@@ -111,27 +111,50 @@ const findOneJob = asyncHandler(async (req, res) => {
 
 // #region LISTAR POR CATEGORIA
 const GetjobsByCategory = asyncHandler(async (req, res) => {
-
-    // res.json("holaaa")
     let offset = 0;
     let limit = 3;
-    const slug = req.params;
-    let Job_count = "";
+    const { slug } = req.params;
 
-    const category = await Category.findOne(slug).exec();
+    // Buscar la categoría por el slug
+    const category = await Category.findOne({ slug }).exec();
 
     if (!category) {
-        res.status(400).json({ message: "Categoria no encontrada" });
+        return res.status(400).json({ message: "Categoria no encontrada" });
     }
 
+    // console.log("Categoría encontrada:", category);
+
+    // Obtener los trabajos de la base de datos que coinciden con los IDs en category.jobs
+    const jobs = await Promise.all(
+        category.jobs.map(async jobId => {
+            const job = await Job.findById(jobId).exec();
+            if (job) {
+                // console.log(`Job encontrado: ${job.name} con ID ${jobId}`);
+                return job;
+            } else {
+                // console.log(`Job con ID ${jobId} no encontrado en la base de datos`);
+                return null; // Manejo de trabajos no existentes
+            }
+        })
+    );
+
+    // Filtrar los trabajos válidos (los que existen en la base de datos)
+    const validJobs = jobs.filter(job => job !== null);
+
+    // Aplicar paginación sobre los trabajos válidos
+    const paginatedJobs = validJobs.slice(offset, offset + limit);
+
+    // Contar los trabajos válidos para el `Job_count`
+    const Job_count = validJobs.length;
+
+    // Generar la respuesta
     const user = await User.findById(req.userId);
-    return await res.status(200).json({
-        jobs: await Promise.all(category.jobs.map(async jobId => {
-            const jobObj = await Job.findById(jobId).skip(offset).limit(limit).exec();
-            return await jobObj.toJobResponse(user);
-        })),
-        Job_count: Job_count
-    })
+    return res.status(200).json({
+        jobs: await Promise.all(
+            paginatedJobs.map(async job => await job.toJobResponse(user))
+        ),
+        Job_count: Job_count,
+    });
 });
 
 // #region ACTUALIZAR
