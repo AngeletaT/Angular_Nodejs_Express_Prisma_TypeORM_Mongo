@@ -50,8 +50,10 @@ export class RecruiterService {
         const route = type === 'login' ? '/recruiter/login' : '/recruiter/register';
         return this.apiService.post(route, credentials, 3002).pipe(
             map((data: any) => {
+                console.log(data)
                 if (type === 'login') {
                     this.jwtService.saveToken(data.token);
+                    console.log('Token:', data.token)
                     this.populate();
                 }
                 return data;
@@ -61,6 +63,16 @@ export class RecruiterService {
 
     getCurrentRecruiter(): Recruiter {
         return this.currentRecruiterSubject.value;
+    }
+
+    getRecruiterProfile(): Observable<Recruiter> {
+        return this.apiService.get(`/recruiter/dashboard`, undefined, 3002).pipe(
+            map((data: any) => {
+                console.log(data)
+                this.currentRecruiterSubject.next(data);
+                return data;
+            })
+        );
     }
 
     logout(): Observable<void> {

@@ -8,7 +8,7 @@ dotenv.config();
 export class AuthService {
     // Método para generar el token JWT
     generateAccessToken(user: User): string {
-        const secretKey = process.env.ACCESS_TOKEN_SECRET || 'maytheforcebewithyou';
+        const secretKey = process.env.JWT_SECRET || 'SmellyCaaaaatSmellyCaaaaat';
         const expiresIn = process.env.TOKEN_EXPIRATION || '10h';
 
         return jwt.sign({ id: user.id, email: user.email, typeuser: "recruiter" }, secretKey, { expiresIn });

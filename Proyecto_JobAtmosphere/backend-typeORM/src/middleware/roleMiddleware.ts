@@ -17,17 +17,18 @@ export const roleMiddleware = (requiredRole: string) => {
         }
 
         try {
-            const decoded = jwt.verify(token, 'SECRET_KEY') as any;
-            const userRoles = decoded.roles;
+            const secretKey = process.env.JWT_SECRET as string;
+            const decoded = jwt.verify(token, secretKey) as any;
+            const userType = decoded.typeuser;
 
             // Verificamos si el usuario tiene el rol requerido
-            if (!userRoles.includes(requiredRole)) {
+            if (userType !== requiredRole) {
                 res.status(403).json({ message: `Access denied. Must be ${requiredRole}` });
                 return;
             }
 
-            (req as any).user = decoded;
-            next();  // Continuamos con el siguiente middleware o ruta
+            (req as Request & { email: string }).email = decoded.email;
+            next();
         } catch (error) {
             res.status(401).json({ message: 'Invalid token' });
         }

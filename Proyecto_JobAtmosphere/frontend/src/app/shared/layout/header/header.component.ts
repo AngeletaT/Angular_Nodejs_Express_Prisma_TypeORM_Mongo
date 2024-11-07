@@ -91,8 +91,8 @@ export class HeaderComponent implements OnInit {
     } else if (this.userType === 'recruiter') {
       this.recruiterService.getRecruiterProfile().subscribe({
         next: (recruiter) => {
-          // this.userImage = recruiter.image;
-          this.userImage = 'https://via.placeholder.com/150';
+          console.log('Datos del reclutador:', recruiter);
+          this.userImage = recruiter.user.image;
         },
         error: (err) => {
           console.error('Error al obtener datos del reclutador:', err);

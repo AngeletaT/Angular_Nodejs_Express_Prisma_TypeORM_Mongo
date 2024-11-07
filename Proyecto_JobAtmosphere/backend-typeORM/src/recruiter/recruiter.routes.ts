@@ -20,8 +20,12 @@ router.post('/recruiter/register', async (req: Request, res: Response) => {
 });
 
 // Ruta protegida con middleware de roles
-router.get('/recruiter/dashboard', roleMiddleware('recruiter'), (req, res) => {
-    
+router.get('/recruiter/dashboard', roleMiddleware('recruiter'), async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await userController.getCurrentRecruiter(req, res, next);
+    } catch (error) {
+        next(error);
+    }
 });
 
 // Ruta para asignar un recruiter a un job
@@ -30,7 +34,7 @@ router.post('/recruiter/assign', async (req: Request, res: Response) => {
 });
 
 // Ruta para actualizar el estado de una aplicación de job
-router.post('/recruiter/application/status', async (req: Request, res: Response, next: NextFunction ) => {
+router.post('/recruiter/application/status', async (req: Request, res: Response, next: NextFunction) => {
     updateApplicationStatus(req, res, next)
 });
 
