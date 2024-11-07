@@ -101,19 +101,40 @@
                 <form (ngSubmit)="submitNewJob()">
                     <div class="form-group">
                         <label for="jobName">Título del Trabajo</label>
-                        <input type="text" id="jobName" class="form-control" [(ngModel)]="newJob.name" name="name" required>
+                        <input type="text" id="jobName" class="form-control" [(ngModel)]="newJob.name" name="name"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobCompany">Empresa</label>
+                        <input type="text" id="jobCompany" class="form-control" [(ngModel)]="newJob.company"
+                            name="company" placeholder="{{company.company_name}}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobCompanyImage">Logo de la Empresa</label>
+                        <input type="text" id="jobCompanyImage" class="form-control" [(ngModel)]="newJob.img" name="img"
+                            placeholder="{{company.image}}" readonly>
                     </div>
                     <div class="form-group">
                         <label for="jobDescription">Descripción</label>
-                        <textarea id="jobDescription" class="form-control" [(ngModel)]="newJob.description" name="description" required></textarea>
+                        <textarea id="jobDescription" class="form-control" [(ngModel)]="newJob.description"
+                            name="description" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="jobImages">Imágenes</label>
-                        <input type="text" id="jobImages" class="form-control" [(ngModel)]="newJob.images" name="images" required>
+                        <input type="text" id="jobImages" class="form-control" [(ngModel)]="imagesString" name="images"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="jobSalary">Salario</label>
-                        <input type="number" id="jobSalary" class="form-control" [(ngModel)]="newJob.salary" name="salary" required>
+                        <input type="number" id="jobSalary" class="form-control" [(ngModel)]="newJob.salary"
+                            name="salary" required>
+                    </div>
+                    <div>
+                        <label for="jobSalary">Categoria</label>
+                        <select class="form-control" name="category" id="category" [(ngModel)]="newJob.id_cat">
+                            <option class="catname" *ngFor="let category of listCategories" [value]="category.id_cat">
+                                {{category.category_name}}</option>
+                        </select>
                     </div>
                     <div class="form-buttons">
                         <button type="submit" class="btn btn-primary">Añadir Trabajo</button>
@@ -128,22 +149,21 @@
                 <form (ngSubmit)="submitEditJob()">
                     <div class="form-group">
                         <label for="editJobName">Título del Trabajo</label>
-                        <input type="text" id="editJobName" class="form-control" [(ngModel)]="selectedJob.name" name="name" required>
+                        <input type="text" id="editJobName" class="form-control" [(ngModel)]="selectedJob.name"
+                            name="name" required>
                     </div>
                     <div class="form-group">
                         <label for="editJobDescription">Descripción</label>
-                        <textarea id="editJobDescription" class="form-control" [(ngModel)]="selectedJob.description" name="description" required></textarea>
+                        <textarea id="editJobDescription" class="form-control" [(ngModel)]="selectedJob.description"
+                            name="description" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="editJobSalary">Salario</label>
-                        <input type="number" id="editJobSalary" class="form-control" [(ngModel)]="selectedJob.salary" name="salary" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editJobImages">Imagenes</label>
-                        <input type="text" id="editJobImages" class="form-control" [(ngModel)]="selectedJob.images" name="images" required>
+                        <input type="number" id="editJobSalary" class="form-control" [(ngModel)]="selectedJob.salary"
+                            name="salary" required>
                     </div>
                     <div class="form-buttons">
-                        <button type="submit" class="btn btn-primary">Añadir Trabajo</button>
+                        <button type="submit" class="btn btn-primary">Editar Trabajo</button>
                         <button type="button" class="btn btn-danger" (click)="cancelJob()">Cancelar</button>
                     </div>
                 </form>

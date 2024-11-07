@@ -98,7 +98,8 @@ JobSchema.methods.toJobResponse = async function (user) {
         favoritesCount: this.favoritesCount || 0,
         comments: this.comments,
         isActive: this.isActive,
-        application: this.application
+        application: this.application,
+        recruiter: this.recruiter
     };
 };
 

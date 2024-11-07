@@ -13,4 +13,5 @@ export interface Job {
     comments: [],
     application: [],
     isActive: boolean;
+    recruiter: string;
 }

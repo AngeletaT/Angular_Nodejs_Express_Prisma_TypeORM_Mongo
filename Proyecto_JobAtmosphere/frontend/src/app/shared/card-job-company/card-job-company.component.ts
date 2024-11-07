@@ -24,12 +24,10 @@ export class CardJobCompanyComponent implements OnInit {
   }
 
   onDeactivateJob(job: Job) {
-    this.job.isActive = false;
     this.deactivateJob.emit(job);
   }
 
   onActivateJob(job: Job) {
-    this.job.isActive = true;
     this.activateJob.emit(job);
   }
 

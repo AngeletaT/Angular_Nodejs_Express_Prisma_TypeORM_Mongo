@@ -15,6 +15,7 @@ export default function jobViewer(job: Jobs) {
         favoritesCount: job.favoritesCount,
         comments: job.comments,
         isActive: job.isActive,
-        application: job.application
+        application: job.application,
+        recruiter: job.recruiter
     };
 }

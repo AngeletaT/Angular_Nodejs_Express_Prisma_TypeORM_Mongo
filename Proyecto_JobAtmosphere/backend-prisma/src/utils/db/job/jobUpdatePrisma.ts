@@ -3,7 +3,7 @@ import { Jobs } from "@prisma/client";
 
 export async function updateJob(
     slug: string,
-    data: { name?: string; salary?: number; description?: string }
+    data: { name?: string; salary?: number; description?: string; isActive?: boolean }
 
 ): Promise<Jobs | null> {
     try {
@@ -12,7 +12,8 @@ export async function updateJob(
             data: {
                 name: data.name,
                 salary: data.salary,
-                description: data.description
+                description: data.description,
+                isActive: data.isActive
             }
         });
         return updatedJob;

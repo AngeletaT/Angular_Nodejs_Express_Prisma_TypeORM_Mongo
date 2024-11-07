@@ -86,4 +86,11 @@ export class JobService {
       map((data: any) => data)
     );
   }
+
+  //RECRUITER
+  requestRecruiter(jobSlug: string): Observable<any> {
+    return this.apiService.post(`/job/${jobSlug}/assign`, {}, 3001).pipe(
+      map((data: any) => data)
+    );
+  }
 }
