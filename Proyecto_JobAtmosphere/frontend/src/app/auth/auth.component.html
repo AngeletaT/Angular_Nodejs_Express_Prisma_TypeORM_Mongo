@@ -27,22 +27,22 @@
             <fieldset class="form-group" *ngIf="authType === 'register'">
               <input formControlName="username" placeholder="Nombre de usuario"
                 class="form-control form-control-lg form-margin" type="text" />
-              <div *ngIf="authForm.get('username')?.invalid && authForm.get('username')?.touched" class="text-danger">
-                <p>El nombre de usuario debe tener entre 6 y 20 caracteres.</p>
+              <div *ngIf="authForm.get('username')?.invalid && authForm.get('username')?.touched">
+                <p class="text-danger">El nombre de usuario debe tener entre 6 y 20 caracteres.</p>
               </div>
             </fieldset>
             <fieldset class="form-group">
               <input formControlName="email" placeholder="Correo electrónico"
                 class="form-control form-control-lg form-margin" type="email" />
-              <div *ngIf="authForm.get('email')?.invalid && authForm.get('email')?.touched" class="text-danger">
-                <p>El correo electrónico debe ser válido y tener un formato correcto.</p>
+              <div *ngIf="authForm.get('email')?.invalid && authForm.get('email')?.touched">
+                <p class="text-danger">El correo electrónico debe ser válido y tener un formato correcto.</p>
               </div>
             </fieldset>
             <fieldset class="form-group">
               <input formControlName="password" placeholder="Contraseña"
                 class="form-control form-control-lg form-margin" type="password" />
-              <div *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.touched" class="text-danger">
-                <p>La contraseña debe tener entre 6 y 20 caracteres.</p>
+              <div *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.touched">
+                <p class="text-danger">La contraseña debe tener entre 6 y 20 caracteres.</p>
               </div>
             </fieldset>
             <br>

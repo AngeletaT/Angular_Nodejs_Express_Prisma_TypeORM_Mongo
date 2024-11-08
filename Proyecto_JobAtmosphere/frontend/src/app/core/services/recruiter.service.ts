@@ -75,10 +75,25 @@ export class RecruiterService {
         );
     }
 
-    logout(): Observable<void> {
-        return this.apiService.post('/recruiter/logout', {}, 3002).pipe(
-            map(() => {
-                this.purgeAuth();
+    getJobApplications(): Observable<any> {
+        return this.apiService.get(`/recruiter/job`, undefined, 3002).pipe(
+            map((data: any) => {
+                console.log(data)
+                return data;
+            })
+        );
+    }
+
+    logout(): void {
+        this.purgeAuth();
+    }
+
+    updateApplicationStatus(updateObject: { jobId: string, userId: string, newStatus: string }): Observable<any> {
+        console.log('updateObject:', updateObject);
+        return this.apiService.post('/recruiter/application/status', updateObject, 3002).pipe(
+            map((data: any) => {
+                console.log('Estado actualizado:', data);
+                return data;
             })
         );
     }

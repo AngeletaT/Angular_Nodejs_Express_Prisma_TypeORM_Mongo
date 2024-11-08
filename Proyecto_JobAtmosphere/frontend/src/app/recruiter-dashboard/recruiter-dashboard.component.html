@@ -15,7 +15,7 @@
                     </li>
                     <li class="nav-item" [class.active]="isActive('jobs')">
                         <a class="nav-link jobs" (click)="showJobs()">
-                            <i class="fas fa-briefcase"></i>&nbsp;&nbsp; Jobs
+                            <i class="fas fa-file-signature"></i>&nbsp;&nbsp; Applications
                         </a>
                     </li>
                     <li class="nav-item settings" [class.active]="isActive('settings')">
@@ -33,35 +33,19 @@
             <div *ngIf="currentView === 'dashboard'" class="dashboard-overview">
                 <!-- Cards with statistics -->
                 <div class="row mb-4">
-                    <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="col-lg-6 col-md-12 mb-3">
                         <div class="card-stadistic">
                             <div class="card-body">
-                                <h5 class="card-title">Trabajos Creados</h5>
-                                <!-- <p class="card-text">{{ myJobs.length }}</p> -->
+                                <h5 class="card-title">Selecciones en curso</h5>
+                                <p class="card-text">{{ recruiter.jobs.length }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="col-lg-6 col-md-12 mb-3">
                         <div class="card-stadistic">
                             <div class="card-body">
-                                <h5 class="card-title">Seguidores</h5>
-                                <!-- <p class="card-text">{{ recruiter.followers || 0 }}</p> -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card-stadistic">
-                            <div class="card-body">
-                                <h5 class="card-title">Candidatos Totales</h5>
-                                <!-- <p class="card-text">{{ totalCandidates }}</p> -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card-stadistic">
-                            <div class="card-body">
-                                <h5 class="card-title">Nº de Empleados</h5>
-                                <!-- <p class="card-text">{{ recruiter.n_employee || 0 }}</p> -->
+                                <h5 class="card-title">Inscripciones Totales</h5>
+                                <p class="card-text">{{ totalApplications }}</p>
                             </div>
                         </div>
                     </div>
@@ -73,13 +57,31 @@
                     <hr>
                     <p><strong>Nombre del reclutador:</strong> {{ recruiter.username }}</p>
                     <p><strong>Email:</strong> {{ recruiter.email }}</p>
-                    <p><strong>Descripción:</strong> {{ recruiter.description }}</p>
-                    <p><strong>Ubicación:</strong> {{ recruiter.location }}</p>
+                    <p><strong>Estado:</strong> {{ recruiter.busy ? 'Ocupado' : 'Libre' }}</p>
                 </div>
             </div>
 
             <!-- Application Section -->
+            <div *ngIf="currentView === 'applications'" class="applications-section">
+                <div class="d-flex justify-content-between align-items-center mb-4 title">
+                    <h2>Mis Procesos de Selección</h2>
+                </div>
+                <div class="job-list">
+                    <div *ngFor="let job of myJobs">
+                        <app-card-application [job]="job" (editInscriptions)="editStatus(job)"></app-card-application>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Candidates Section -->
+            <div *ngIf="currentView === 'candidates'" class="candidates-section">
+                <div class="d-flex justify-content-between align-items-center mb-4 title">
+                    <h2>Candidatos</h2>
+                </div>
+                <div class="candidate-list">
+                    <app-card-candidate [candidates]="selectedJobApplications"></app-card-candidate>
+                </div>
+            </div>
 
             <!-- Settings Section -->
             <div *ngIf="currentView === 'settings'">
