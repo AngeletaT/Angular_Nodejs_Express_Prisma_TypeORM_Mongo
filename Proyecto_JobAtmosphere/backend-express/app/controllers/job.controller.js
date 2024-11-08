@@ -256,6 +256,30 @@ const unfavoriteJob = asyncHandler(async (req, res) => {
     });
 });
 
+// #region TRABAJOS DE RECLUTADOR
+const recruiterJobs = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    // Buscar el trabajo específico por su `jobId`
+    const job = await Job.findById(id).exec();
+
+    if (!job) {
+        return res.status(404).json({
+            message: "Trabajo no encontrado",
+        });
+    }
+
+    // Obtener el usuario actual si está autenticado
+    const user = req.userId ? await User.findById(req.userId) : null;
+
+    // Aplicar `toJobResponse` para obtener los datos formateados del trabajo
+    const jobResponse = await job.toJobResponse(user);
+
+    return res.status(200).json({
+        job: jobResponse,
+    });
+});
+
 // #region EXPORTS
 module.exports = {
     createJob,
@@ -266,4 +290,5 @@ module.exports = {
     updateJob,
     favoriteJob,
     unfavoriteJob,
+    recruiterJobs,
 };

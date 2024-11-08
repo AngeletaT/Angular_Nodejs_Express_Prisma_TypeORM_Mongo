@@ -4,6 +4,7 @@ import { UserService } from './recruiter.service';
 import { AuthService } from '../utils/auth.service';
 import { CreateUserDto } from './dto/create-recruiter.dto';
 import { LoginUserDto } from './dto/login-recruiter.dto';
+import axios from 'axios';
 
 export class UserController {
     private userService: UserService;
@@ -90,6 +91,49 @@ export class UserController {
             return res.status(200).json({ user });
         } catch (error) {
             return res.status(500).json({ message: 'Error retrieving user profile' });
+        }
+    }
+
+    async getJobs(req: Request, res: Response, next: NextFunction) {
+        const email = (req as Request & { email: string }).email;
+
+        if (!email) {
+            return res.status(400).json({ message: 'Email not found in token' });
+        }
+
+        try {
+            // Verificar si el usuario existe y es un recruiter con trabajos asociados
+            const user = await this.userService.findUserByEmail(email);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            // Asegurarse de que el usuario tiene el campo `jobs` con al menos un trabajo
+            if (!user.jobs || user.jobs.length === 0) {
+                return res.status(404).json({ message: 'No jobs found for this recruiter' });
+            }
+
+            // Llamar al servidor Mongoose para obtener detalles de cada trabajo en `user.jobs`
+            const jobDetails = await Promise.all(
+                user.jobs.map(async (jobId: string) => {
+                    try {
+                        const mongooseUrl = `http://localhost:3000/job/${jobId}`;
+                        const response = await axios.get(mongooseUrl);
+                        return response.data; // Devuelve los datos del trabajo
+                    } catch (error) {
+                        console.error(`Error fetching job ${jobId}:`, (error as any).message);
+                        return null; // Manejo de errores para trabajos que no se pudieron obtener
+                    }
+                })
+            );
+
+            // Filtrar trabajos nulos (si alguno falló en obtenerse)
+            const validJobs = jobDetails.filter(job => job !== null);
+
+            return res.status(200).json({ jobs: validJobs });
+        } catch (error) {
+            console.error("Error retrieving jobs for recruiter:", error);
+            return res.status(500).json({ message: 'Error retrieving job details', error: (error as Error).message });
         }
     }
 }

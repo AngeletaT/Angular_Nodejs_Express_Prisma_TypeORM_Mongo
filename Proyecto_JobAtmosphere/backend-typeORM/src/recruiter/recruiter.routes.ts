@@ -51,4 +51,15 @@ router.get(
     }
 );
 
+// Ruta para obtener los jobs de un recruiter
+router.get("/recruiter/job",
+    authMiddleware,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            await userController.getJobs(req, res, next);
+        } catch (error) {
+            next(error);
+        }
+    });
+
 export default router;

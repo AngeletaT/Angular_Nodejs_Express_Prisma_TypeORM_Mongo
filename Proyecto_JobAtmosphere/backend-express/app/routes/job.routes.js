@@ -26,4 +26,7 @@ module.exports = (app) => {
 
     //UNFAVORITE
     app.delete("/:slug/favorite", verifyJWT, jobs.unfavoriteJob);
+
+    //RECRUITER JOBS
+    app.get("/job/:id", jobs.recruiterJobs);
 };
