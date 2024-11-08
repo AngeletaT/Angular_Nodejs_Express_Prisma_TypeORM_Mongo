@@ -15,6 +15,7 @@ export class DetailsComponent implements OnInit {
   job!: Job;
   slug!: string | null;
   selectedComment: Comment | null = null;
+  isApplying: boolean = false; // Nueva propiedad
 
   constructor(
     private JobService: JobService,
@@ -44,6 +45,7 @@ export class DetailsComponent implements OnInit {
   applyForJob() {
     console.log('Applying for job', this.job.id);
     if (this.job && this.job.id) {
+      this.isApplying = true;
       this.UserService.applyForJob(this.job.id).subscribe(
         (response) => {
           console.log('Application successful', response);
@@ -60,6 +62,7 @@ export class DetailsComponent implements OnInit {
             title: 'Error',
             text: error.message || 'An error occurred while applying for the job.',
           });
+          this.isApplying = false;
         }
       );
     }

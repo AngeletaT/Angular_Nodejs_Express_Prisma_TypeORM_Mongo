@@ -34,7 +34,10 @@
                         <p>{{ job.salary | number:'1.0-0':'en' }}€</p>
                     </div>
                     <div class="apply-button">
-                        <button class="btn btn-primary" (click)="applyForJob()">Aplicar</button>
+                        <button class="btn btn-primary" [ngClass]="{'btn-disabled': isApplying}" [disabled]="isApplying"
+                            (click)="applyForJob()">
+                            {{ isApplying ? 'Inscrito' : 'Aplicar' }}
+                        </button>
                         <app-favorite-button [jobs]="job" (toggle)="onToggleFavorite($event)">
                             {{ job.favorited ? 'Unfavorite' : 'Favorite' }} <span class="counter"> ( {{
                                 job.favoritesCount }} )</span>
@@ -43,7 +46,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Imagen -->
         <div class="col-md-4 carousel-container">
             <app-carousel page="details"></app-carousel>

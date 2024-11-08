@@ -94,3 +94,9 @@
 #comments_list .comment button:hover {
   background-color: #c82333;
 }
+
+.btn-disabled {
+  background-color: #6c757d; /* Color gris para botón deshabilitado */
+  color: white;
+  cursor: not-allowed;
+}
