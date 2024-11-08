@@ -20,6 +20,7 @@ export class UserService {
         user.image = userData.image;
         user.roles = userData.roles || ['recruiter'];
         user.busy = false;
+        user.jobs = [];
 
 
         await user.hashPassword();

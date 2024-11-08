@@ -5,4 +5,5 @@ export interface IUser {
     image?: string;
     roles: string[];
     busy?: boolean;
+    jobs?: string[];
 }

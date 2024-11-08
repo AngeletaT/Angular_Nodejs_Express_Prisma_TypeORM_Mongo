@@ -36,7 +36,8 @@ export class UserController {
                 password: createUserDto.password,
                 image: createUserDto.image,
                 roles: ['recruiter'],
-                busy: false
+                busy: false,
+                jobs: []
             });
             return res.status(201).json({
                 message: 'User registered successfully'

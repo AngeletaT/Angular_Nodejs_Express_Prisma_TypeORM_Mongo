@@ -25,8 +25,8 @@ export class User {
     @Column({ default: false })
     busy?: boolean;
 
-    @Column('simple-array')  // Definir 'jobs' como un array de strings o el tipo adecuado
-    jobs?: string[];  // Aquí definimos el campo jobs como un array de strings
+    @Column('simple-array')
+    jobs?: string[];
 
     // Método para encriptar la contraseña con Argon2
     async hashPassword() {
