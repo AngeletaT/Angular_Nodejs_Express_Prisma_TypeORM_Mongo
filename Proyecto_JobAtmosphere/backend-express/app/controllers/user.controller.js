@@ -138,10 +138,24 @@ const getUserProfile = asyncHandler(async (req, res) => {
     });
 });
 
+const getUserById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const user = await User
+        .findById(id)
+        .exec();
+    if (!user) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    res.status(200).json({
+        user: user,
+    });
+});
+
 module.exports = {
     registerUser,
     getCurrentUser,
     userLogin,
     updateUser,
     getUserProfile,
+    getUserById,
 };

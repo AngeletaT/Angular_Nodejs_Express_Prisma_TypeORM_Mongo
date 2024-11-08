@@ -94,4 +94,12 @@ export class UserService {
   applyForJob(jobId: string): Observable<any> {
     return this.apiService.post('/user/apply', { jobId: jobId }, 3000);
   }
+
+  getUserById(userId: string): Observable<User> {
+    return this.apiService.get(`/user/${userId}`, undefined, 3000).pipe(
+      map((data: any) => {
+        return data.user;
+      })
+    );
+  }
 }

@@ -4,7 +4,7 @@ module.exports = (app) => {
     const { applyToJob } = require("../controllers/application.controller.js");
     const updateApplicationStatus = require("../controllers/updateStatus.controller.js");
     const verifyJWTOptional = require("../middleware/verifyJWTOptional");
-    const followCompany = require("../controllers/follow.controller");  
+    const followCompany = require("../controllers/follow.controller");
 
     // Authentication
     app.post("/users/login", userController.userLogin);
@@ -32,4 +32,7 @@ module.exports = (app) => {
 
     // Follow Company
     app.post("/user/follow", verifyJWT, followCompany);
+
+    // Get User By ID
+    app.get("/user/:id", userController.getUserById);
 };
