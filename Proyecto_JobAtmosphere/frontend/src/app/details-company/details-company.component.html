@@ -29,8 +29,9 @@
                         <p>{{ company.email }}</p>
                     </div>
                     <div class="follow-button">
-                        <button class="btn btn-primary" (click)="onClickFollow()">
-                            <p>Follow ({{ company.followers | number:'1.0-0':'en' }})</p>
+                        <button class="btn btn-primary" [ngClass]="{'btn-following': isFollowing}"
+                            (click)="onToggleFollow()">
+                            <p>{{ isFollowing ? 'Unfollow' : 'Follow' }}</p>
                         </button>
                     </div>
                 </div>

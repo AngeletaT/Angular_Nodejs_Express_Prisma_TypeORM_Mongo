@@ -8,7 +8,8 @@
   justify-content: space-between;
 }
 
-.table h3, p {
+.table h3,
+p {
   margin-left: 10px;
 }
 
@@ -47,6 +48,15 @@
   padding: 10px 20px;
 }
 
+.follow-button p {
+  margin: 0px;
+}
+
+.follow-button .btn-following {
+  background-color: #dc3545;
+  color: white;
+}
+
 .carousel-container {
   min-width: 500px;
   min-height: 500px;
@@ -60,4 +70,3 @@
   max-height: 100%;
   border-radius: 10px;
 }
-

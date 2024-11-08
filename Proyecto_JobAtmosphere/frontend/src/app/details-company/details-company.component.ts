@@ -17,6 +17,7 @@ export class DetailsCompanyComponent implements OnInit {
   company!: Company;
   name!: string | null;
   selectedComment: Comment | null = null;
+  isFollowing: boolean = false; // Nueva propiedad
 
   constructor(
     private JobService: JobService,
@@ -52,19 +53,11 @@ export class DetailsCompanyComponent implements OnInit {
     return url.replace(/-/g, ' ');
   }
 
-  onClickFollow() {
+  onToggleFollow() {
     const companyId = this.company.id;
     this.CompanyService.follow(companyId).subscribe(
       (data: any) => {
-        Swal.fire({
-          icon: 'success',
-          title: '¡Empresa seguida!',
-          showConfirmButton: false,
-          timer: 1500,
-        }).then(() => {
-          window.location.reload();
-        });
-
+        this.isFollowing = !this.isFollowing;
       },
       (error: any) => {
         console.error('Error following company', error);
