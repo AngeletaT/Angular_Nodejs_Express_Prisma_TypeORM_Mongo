@@ -24,56 +24,62 @@ export class SettingsRecruiterComponent implements OnInit {
         private cd: ChangeDetectorRef
     ) {
         this.settingsForm = this.fb.group({
-            location: '',
             image: '',
-            n_employee: '',
-            description: '',
+            busy: ''
         });
     }
 
     ngOnInit() {
         Object.assign(this.recruiter, this.recruiterService.getCurrentRecruiter());
-        this.settingsForm.patchValue(this.recruiter);
+        this.settingsForm.patchValue(this.recruiter.user);
     }
 
     logout() {
-        this.recruiterService.logout().subscribe({
-            next: () => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Logged out successfully',
-                    text: 'See you soon!'
-                }).then(() => {
-                    this.router.navigateByUrl('/');
-                });
-            },
-            error: () => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Logout failed',
-                    text: 'Please try again later.'
-                });
-            }
+        this.recruiterService.logout().then(() => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Logged out successfully',
+                text: 'See you soon!'
+            }).then(() => {
+                window.location.reload();
+            });
+        }).catch(() => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Logout failed',
+                text: 'Please try again later.'
+            });
         });
     }
-
     submitForm() {
         this.isSubmitting = true;
 
-        console.log("Recruiter updated 1: ", this.settingsForm.value);
+        // console.log("Recruiter updated 1: ", this.settingsForm.value.image, this.settingsForm.value.busy.toString());
         const updateValues = this.settingsForm.value;
-        updateValues.n_employee = parseInt(updateValues.n_employee);
 
-        // this.recruiterService.update(updateValues).subscribe(
-        //     (updatedRecruiter: Recruiter) => {
-        //         Swal.fire({
-        //             icon: 'success',
-        //             title: 'Success',
-        //             text: 'Settings successfully updated'
-        //         }).then(() => {
-        //             window.location.reload();
-        //         });
-        //     }
-        // );
+        // const image = this.settingsForm.value.image;
+        // const busy = this.settingsForm.value.busy.toString();
+        // const updateValue = {"image": image, "busy": busy};
+        // console.log("Recruiter updated 2: ", updateValue);
+
+        this.recruiterService.update(updateValues).subscribe(
+            (updatedRecruiter: Recruiter) => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Settings successfully updated'
+                }).then(() => {
+                    window.location.reload();
+                });
+            },
+            (error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Update failed',
+                    text: 'Please try again later.'
+                });
+                this.isSubmitting = false;
+            }
+        );
     }
 }

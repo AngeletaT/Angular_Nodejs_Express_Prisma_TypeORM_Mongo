@@ -141,21 +141,26 @@ export class UserController {
     async updateRecruiter(req: Request, res: Response, next: NextFunction) {
         Object.assign(UpdateRecruiterDto, req.body);
         const email = (req as Request & { email: string }).email;
-        const { busy, image } = req.body;
-
+        let { busy, image } = req.body;
+    
         if (!email) {
             return res.status(400).json({ message: 'Email not found in token' });
         }
-
+    
         try {
             const user = await this.userService.findUserByEmail(email);
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
-
-            user.busy = busy || user.busy;
+    
+            // Convertir el valor de busy a booleano si es una cadena
+            if (typeof busy === 'string') {
+                busy = busy.toLowerCase() === 'true';
+            }
+    
+            user.busy = busy !== undefined ? busy : user.busy;
             user.image = image || user.image;
-
+    
             await this.userService.updateUser(user);
             return res.status(200).json({ message: 'User updated successfully' });
         } catch (error) {

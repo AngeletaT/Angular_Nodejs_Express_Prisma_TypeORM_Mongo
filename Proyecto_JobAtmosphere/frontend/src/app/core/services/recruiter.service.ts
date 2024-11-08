@@ -84,8 +84,24 @@ export class RecruiterService {
         );
     }
 
-    logout(): void {
-        this.purgeAuth();
+    logout(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            try {
+                this.purgeAuth();
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    update(recruiter: Partial<Recruiter>): Observable<Recruiter> {
+        return this.apiService.post('/recruiter/update', recruiter, 3002).pipe(
+            map((data: any) => {
+                this.currentRecruiterSubject.next(data);
+                return data;
+            })
+        );
     }
 
     updateApplicationStatus(updateObject: { jobId: string, userId: string, newStatus: string }): Observable<any> {
@@ -97,4 +113,6 @@ export class RecruiterService {
             })
         );
     }
+
+
 }

@@ -4,30 +4,26 @@
             <div class="col-md-6">
                 <form [formGroup]="settingsForm" (ngSubmit)="submitForm()">
                     <fieldset [disabled]="isSubmitting">
-                        <fieldset class="form-group">
-                            <input class="form-control form-margin" type="text" placeholder="Email"
-                                formControlName="email" />
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input class="form-control form-margin" type="text" placeholder="Nombre de usuario"
-                                formControlName="username" />
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input class="form-control form-margin" type="password" placeholder="Contraseña"
-                                formControlName="password" />
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input class="form-control form-margin" type="text" placeholder="Roles"
-                                formControlName="roles" />
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input class="form-control form-margin" type="text" placeholder="Ocupado"
-                                formControlName="busy" />
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input class="form-control form-margin" type="text" placeholder="Trabajos"
-                                formControlName="jobs" />
-                        </fieldset>
+                        <div class="form-group row">
+                            <label for="image" class="col-sm-4 col-form-label">URL imagen perfil:</label>
+                            <div class="col-sm-8">
+                                <input id="image" class="form-control form-margin" type="text" placeholder="Image"
+                                    formControlName="image" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Ocupado:</label>
+                            <div class="col-sm-8">
+                                <fieldset class="form-group hidden-toggles">
+                                    <input type="radio" id="busy-true" name="busy" [value]="true" class="hidden-toggles__input" formControlName="busy" />
+                                    <label for="busy-true" class="hidden-toggles__label">True</label>
+
+                                    <input type="radio" id="busy-false" name="busy" [value]="false" class="hidden-toggles__input" formControlName="busy" />
+                                    <label for="busy-false" class="hidden-toggles__label">False</label>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <br>
                         <button class="btn btn-lg btn-primary btn-block" type="submit">
                             Actualizar ajustes
                         </button>

@@ -54,3 +54,44 @@
     background-color: #dc3545;
     color: #ffffff;
 }
+
+/* Estilos adicionales para los radio buttons */
+.hidden-toggles {
+    position: relative;
+    border-radius: 999px;
+    overflow: hidden;
+    height: 44px;
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    margin: 0 auto;
+}
+
+.hidden-toggles__input {
+    display: none;
+}
+
+.hidden-toggles__input:checked + .hidden-toggles__label {
+    background-color: #343a40;
+    color: #FFFFFF;
+}
+
+.hidden-toggles__label {
+    flex: 1;
+    text-align: center;
+    padding: 10px 1px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    color: #343a40;
+    font-weight: 500;
+}
+
+.hidden-toggles__label:hover {
+    color: #343a40;
+}
+
+.hidden-toggles__label + .hidden-toggles__label {
+    border-left: 2px solid #343a40;
+}
