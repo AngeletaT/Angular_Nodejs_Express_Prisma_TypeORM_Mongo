@@ -9,14 +9,20 @@
             </div>
             <div class="d-flex mt-3 justify-content-between align-items-center">
                 <div class="hidden-toggles">
-                    <input type="radio" id="statusPending{{candidate.user.id}}" name="statusOptions{{candidate.user._id}}" value="pending" class="hidden-toggles__input" (change)="onStatusChange(candidate, 'pending')" [checked]="candidate.status === 'pending'">
-                    <label for="statusPending{{candidate.user.id}}" class="hidden-toggles__label">Pending</label>
+                    <input type="radio" id="statusPending{{candidate.user._id}}"
+                        name="statusOptions{{candidate.user._id}}" value="pending" class="hidden-toggles__input"
+                        (change)="onStatusChange(candidate, 'pending')" [checked]="candidate.status === 'pending'">
+                    <label for="statusPending{{candidate.user._id}}" class="hidden-toggles__label">Pending</label>
 
-                    <input type="radio" id="statusAccepted{{candidate.user.id}}" name="statusOptions{{candidate.user._id}}" value="accepted" class="hidden-toggles__input" (change)="onStatusChange(candidate, 'accepted')" [checked]="candidate.status === 'accepted'">
-                    <label for="statusAccepted{{candidate.user.id}}" class="hidden-toggles__label">Accepted</label>
+                    <input type="radio" id="statusAccepted{{candidate.user._id}}"
+                        name="statusOptions{{candidate.user._id}}" value="accepted" class="hidden-toggles__input"
+                        (change)="onStatusChange(candidate, 'accepted')" [checked]="candidate.status === 'accepted'">
+                    <label for="statusAccepted{{candidate.user._id}}" class="hidden-toggles__label">Accepted</label>
 
-                    <input type="radio" id="statusRejected{{candidate.user.id}}" name="statusOptions{{candidate.user._id}}" value="rejected" class="hidden-toggles__input" (change)="onStatusChange(candidate, 'rejected')" [checked]="candidate.status === 'rejected'">
-                    <label for="statusRejected{{candidate.user.id}}" class="hidden-toggles__label">Rejected</label>
+                    <input type="radio" id="statusRejected{{candidate.user._id}}"
+                        name="statusOptions{{candidate.user._id}}" value="rejected" class="hidden-toggles__input"
+                        (change)="onStatusChange(candidate, 'rejected')" [checked]="candidate.status === 'rejected'">
+                    <label for="statusRejected{{candidate.user._id}}" class="hidden-toggles__label">Rejected</label>
                 </div>
             </div>
         </div>
