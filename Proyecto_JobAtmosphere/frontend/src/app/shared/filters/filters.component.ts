@@ -40,28 +40,32 @@ export class FiltersComponent implements OnInit {
     console.log(this.routeFilters);
 
     if (this.routeFilters != null) {
-      this.filters = new Filters();
-      this.filters = JSON.parse(atob(this.routeFilters));
-      console.log(this.filters.category);
+        this.filters = JSON.parse(atob(this.routeFilters));
+        console.log(this.filters.category);
     } else {
-      this.filters = new Filters();
-    }
-    if (this.id_cat) {
-      this.filters.category = this.id_cat;
+        this.filters = new Filters();
     }
 
-    this.salary_calc(this.salary_min, this.salary_max);
-    this.filters.salary_min = this.salary_min ? this.salary_min : undefined;
-    this.filters.salary_max =
-      this.salary_max == 0 || this.salary_max == null
-        ? undefined
-        : this.salary_max;
+    // Asignar los filtros si existen
+    if (this.id_cat) this.filters.category = this.id_cat;
+    if (this.salary_min != null) this.filters.salary_min = this.salary_min;
+    if (this.salary_max != null && this.salary_max !== 0) this.filters.salary_max = this.salary_max;
 
+    // Limpieza de valores `null` o `undefined` en el objeto `filters`
+    this.filters = Object.keys(this.filters)
+        .filter(key => this.filters[key] !== undefined && this.filters[key] !== null)
+        .reduce((obj, key) => {
+            obj[key] = this.filters[key];
+            return obj;
+        }, {} as Filters);
+
+    // Actualizar la URL sin parámetros vacíos
     setTimeout(() => {
-      this.Location.replaceState('/shop/' + btoa(JSON.stringify(this.filters)));
-      this.eventofiltros.emit(this.filters);
+        const urlFilters = btoa(JSON.stringify(this.filters));
+        this.Location.replaceState(`/shop/${urlFilters}`);
+        this.eventofiltros.emit(this.filters);
     }, 200);
-  }
+}
 
   public salary_calc(
     salary_min: number | undefined,

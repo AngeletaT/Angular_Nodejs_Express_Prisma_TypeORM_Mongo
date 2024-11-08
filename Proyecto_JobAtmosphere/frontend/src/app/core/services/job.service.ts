@@ -18,12 +18,12 @@ export class JobService {
     );
   }
 
-  //FILTERS
+  // GET FILTROS
   get_jobs_filter(filters: Filters): Observable<Job[]> {
-    let params = {};
-    params = filters;
-    return this.http.get<Job[]>(`/jobs`, { params });
+    let params = { ...filters }; // Spread filters into params
+    return this.http.get<Job[]>(`http://localhost:3000/jobs`, { params });
   }
+
   //GET ONE
   get_job(slug: String): Observable<Job> {
     return this.apiService.get(`/jobs/${slug}`, undefined, 3000).pipe(
