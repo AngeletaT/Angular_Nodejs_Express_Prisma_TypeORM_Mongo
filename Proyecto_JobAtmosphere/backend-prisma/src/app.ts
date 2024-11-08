@@ -19,7 +19,7 @@ app.use("/", companyRouter);
 app.use("/", jobRouter);
 
 app.get("/", (_req: Request, res: Response) => {
-    console.log("ruta ok");
+    // console.log("ruta ok");
     res.send("ruta ok");
 });
 

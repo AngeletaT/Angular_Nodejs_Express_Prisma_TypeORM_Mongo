@@ -25,13 +25,13 @@ export class ListCategoriesComponent implements OnInit {
   // TOTES LES CATEGORIES
   getCategories() {
     const params = this.getRequestParams(this.offset, this.limit);
-    console.log(params);
+    // console.log(params);
     
     this.CategoryService.all_categories(params).subscribe(
       (data: any) => {
         this.categories = data.categories;
         this.limit = this.limit + 3;
-        console.log(this.categories);      
+        // console.log(this.categories);      
       }
     );
   }

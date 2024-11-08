@@ -60,7 +60,7 @@ export class SettingsCompanyComponent implements OnInit {
     submitForm() {
         this.isSubmitting = true;
 
-        console.log("Company updated 1: ", this.settingsForm.value);
+        // console.log("Company updated 1: ", this.settingsForm.value);
         const updateValues = this.settingsForm.value;
         updateValues.n_employee = parseInt(updateValues.n_employee);
 

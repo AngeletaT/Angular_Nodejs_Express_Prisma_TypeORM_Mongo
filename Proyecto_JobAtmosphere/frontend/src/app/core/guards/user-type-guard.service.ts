@@ -15,11 +15,11 @@ export class UserTypeGuard implements CanActivate {
             try {
                 // Decodificar el token
                 const decodedToken: any = jwtDecode(token);
-                console.log('decodedToken:', decodedToken);
+                // console.log('decodedToken:', decodedToken);
                 const userType = decodedToken?.user?.typeuser || decodedToken?.typeuser;
-                console.log('userType:', userType);
+                // console.log('userType:', userType);
                 const requiredTypeUser = route.data['typeuser'] as string;
-                console.log('requiredTypeUser:', requiredTypeUser);
+                // console.log('requiredTypeUser:', requiredTypeUser);
 
                 // Verificar si el usuario tiene el tipo requerido
                 if (userType && userType === requiredTypeUser) {

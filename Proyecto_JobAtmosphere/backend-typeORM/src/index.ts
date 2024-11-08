@@ -29,7 +29,7 @@ createConnection({
     entities: [User],
     synchronize: true,
 }).then(() => {
-    console.log("Connected to MongoDB with TypeORM");
+    // console.log("Connected to MongoDB with TypeORM");
 
     // Iniciar servidor
     app.listen(PORT, () => {

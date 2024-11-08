@@ -57,9 +57,9 @@ export class SearchComponent implements OnInit {
   getListJobs() {
     this.JobService.find_job_name(this.search).subscribe((data: any) => {
       this.listJobs = data.jobs;
-      console.log(this.listJobs);
+      // console.log(this.listJobs);
       if (data === null) {
-        console.log('error');
+        // console.log('error');
       }
     });
   }

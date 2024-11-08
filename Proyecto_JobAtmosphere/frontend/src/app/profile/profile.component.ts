@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {
         this.userService.getUserProfile().subscribe({
             next: (userProfile) => {
-                console.log(userProfile);
+                // console.log(userProfile);
                 this.user = userProfile;
                 this.user.favoriteJobs = this.user.favoriteJobs || [];
                 this.profileForm.patchValue(this.user);

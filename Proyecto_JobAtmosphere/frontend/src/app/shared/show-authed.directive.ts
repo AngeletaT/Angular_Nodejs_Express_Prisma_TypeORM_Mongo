@@ -19,7 +19,7 @@
     condition!: boolean;
 
     ngOnInit() {
-        console.log('hola directiva');
+        // console.log('hola directiva');
         
         this.userService.isAuthenticated.subscribe(
         (isAuthenticated) => {
@@ -33,7 +33,7 @@
     }
 
     @Input() set appShowAuthed(condition: boolean) {
-        console.log(condition);
+        // console.log(condition);
         this.condition = condition;
     }
 

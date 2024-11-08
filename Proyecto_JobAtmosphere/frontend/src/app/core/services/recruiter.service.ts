@@ -50,10 +50,10 @@ export class RecruiterService {
         const route = type === 'login' ? '/recruiter/login' : '/recruiter/register';
         return this.apiService.post(route, credentials, 3002).pipe(
             map((data: any) => {
-                console.log(data)
+                // console.log(data)
                 if (type === 'login') {
                     this.jwtService.saveToken(data.token);
-                    console.log('Token:', data.token)
+                    // console.log('Token:', data.token)
                     this.populate();
                 }
                 return data;
@@ -68,7 +68,7 @@ export class RecruiterService {
     getRecruiterProfile(): Observable<Recruiter> {
         return this.apiService.get(`/recruiter/dashboard`, undefined, 3002).pipe(
             map((data: any) => {
-                console.log(data)
+                // console.log(data)
                 this.currentRecruiterSubject.next(data);
                 return data;
             })
@@ -78,7 +78,7 @@ export class RecruiterService {
     getJobApplications(): Observable<any> {
         return this.apiService.get(`/recruiter/job`, undefined, 3002).pipe(
             map((data: any) => {
-                console.log(data)
+                // console.log(data)
                 return data;
             })
         );
@@ -105,10 +105,10 @@ export class RecruiterService {
     }
 
     updateApplicationStatus(updateObject: { jobId: string, userId: string, newStatus: string }): Observable<any> {
-        console.log('updateObject:', updateObject);
+        // console.log('updateObject:', updateObject);
         return this.apiService.post('/recruiter/application/status', updateObject, 3002).pipe(
             map((data: any) => {
-                console.log('Estado actualizado:', data);
+                // console.log('Estado actualizado:', data);
                 return data;
             })
         );

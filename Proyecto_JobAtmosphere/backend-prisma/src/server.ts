@@ -8,12 +8,12 @@ app.listen(port, function () {
 
 // Pendiente de la señal del sistema operativo
 process.on("SIGTERM", function () {
-    console.log(`SIGTERM signal received: closing HTTP server.`);
+    // console.log(`SIGTERM signal received: closing HTTP server.`);
     process.exit();
 });
 
 // Pendiente de la terminal para interrumpir la ejecución del servidor
 process.on("SIGINT", function () {
-    console.log(`SIGINT signal received: closing HTTP server.`);
+    // console.log(`SIGINT signal received: closing HTTP server.`);
     process.exit();
 });

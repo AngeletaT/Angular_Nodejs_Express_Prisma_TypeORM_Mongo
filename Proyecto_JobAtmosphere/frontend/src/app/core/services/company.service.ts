@@ -74,10 +74,10 @@ export class CompanyService {
     }
 
     update(updatedData: any): Observable<Company> {
-        console.log("Update Data: 3", updatedData);
+        // console.log("Update Data: 3", updatedData);
         return this.apiService.put('/company', updatedData, 3001).pipe(
             map((data: any) => {
-                console.log("Service Update: 4", data.company);
+                // console.log("Service Update: 4", data.company);
                 this.currentCompanySubject.next(data.company);
                 return data.company;
             })
@@ -95,7 +95,7 @@ export class CompanyService {
     getCompanyJobs(): Observable<Job[]> {
         return this.apiService.get('/job', undefined, 3001).pipe(
             map((response: any) => {
-                console.log('Trabajos de la empresa:', response.jobs);
+                // console.log('Trabajos de la empresa:', response.jobs);
                 return response.jobs;
             })
         );
@@ -104,7 +104,7 @@ export class CompanyService {
     getCompanyByName(companyName: string): Observable<Company> {
         return this.apiService.get(`/details/${companyName}`, undefined, 3001).pipe(
             map((response: any) => {
-                console.log('Company:', response.company);
+                // console.log('Company:', response.company);
                 return response.company;
             })
         );
@@ -112,10 +112,10 @@ export class CompanyService {
 
     follow(companyId: string): Observable<any> {
         const body = { companyId };
-        console.log('Follow company:', body);
+        // console.log('Follow company:', body);
         return this.apiService.post(`/user/follow`, body, 3000).pipe(
             map((response: any) => {
-                console.log('Followed company:', response);
+                // console.log('Followed company:', response);
                 return response;
             })
         );

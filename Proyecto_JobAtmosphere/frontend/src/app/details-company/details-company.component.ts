@@ -27,11 +27,11 @@ export class DetailsCompanyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("This is the company name", this.ActivatedRoute.snapshot.paramMap.get('name'));
+    // console.log("This is the company name", this.ActivatedRoute.snapshot.paramMap.get('name'));
     this.name = this.ActivatedRoute.snapshot.paramMap.get('name');
     if (this.name) {
       const companyName = this.convertUrlToCompanyName(this.name);
-      console.log("Company Name", companyName);
+      // console.log("Company Name", companyName);
       this.getCompany(companyName);
     }
   }
@@ -40,7 +40,7 @@ export class DetailsCompanyComponent implements OnInit {
     this.CompanyService.getCompanyByName(companyName).subscribe(
       (data: any) => {
         this.company = data;
-        console.log(this.company);
+        // console.log(this.company);
       },
       (error: any) => {
         console.error('Error fetching company data', error);

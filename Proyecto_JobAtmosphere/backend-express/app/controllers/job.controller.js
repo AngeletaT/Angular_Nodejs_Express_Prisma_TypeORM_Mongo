@@ -45,7 +45,7 @@ const findAllJob = asyncHandler(async (req, res) => {
         return varQuery != "undefined" && varQuery ? varQuery : otherResult;
     };
 
-    console.log(req);
+    // console.log(req);
 
     let limit = transUndefined(req.query.limit, 5);
     let offset = transUndefined(req.query.offset, 0);

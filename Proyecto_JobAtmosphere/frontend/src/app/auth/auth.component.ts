@@ -56,7 +56,7 @@ export class AuthComponent implements OnInit {
     this.errors = [];
     const credentials = this.authForm.value;
 
-    console.log('Form credentials:', credentials);
+    // console.log('Form credentials:', credentials);
 
     let authObservable: Observable<any>;
 
@@ -78,13 +78,13 @@ export class AuthComponent implements OnInit {
 
     authObservable.subscribe({
       next: (response) => {
-        console.log('Auth response:', response);
+        // console.log('Auth response:', response);
 
         if (this.authType === 'login') {
           const token = response?.user?.token || response?.token;
           const decodedToken: any = jwtDecode(token);
 
-          console.log('Decoded token:', decodedToken);
+          // console.log('Decoded token:', decodedToken);
 
           if (decodedToken && decodedToken.typeuser) {
             this.userTypeService.setUserType(decodedToken.typeuser);

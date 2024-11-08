@@ -32,10 +32,10 @@ export class CompanyDashboardComponent implements OnInit {
     this.companyService.getCompanyProfile().subscribe({
       next: (company) => {
         this.company = company;
-        console.log("Se cargaron los datos de la empresa", company);
+        // console.log("Se cargaron los datos de la empresa", company);
       },
       error: (err) => {
-        console.log("Error al cargar los datos de la empresa", err);
+        // console.log("Error al cargar los datos de la empresa", err);
       },
     });
 
@@ -86,13 +86,13 @@ export class CompanyDashboardComponent implements OnInit {
   }
 
   submitNewJob() {
-    console.log('Nuevo trabajo:', this.newJob);
+    // console.log('Nuevo trabajo:', this.newJob);
     this.newJob.images = this.imagesString.split(',').map(image => image.trim());
     this.newJob.company = this.company.company_name;
     this.newJob.img = this.company.image;
     this.jobService.create_job(this.newJob).subscribe({
       next: () => {
-        console.log('Trabajo creado');
+        // console.log('Trabajo creado');
         this.loadCompanyJobs();
         this.showJobs();
       },
@@ -111,7 +111,7 @@ export class CompanyDashboardComponent implements OnInit {
   submitEditJob() {
     this.jobService.update_job(this.selectedJob, this.selectedJob.slug).subscribe({
       next: () => {
-        console.log('Trabajo actualizado');
+        // console.log('Trabajo actualizado');
         this.loadCompanyJobs();
         this.showJobs();
       },
@@ -123,11 +123,11 @@ export class CompanyDashboardComponent implements OnInit {
 
   // Desactivar un trabajo
   deactivateJob(job: Job) {
-    console.log('Desactivar trabajo:', job);
+    // console.log('Desactivar trabajo:', job);
     // Llama al servicio para desactivar el trabajo
     if (job.recruiter === '') {
       job.isActive = false;
-      console.log('Trabajo desactivado');
+      // console.log('Trabajo desactivado');
       this.jobService.update_job(job, job.slug).subscribe({
         next: () => {
           this.loadCompanyJobs();
@@ -145,10 +145,10 @@ export class CompanyDashboardComponent implements OnInit {
 
   // Activar un trabajo
   activateJob(job: Job) {
-    console.log('Activar trabajo:', job);
+    // console.log('Activar trabajo:', job);
     this.jobService.requestRecruiter(job.slug).subscribe({
       next: (response) => {
-        console.log('response:', response);
+        // console.log('response:', response);
         if (response.message.startsWith('No')) {
           Swal.fire({
             title: 'Error',
@@ -163,7 +163,7 @@ export class CompanyDashboardComponent implements OnInit {
             icon: 'success',
             confirmButtonText: 'Aceptar'
           });
-          console.log('Recruiter assigned');
+          // console.log('Recruiter assigned');
           this.loadCompanyJobs();
         }
       },
@@ -175,19 +175,19 @@ export class CompanyDashboardComponent implements OnInit {
 
   // Eliminar un trabajo
   deleteJob(job: Job) {
-    console.log('Eliminar trabajo:', job);
+    // console.log('Eliminar trabajo:', job);
   }
 
   getListForCategory() {
     this.categoryService.all_categories_select().subscribe((data: any) => {
       this.listCategories = data.categories;
-      console.log('Listado de categorías:', this.listCategories);
+      // console.log('Listado de categorías:', this.listCategories);
     });
   }
 
   onCategoryChange(event: any) {
     this.selectedCategory = event.target.value;
-    console.log('Selected category:', this.selectedCategory);
+    // console.log('Selected category:', this.selectedCategory);
   }
 
 }

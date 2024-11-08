@@ -39,7 +39,7 @@ export class FavoriteButtonComponent implements OnInit {
       if (!this.jobs.favorited) {
         this.JobService.favorite(this.jobs.slug as String).subscribe({
           next: data => {
-            console.log(data);
+            // console.log(data);
             this.jobs.favorited = true;
             this.isSubmitting = false;
             this.toggle.emit(true);
@@ -48,7 +48,7 @@ export class FavoriteButtonComponent implements OnInit {
       } else {
         this.JobService.unfavorite(this.jobs.slug as String).subscribe({
           next: data => {
-            console.log(data);
+            // console.log(data);
             this.jobs.favorited = false;
             this.isSubmitting = false;
             this.toggle.emit(false);

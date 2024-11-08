@@ -71,7 +71,7 @@ export class HeaderComponent implements OnInit {
     if (this.userType === 'client') {
       this.userService.getUserProfile().subscribe({
         next: (user) => {
-          console.log('Datos del cliente:', user);
+          // console.log('Datos del cliente:', user);
           this.userImage = user.image;
         },
         error: (err) => {
@@ -81,7 +81,7 @@ export class HeaderComponent implements OnInit {
     } else if (this.userType === 'company') {
       this.companyService.getCompanyProfile().subscribe(
         data => {
-          console.log('Datos de la empresa:', data);
+          // console.log('Datos de la empresa:', data);
           this.userImage = data.image ?? null;
         },
         error => {
@@ -91,7 +91,7 @@ export class HeaderComponent implements OnInit {
     } else if (this.userType === 'recruiter') {
       this.recruiterService.getRecruiterProfile().subscribe({
         next: (recruiter) => {
-          console.log('Datos del reclutador:', recruiter);
+          // console.log('Datos del reclutador:', recruiter);
           this.userImage = recruiter.user.image;
         },
         error: (err) => {

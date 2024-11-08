@@ -23,7 +23,7 @@ export class CardCandidateComponent implements OnInit {
 
     this.recruiterService.updateApplicationStatus(updateObject).subscribe({
       next: (response: any) => {
-        console.log('Estado actualizado:', response);
+        // console.log('Estado actualizado:', response);
         candidate.status = newStatus;
       },
       error: (err: any) => {

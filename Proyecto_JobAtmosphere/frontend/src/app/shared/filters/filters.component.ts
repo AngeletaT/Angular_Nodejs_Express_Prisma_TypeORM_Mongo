@@ -37,11 +37,11 @@ export class FiltersComponent implements OnInit {
 
   public filter_jobs() {
     this.routeFilters = this.ActivatedRoute.snapshot.paramMap.get('filters');
-    console.log(this.routeFilters);
+    // console.log(this.routeFilters);
 
     if (this.routeFilters != null) {
         this.filters = JSON.parse(atob(this.routeFilters));
-        console.log(this.filters.category);
+        // console.log(this.filters.category);
     } else {
         this.filters = new Filters();
     }

@@ -33,7 +33,7 @@ export class ListCommentComponent implements OnInit, OnDestroy {
             (userData: User) => {
                 if (userData && Object.keys(userData).length > 0) {
                     this.currentUser = userData;
-                    console.log(this.currentUser);
+                    // console.log(this.currentUser);
                     this.cd.markForCheck();
                 } else {
                     this.currentUser = null;
@@ -49,7 +49,7 @@ export class ListCommentComponent implements OnInit, OnDestroy {
     loadComments() {
         this.commentService.getAll(this.slug).subscribe((comments: Comment[]) => {
             this.comments = comments;
-            console.log(this.comments);
+            // console.log(this.comments);
             this.cd.markForCheck();
         });
     }

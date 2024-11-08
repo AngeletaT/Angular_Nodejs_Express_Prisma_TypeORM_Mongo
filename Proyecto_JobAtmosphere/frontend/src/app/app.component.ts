@@ -25,35 +25,35 @@ export class AppComponent implements OnInit {
     try {
       // Obtener el token del localStorage
       const token = this.jwtService.getToken();
-      console.log('Token:', token);
+      // console.log('Token:', token);
 
       if (token) {
         try {
           // Decodificar el token
           const decodedToken: any = jwtDecode(token);
           const userType = decodedToken?.user?.typeuser || decodedToken?.typeuser;
-          console.log('Decoded Token:', decodedToken);
-          console.log('User Type:', userType);
+          // console.log('Decoded Token:', decodedToken);
+          // console.log('User Type:', userType);
 
           // Establecer el tipo de usuario en el UserTypeService
           this.userTypeService.setUserType(userType);
 
           // Llamar al populate correspondiente según el rol del usuario
           if (userType === 'client') {
-            console.log('Llamando a UserService.populate()');
+            // console.log('Llamando a UserService.populate()');
             this.userService.populate();
           } else if (userType === 'company') {
-            console.log('Llamando a CompanyService.populate()');
+            // console.log('Llamando a CompanyService.populate()');
             this.companyService.populate();
           } else if (userType === 'recruiter') {
-            console.log('Llamando a RecruiterService.populate()');
+            // console.log('Llamando a RecruiterService.populate()');
             this.recruiterService.populate();
           }
         } catch (error) {
           console.error('Error decodificando el token:', error);
         }
       } else {
-        console.log('No hay token');
+        // console.log('No hay token');
         this.userService.purgeAuth();
       }
     } catch (error) {

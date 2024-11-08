@@ -51,7 +51,7 @@ export class ListJobsComponent implements OnInit {
   // GET JOBS
   get_jobs(): void {
     this.jobService.get_jobs().subscribe((data: any) => {
-      console.log(data);
+      // console.log(data);
       this.jobs = data.jobs;
       this.totalPages = Array.from(
         new Array(Math.ceil(data.Job_count / this.limit)),

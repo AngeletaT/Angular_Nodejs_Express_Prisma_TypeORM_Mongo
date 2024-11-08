@@ -32,7 +32,7 @@ export class RecruiterDashboardComponent implements OnInit {
         this.loadApplications();
       },
       error: (err: any) => {
-        console.log("Error al cargar los datos de la empresa", err);
+        // console.log("Error al cargar los datos de la empresa", err);
       },
     });
   }
@@ -89,7 +89,7 @@ export class RecruiterDashboardComponent implements OnInit {
     forkJoin(userRequests).subscribe({
       next: (applications: any[]) => {
         this.selectedJobApplications = applications;
-        console.log("Candidatos:", this.selectedJobApplications);
+        // console.log("Candidatos:", this.selectedJobApplications);
       },
       error: (err) => {
         console.error('Error al cargar los datos del usuario:', err);

@@ -5,17 +5,17 @@ export const companyDashboard = async (req: Request, res: Response) => {
     try {
         // Obtener el email del JWT decodificado (se almacena en `req.email` después del middleware de autenticación)
         const email = (req as Request & { email: string }).email;
-        console.log('Email de la empresa obtenido del token:', email);
+        // console.log('Email de la empresa obtenido del token:', email);
 
         if (!email) {
             return res.status(400).json({ message: 'No se proporcionó un email de empresa válido.' });
         }
 
         // Obtener los datos de la empresa
-        console.log('Realizando consulta a la base de datos...');
+        // console.log('Realizando consulta a la base de datos...');
         const company = await companyListOnePrisma(req);
 
-        console.log('Resultado de la consulta a la base de datos:', company);
+        // console.log('Resultado de la consulta a la base de datos:', company);
 
         if (!company) {
             console.error('Empresa no encontrada.');
