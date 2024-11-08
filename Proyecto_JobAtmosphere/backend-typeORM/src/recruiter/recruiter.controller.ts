@@ -5,6 +5,7 @@ import { AuthService } from '../utils/auth.service';
 import { CreateUserDto } from './dto/create-recruiter.dto';
 import { LoginUserDto } from './dto/login-recruiter.dto';
 import axios from 'axios';
+import { UpdateRecruiterDto } from './dto/update-recruiter.dto';
 
 export class UserController {
     private userService: UserService;
@@ -34,7 +35,8 @@ export class UserController {
                 username: createUserDto.username,
                 password: createUserDto.password,
                 image: createUserDto.image,
-                roles: ['recruiter']
+                roles: ['recruiter'],
+                busy: false
             });
             return res.status(201).json({
                 message: 'User registered successfully'
@@ -88,12 +90,12 @@ export class UserController {
                 return res.status(404).json({ message: 'User not found' });
             }
 
+            console.log('datos de user:', {user});
             return res.status(200).json({ user });
         } catch (error) {
             return res.status(500).json({ message: 'Error retrieving user profile' });
         }
     }
-
     async getJobs(req: Request, res: Response, next: NextFunction) {
         const email = (req as Request & { email: string }).email;
 
@@ -134,6 +136,30 @@ export class UserController {
         } catch (error) {
             console.error("Error retrieving jobs for recruiter:", error);
             return res.status(500).json({ message: 'Error retrieving job details', error: (error as Error).message });
+        }
+    }
+    async updateRecruiter(req: Request, res: Response, next: NextFunction) {
+        Object.assign(UpdateRecruiterDto, req.body);
+        const email = (req as Request & { email: string }).email;
+        const { busy, image } = req.body;
+
+        if (!email) {
+            return res.status(400).json({ message: 'Email not found in token' });
+        }
+
+        try {
+            const user = await this.userService.findUserByEmail(email);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            user.busy = busy || user.busy;
+            user.image = image || user.image;
+
+            await this.userService.updateUser(user);
+            return res.status(200).json({ message: 'User updated successfully' });
+        } catch (error) {
+            return res.status(500).json({ message: 'Error updating user', error: (error as Error).message });
         }
     }
 }

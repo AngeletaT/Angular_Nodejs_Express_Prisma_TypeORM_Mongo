@@ -4,4 +4,5 @@ export interface IUser {
     password: string;
     image?: string;
     roles: string[];
+    busy?: boolean;
 }

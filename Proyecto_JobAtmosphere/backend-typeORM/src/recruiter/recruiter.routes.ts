@@ -62,4 +62,13 @@ router.get("/recruiter/job",
         }
     });
 
+// Ruta para actualizar los datos de un recruiter
+router.post("/recruiter/update", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await userController.updateRecruiter(req, res, next);
+    } catch (error) {
+        next(error);
+    }
+});
+
 export default router;

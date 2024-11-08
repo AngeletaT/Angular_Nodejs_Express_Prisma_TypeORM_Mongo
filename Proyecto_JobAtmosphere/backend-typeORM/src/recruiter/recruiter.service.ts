@@ -27,7 +27,20 @@ export class UserService {
 
         return user;
     }
+    async updateUser(userData: IUser): Promise<User> {
+        const userRepository = getRepository(User);
 
+        const user = await userRepository.findOne({ where: { email: userData.email } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        user.image = userData.image;
+        user.busy = userData.busy;
+
+        await userRepository.save(user);
+
+        return user;
+    }
     // Buscar usuario por email
     async findUserByEmail(email: string): Promise<User | null> {
         const userRepository = getRepository(User);
