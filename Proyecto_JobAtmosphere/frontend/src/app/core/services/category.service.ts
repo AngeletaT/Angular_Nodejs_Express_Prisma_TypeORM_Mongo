@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Category } from '../models/category.model';
 
-const URL = 'http://127.0.0.1:3000/categories';
-const URL_select = 'http://127.0.0.1:3000/categories_select_filter';
+const URL = 'http://localhost:3000/categories';
+const URL_select = 'http://localhost:3000/categories_select_filter';
 
 @Injectable({
   providedIn: 'root',

@@ -7,7 +7,7 @@ import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 3002;
-const url_mongo = process.env.MONGODB_URL || 'mongodb://localhost:27017/InfoJobs';
+const url_mongo = process.env.MONGODB_URL || 'mongodb://mongo:27017/InfoJobs';
 const allowedOrigins = ['http://localhost:4200'];
 
 const options: cors.CorsOptions = {

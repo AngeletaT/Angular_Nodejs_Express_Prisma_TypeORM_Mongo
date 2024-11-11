@@ -1,0 +1,91 @@
+services:
+  mongo:
+    image: mongo:5.0
+    container_name: mongo_db
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    command: [ "mongod", "--bind_ip_all", "--replSet", "rs0" ]
+    networks:
+      - app-network
+
+  backend_mongoose:
+    build:
+      context: ./backend-express
+      dockerfile: Dockerfile
+    container_name: backend_mongoose
+    restart: always
+    ports:
+      - "${PORT_MONGOOSE}:${PORT_MONGOOSE}"
+    environment:
+      MONGO_URI: ${MONGO_URI_MONGOOSE}
+      PORT: ${PORT_MONGOOSE}
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET_MONGOOSE}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET_MONGOOSE}
+      ACCESS_TOKEN_EXPIRATION: ${ACCESS_TOKEN_EXPIRATION_MONGOOSE}
+      REFRESH_TOKEN_EXPIRATION: ${REFRESH_TOKEN_EXPIRATION_MONGOOSE}
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  backend_prisma:
+    build:
+      context: ./backend-prisma
+      dockerfile: Dockerfile
+    container_name: backend_prisma
+    restart: always
+    environment:
+      DATABASE_URL: ${DATABASE_URL_PRISMA}
+      PORT: ${PORT_PRISMA}
+      JWT_SECRET: ${JWT_SECRET_PRISMA}
+    ports:
+      - "${PORT_PRISMA}:${PORT_PRISMA}"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  backend_typeorm:
+    build:
+      context: ./backend-typeORM
+      dockerfile: Dockerfile
+    container_name: backend_typeorm
+    restart: always
+    environment:
+      MONGODB_URL: ${MONGODB_URL_TYPEORM}
+      PORT: ${PORT_TYPEORM}
+    ports:
+      - "${PORT_TYPEORM}:${PORT_TYPEORM}"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    ports:
+      - "${PORT_FRONTEND}:${PORT_FRONTEND}"
+    depends_on:
+      - backend_mongoose
+      - backend_prisma
+      - backend_typeorm
+    networks:
+      - app-network
+
+volumes:
+  mongo_data:
+
+
+networks:
+  app-network:
+    driver: bridge
